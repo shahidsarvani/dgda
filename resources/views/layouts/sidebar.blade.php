@@ -87,7 +87,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('rooms.index') }}"
-                        class="nav-link @if (Route::is('rooms.index','rooms.edit')) active @endif">
+                        class="nav-link @if (Route::is('rooms.index', 'rooms.edit')) active @endif">
                         <i class="icon-home9"></i>
                         <span>
                             Rooms
@@ -96,28 +96,25 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('settings.index') }}"
-                        class="nav-link @if (Route::is('settings.index','settings.edit')) active @endif">
+                        class="nav-link @if (Route::is('settings.index', 'settings.edit')) active @endif">
                         <i class="icon-cog"></i>
                         <span>
                             Settings
                         </span>
                     </a>
                 </li>
-                {{-- <li class="nav-item nav-item-submenu">
-                    <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Rooms</span></a>
+                <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*')) nav-item-open @endif">
+                    <a href="#" class="nav-link"><i class="icon-hammer-wrench"></i> <span>Hardwares</span></a>
 
-                    <ul class="nav nav-group-sub" data-submenu-title="Layouts">
-                        <li class="nav-item"><a href="index.html" class="nav-link active">Default
-                                layout</a></li>
-                        <li class="nav-item"><a href="../../../../layout_2/LTR/material/full/index.html"
-                                class="nav-link">Layout 2</a></li>
+                    <ul class="nav nav-group-sub @if (Route::is('hardwares.*')) d-block @endif" data-submenu-title="Layouts">
+                        <li class="nav-item">
+                            <a href="{{ route('hardwares.index') }}" class="nav-link @if (Route::is('hardwares.index','hardwares.edit')) active @endif">Hardware List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('hardwares.create') }}" class="nav-link @if (Route::is('hardwares.create')) active @endif">Add Hardware</a>
+                        </li>
                     </ul>
-                </li> --}}
-                {{-- <li class="nav-item">
-                            <a href="../../../RTL/material/full/index.html"
-                                class="nav-link"><i class="icon-width"></i> <span>RTL version</span>
-                            </a>
-                        </li> --}}
+                </li>
                 <!-- /main -->
             </ul>
         </div>
