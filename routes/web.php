@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HardwareController;
+use App\Http\Controllers\LightingTypeController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SettingController;
@@ -30,5 +31,6 @@ Route::middleware([
     Route::resource('/rooms', RoomController::class);
     Route::resource('/settings', SettingController::class);
     Route::resource('/hardwares', HardwareController::class);
+    Route::resource('/lighting_types', LightingTypeController::class);
     Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
 });

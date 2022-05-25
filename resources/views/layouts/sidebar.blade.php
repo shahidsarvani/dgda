@@ -95,6 +95,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('lighting_types.index') }}"
+                        class="nav-link @if (Route::is('lighting_types.index', 'lighting_types.edit')) active @endif">
+                        <i class="icon-spotlight2"></i>
+                        <span>
+                            Lighting Types
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('settings.index') }}"
                         class="nav-link @if (Route::is('settings.index', 'settings.edit')) active @endif">
                         <i class="icon-cog"></i>
