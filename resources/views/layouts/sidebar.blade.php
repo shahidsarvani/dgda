@@ -104,6 +104,24 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('commands.index') }}"
+                        class="nav-link @if (Route::is('commands.index', 'commands.edit')) active @endif">
+                        <i class="icon-megaphone"></i>
+                        <span>
+                            Commands
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('scenes.index') }}"
+                        class="nav-link @if (Route::is('scenes.index', 'scenes.edit')) active @endif">
+                        <i class="icon-traffic-lights"></i>
+                        <span>
+                            Scenes
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('settings.index') }}"
                         class="nav-link @if (Route::is('settings.index', 'settings.edit')) active @endif">
                         <i class="icon-cog"></i>

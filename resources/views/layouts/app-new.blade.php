@@ -59,7 +59,7 @@
 
     </div>
     <!-- /page content -->
-
+    @yield('footer_script')
 </body>
 
 </html>

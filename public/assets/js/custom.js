@@ -109,46 +109,47 @@ var ImageAddUpload = (function () {
             borderless: '<i class="icon-alignment-unalign"></i>',
             close: '<i class="icon-cross2 font-size-base"></i>',
         };
-
-        $(".file-input-ajax").fileinput({
-            browseLabel: "Browse",
-            uploadUrl: upload_medial_url, // server upload action
-            enableResumableUpload: true,
-            initialPreviewAsData: true,
-            allowedFileTypes: ["video"],
-            overwriteInitial: true,
-            autoOrientImage: false,
-            // initialPreview: [],
-            browseIcon: '<i class="icon-file-plus mr-2"></i>',
-            uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
-            removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
-            fileActionSettings: {
-                removeIcon: '<i class="icon-bin"></i>',
-                removeClass: "",
-                uploadIcon: '<i class="icon-upload"></i>',
-                uploadClass: "",
-                zoomIcon: '<i class="icon-zoomin3"></i>',
-                zoomClass: "",
-                dragClass: 'p-2',
-                dragIcon: '<i class="icon-three-bars"></i>',
-                indicatorNew: '<i class="icon-file-plus text-success"></i>',
-                indicatorSuccess:
-                    '<i class="icon-checkmark3 file-icon-large text-success"></i>',
-                indicatorError: '<i class="icon-cross2 text-danger"></i>',
-                indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
-            },
-            uploadExtraData: {
-                '_token': csrf_token
-            },
-            layoutTemplates: {
-                icon: '<i class="icon-file-check"></i>',
-                modal: modalTemplate,
-            },
-            initialCaption: "No file selected",
-            previewZoomButtonClasses: previewZoomButtonClasses,
-            previewZoomButtonIcons: previewZoomButtonIcons,
-            // deleteUrl: "file_delete.php"
-        });
+        if($(".file-input-ajax").length) {
+            $(".file-input-ajax").fileinput({
+                browseLabel: "Browse",
+                uploadUrl: upload_medial_url, // server upload action
+                enableResumableUpload: true,
+                initialPreviewAsData: true,
+                allowedFileTypes: ["video"],
+                overwriteInitial: true,
+                autoOrientImage: false,
+                // initialPreview: [],
+                browseIcon: '<i class="icon-file-plus mr-2"></i>',
+                uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
+                removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
+                fileActionSettings: {
+                    removeIcon: '<i class="icon-bin"></i>',
+                    removeClass: "",
+                    uploadIcon: '<i class="icon-upload"></i>',
+                    uploadClass: "",
+                    zoomIcon: '<i class="icon-zoomin3"></i>',
+                    zoomClass: "",
+                    dragClass: 'p-2',
+                    dragIcon: '<i class="icon-three-bars"></i>',
+                    indicatorNew: '<i class="icon-file-plus text-success"></i>',
+                    indicatorSuccess:
+                        '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+                    indicatorError: '<i class="icon-cross2 text-danger"></i>',
+                    indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
+                },
+                uploadExtraData: {
+                    '_token': csrf_token
+                },
+                layoutTemplates: {
+                    icon: '<i class="icon-file-check"></i>',
+                    modal: modalTemplate,
+                },
+                initialCaption: "No file selected",
+                previewZoomButtonClasses: previewZoomButtonClasses,
+                previewZoomButtonIcons: previewZoomButtonIcons,
+                // deleteUrl: "file_delete.php"
+            });
+        }
     };
 
     return {

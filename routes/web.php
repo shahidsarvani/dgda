@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\HardwareController;
 use App\Http\Controllers\LightingTypeController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Models\Scene;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,5 +35,8 @@ Route::middleware([
     Route::resource('/settings', SettingController::class);
     Route::resource('/hardwares', HardwareController::class);
     Route::resource('/lighting_types', LightingTypeController::class);
+    Route::resource('/commands', CommandController::class);
+    Route::post('/commands/get_room_hardware', [CommandController::class, 'get_room_hardware'])->name('commands.get_room_hardware');
+    Route::resource('/scenes', SceneController::class);
     Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
 });
