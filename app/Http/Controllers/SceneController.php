@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Command;
+use App\Models\Room;
 use App\Models\Scene;
 use Illuminate\Http\Request;
 
@@ -15,8 +17,9 @@ class SceneController extends Controller
     public function index()
     {
         //
-        $scenes = Scene::all();
-        return view('scenes.index', compact('scenes'));
+        $scenes = Scene::with('command', 'room')->get();
+        $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
+        return view('scenes.index', compact('scenes', 'rooms'));
     }
 
     /**
@@ -71,7 +74,9 @@ class SceneController extends Controller
     public function edit(Scene $scene)
     {
         //
-        return view('scenes.edit', compact('scene'));
+        $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
+        $commands = Command::whereRoomId($scene->room_id)->get(['name', 'id']);
+        return view('scenes.edit', compact('scene', 'rooms', 'commands'));
     }
 
     /**
@@ -107,6 +112,7 @@ class SceneController extends Controller
     public function destroy(Scene $scene)
     {
         //
+        // return $scene;
         try {
             $deleted = $scene->delete();
             if($deleted) {

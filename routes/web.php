@@ -31,11 +31,12 @@ Route::middleware([
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::resource('/media', MediaController::class);
     Route::resource('/rooms', RoomController::class);
+    Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');
+    Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
     Route::resource('/settings', SettingController::class);
     Route::resource('/hardwares', HardwareController::class);
     Route::resource('/lighting_types', LightingTypeController::class);
     Route::resource('/commands', CommandController::class);
-    Route::post('/commands/get_room_hardware', [CommandController::class, 'get_room_hardware'])->name('commands.get_room_hardware');
     Route::resource('/scenes', SceneController::class);
     Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
 });

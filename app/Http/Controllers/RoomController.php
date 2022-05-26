@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Command;
+use App\Models\Hardware;
 use App\Models\Room;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -120,5 +122,19 @@ class RoomController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function get_room_hardware(Request $request)
+    {
+        $hardwares = Hardware::whereRoomId($request->room_id)->get(['name', 'id']);
+        return response()->json($hardwares);
+        // $hardwares;
+    }
+
+    public function get_room_command(Request $request)
+    {
+        $commands = Command::whereRoomId($request->room_id)->get(['name', 'id']);
+        return response()->json($commands);
+        // $hardwares;
     }
 }

@@ -121,7 +121,7 @@
         function getRoomHardware(roomId) {
             console.log(roomId);
             $.ajax({
-                url: "{{ route('commands.get_room_hardware') }}",
+                url: "{{ route('rooms.get_room_hardware') }}",
                 method: 'post',
                 dataType: 'json',
                 data: {

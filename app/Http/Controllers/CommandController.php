@@ -124,11 +124,4 @@ class CommandController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
-
-    public function get_room_hardware(Request $request)
-    {
-        $hardwares = Hardware::whereRoomId($request->room_id)->get(['name', 'id']);
-        return response()->json($hardwares);
-        // $hardwares;
-    }
 }

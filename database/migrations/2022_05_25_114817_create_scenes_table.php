@@ -15,6 +15,10 @@ class CreateScenesTable extends Migration
     {
         Schema::create('scenes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('room_id')->constrained()->onDelete('cascade');
+            $table->foreignId('command_id')->constrained()->onDelete('cascade');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

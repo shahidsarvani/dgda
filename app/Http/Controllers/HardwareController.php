@@ -28,7 +28,7 @@ class HardwareController extends Controller
     public function create()
     {
         //
-        $rooms = Room::whereStatus(1)->whereType(1)->get();
+        $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
         return view('hardwares.create', compact('rooms'));
     }
 
@@ -74,7 +74,7 @@ class HardwareController extends Controller
     public function edit(Hardware $hardware)
     {
         //
-        $rooms = Room::whereStatus(1)->whereType(1)->get();
+        $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
         return view('hardwares.edit', compact('hardware', 'rooms'));
     }
 
