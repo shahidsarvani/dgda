@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\HardwareController;
+use App\Http\Controllers\LightingController;
 use App\Http\Controllers\LightingTypeController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PhaseController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,5 +41,8 @@ Route::middleware([
     Route::resource('/lighting_types', LightingTypeController::class);
     Route::resource('/commands', CommandController::class);
     Route::resource('/scenes', SceneController::class);
+    Route::resource('/lightings', LightingController::class);
+    Route::resource('/phases', PhaseController::class);
+    Route::resource('/zones', ZoneController::class);
     Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
 });

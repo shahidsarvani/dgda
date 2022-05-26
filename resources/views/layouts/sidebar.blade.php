@@ -103,6 +103,18 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*')) nav-item-open @endif">
+                    <a href="#" class="nav-link"><i class="icon-hammer-wrench"></i> <span>Hardwares</span></a>
+
+                    <ul class="nav nav-group-sub @if (Route::is('hardwares.*')) d-block @endif" data-submenu-title="Layouts">
+                        <li class="nav-item">
+                            <a href="{{ route('hardwares.index') }}" class="nav-link @if (Route::is('hardwares.index','hardwares.edit')) active @endif">Hardware List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('hardwares.create') }}" class="nav-link @if (Route::is('hardwares.create')) active @endif">Add Hardware</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('commands.index') }}"
                         class="nav-link @if (Route::is('commands.index', 'commands.edit')) active @endif">
@@ -122,6 +134,33 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('lightings.index') }}"
+                        class="nav-link @if (Route::is('lightings.index', 'lightings.edit')) active @endif">
+                        <i class="icon-spotlight2"></i>
+                        <span>
+                            Lightings
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('phases.index') }}"
+                        class="nav-link @if (Route::is('phases.index', 'phases.edit')) active @endif">
+                        <i class="icon-transmission"></i>
+                        <span>
+                            Phases
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('zones.index') }}"
+                        class="nav-link @if (Route::is('zones.index', 'zones.edit')) active @endif">
+                        <i class="icon-map"></i>
+                        <span>
+                            Zones
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('settings.index') }}"
                         class="nav-link @if (Route::is('settings.index', 'settings.edit')) active @endif">
                         <i class="icon-cog"></i>
@@ -129,18 +168,6 @@
                             Settings
                         </span>
                     </a>
-                </li>
-                <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*')) nav-item-open @endif">
-                    <a href="#" class="nav-link"><i class="icon-hammer-wrench"></i> <span>Hardwares</span></a>
-
-                    <ul class="nav nav-group-sub @if (Route::is('hardwares.*')) d-block @endif" data-submenu-title="Layouts">
-                        <li class="nav-item">
-                            <a href="{{ route('hardwares.index') }}" class="nav-link @if (Route::is('hardwares.index','hardwares.edit')) active @endif">Hardware List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('hardwares.create') }}" class="nav-link @if (Route::is('hardwares.create')) active @endif">Add Hardware</a>
-                        </li>
-                    </ul>
                 </li>
                 <!-- /main -->
             </ul>
