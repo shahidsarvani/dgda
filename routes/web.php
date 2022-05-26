@@ -8,7 +8,6 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use App\Models\Scene;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +26,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
-])->group(function () {
+    ])->group(function () {
     Route::get('/', [UserController::class, 'dashboard'])->name('home');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::resource('/media', MediaController::class);
