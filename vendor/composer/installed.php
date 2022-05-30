@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '23f1cd5ef2fb9b021401b046427b84abb73e3204',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -440,12 +440,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '23f1cd5ef2fb9b021401b046427b84abb73e3204',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -723,6 +723,15 @@
             'aliases' => array(),
             'reference' => '12bc8879fb65aef2138b26fc633cb1e3620cffba',
             'dev_requirement' => true,
+        ),
+        'pion/laravel-chunk-upload' => array(
+            'pretty_version' => 'v1.5.0',
+            'version' => '1.5.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../pion/laravel-chunk-upload',
+            'aliases' => array(),
+            'reference' => '37b20f1c8d4e8676f733ca98ef6d0309cbf94e74',
+            'dev_requirement' => false,
         ),
         'pragmarx/google2fa' => array(
             'pretty_version' => '8.0.0',

@@ -16,9 +16,13 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('file_key');
-            $table->string('file_type');
-            $table->integer('size');
+            $table->string('file_key')->nullable();
+            $table->string('file_type')->nullable();
+            $table->integer('size')->nullable();
+            $table->foreignId('room_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('scene_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('phase_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('zone_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

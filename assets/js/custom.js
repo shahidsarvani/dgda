@@ -109,7 +109,7 @@ var ImageAddUpload = (function () {
             borderless: '<i class="icon-alignment-unalign"></i>',
             close: '<i class="icon-cross2 font-size-base"></i>',
         };
-        if($(".file-input-ajax").length) {
+        if ($(".file-input-ajax").length) {
             $(".file-input-ajax").fileinput({
                 browseLabel: "Browse",
                 uploadUrl: upload_medial_url, // server upload action
@@ -159,10 +159,108 @@ var ImageAddUpload = (function () {
     };
 })();
 
+var DropzoneUpload = (function () {
+    var _componentDropzone = function () {
+        if (typeof Dropzone == 'undefined') {
+            console.warn('Warning - dropzone.min.js is not loaded.');
+            return;
+        }
+
+        // Multiple files
+        Dropzone.options.dropzoneMultipleFiles = {
+            paramName: "media", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
+            maxFilesize: 400000000, // MB
+            addRemoveLinks: true,
+            chunking: true,
+            chunkSize: 4000000,
+            // If true, the individual chunks of a file are being uploaded simultaneously.
+            parallelChunkUploads: true,
+            acceptedFiles: 'video/*',
+            init: function() {
+                this.on('addedfile', function() {
+                    // list.append('<li>Uploading</li>')
+                }),
+                this.on('sending', function (file, xhr, formData) {
+                    formData.append("_token", csrf_token);
+            
+                    // This will track all request so we can get the correct request that returns final response:
+                    // We will change the load callback but we need to ensure that we will call original
+                    // load callback from dropzone
+                    var dropzoneOnLoad = xhr.onload;
+                    xhr.onload = function (e) {
+                        dropzoneOnLoad(e)
+            
+                        // Check for final chunk and get the response
+                        var uploadResponse = JSON.parse(xhr.responseText)
+                        if (typeof uploadResponse.name === 'string') {
+                            // list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name + '</li>')
+                        }
+                    }
+                })
+            }
+        };
+        // myDropzone.on('addedfile', function () {
+        //     $list.append('<li>Uploading</li>')
+        // })
+
+        // Single files
+        Dropzone.options.dropzoneSingle = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 1, // MB
+            maxFiles: 1,
+            dictDefaultMessage: 'Drop file to upload <span>or CLICK</span>',
+            autoProcessQueue: false,
+            init: function () {
+                this.on('addedfile', function (file) {
+                    if (this.fileTracker) {
+                        this.removeFile(this.fileTracker);
+                    }
+                    this.fileTracker = file;
+                });
+            }
+        };
+
+        // Accepted files
+        Dropzone.options.dropzoneAcceptedFiles = {
+            paramName: "file", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
+            maxFilesize: 1, // MB
+            acceptedFiles: 'image/*'
+        };
+
+        // Removable thumbnails
+        Dropzone.options.dropzoneRemove = {
+            paramName: "file", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
+            maxFilesize: 1, // MB
+            addRemoveLinks: true
+        };
+
+        // File limitations
+        Dropzone.options.dropzoneFileLimits = {
+            paramName: "file", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
+            maxFilesize: 0.4, // MB
+            maxFiles: 4,
+            maxThumbnailFilesize: 1,
+            addRemoveLinks: true
+        };
+    };
+
+    return {
+        init: function() {
+            _componentDropzone();
+        }
+    }
+})();
+
+
 // Initialize module
 // ------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
-    ComponentLoad.init();
-    ImageAddUpload.init();
+    // ComponentLoad.init();
+    // ImageAddUpload.init();
 });
+DropzoneUpload.init();

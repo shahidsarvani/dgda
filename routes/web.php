@@ -44,5 +44,6 @@ Route::middleware([
     Route::resource('/lightings', LightingController::class);
     Route::resource('/phases', PhaseController::class);
     Route::resource('/zones', ZoneController::class);
-    Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
+    // Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
+    Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('upload_media');
 });

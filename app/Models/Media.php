@@ -16,6 +16,10 @@ class Media extends Model
         'file_key',
         'file_type',
         'size',
+        'room_id',
+        'scene_id',
+        'phase_id',
+        'zone_id',
     ];
 
     public function getMediaPath()
