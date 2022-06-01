@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        {{-- <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title">Add Scene</h5>
@@ -58,7 +58,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
@@ -83,7 +83,13 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->room->name }}</td>
-                                        <td>{{ $value->command->name }}</td>
+                                        <td>
+                                            @if (!$value->commands->isEmpty())
+                                                {{ implode($value->commands_arr, ', ') }}
+                                            @else
+                                                No Commands attached
+                                            @endif
+                                        </td>
                                         <td>{{ $value->status ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <div class="list-icons">
@@ -119,7 +125,7 @@
     </div>
 @endsection
 
-@section('footer_script')
+{{-- @section('footer_script')
     <script>
         function getRoomCommand(roomId) {
             console.log(roomId);
@@ -142,4 +148,4 @@
             })
         }
     </script>
-@endsection
+@endsection --}}

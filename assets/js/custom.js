@@ -173,31 +173,36 @@ var DropzoneUpload = (function () {
             maxFilesize: 400000000, // MB
             addRemoveLinks: true,
             chunking: true,
-            chunkSize: 4000000,
+            timeout: 120000,
+            chunkSize: 1000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
             acceptedFiles: 'video/*',
-            init: function() {
-                this.on('addedfile', function() {
+            init: function () {
+                this.on('addedfile', function () {
                     // list.append('<li>Uploading</li>')
                 }),
-                this.on('sending', function (file, xhr, formData) {
-                    formData.append("_token", csrf_token);
-            
-                    // This will track all request so we can get the correct request that returns final response:
-                    // We will change the load callback but we need to ensure that we will call original
-                    // load callback from dropzone
-                    var dropzoneOnLoad = xhr.onload;
-                    xhr.onload = function (e) {
-                        dropzoneOnLoad(e)
-            
-                        // Check for final chunk and get the response
-                        var uploadResponse = JSON.parse(xhr.responseText)
-                        if (typeof uploadResponse.name === 'string') {
-                            // list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name + '</li>')
+                    this.on('sending', function (file, xhr, formData) {
+                        formData.append("_token", csrf_token);
+
+                        // This will track all request so we can get the correct request that returns final response:
+                        // We will change the load callback but we need to ensure that we will call original
+                        // load callback from dropzone
+                        var dropzoneOnLoad = xhr.onload;
+                        xhr.onload = function (e) {
+                            dropzoneOnLoad(e)
+
+                            // Check for final chunk and get the response
+                            var uploadResponse = JSON.parse(xhr.responseText)
+                            if (typeof uploadResponse.name === 'string') {
+                                // list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name + '</li>')
+                            }
                         }
-                    }
-                })
+                        xhr.ontimeout = (() => {
+                            /*Execute on case of timeout only*/
+                            alert('Server Timeout')
+                        });
+                    })
             }
         };
         // myDropzone.on('addedfile', function () {
@@ -249,7 +254,7 @@ var DropzoneUpload = (function () {
     };
 
     return {
-        init: function() {
+        init: function () {
             _componentDropzone();
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Phase;
 use App\Models\Room;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 
 class PhaseController extends Controller
@@ -121,5 +122,12 @@ class PhaseController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function get_phase_zones(Request $request)
+    {
+        $zones = Zone::wherePhaseId($request->phase_id)->get(['name', 'id']);
+        return response()->json($zones);
+        // $hardwares;
     }
 }

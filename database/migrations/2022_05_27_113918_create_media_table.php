@@ -19,6 +19,7 @@ class CreateMediaTable extends Migration
             $table->string('file_key')->nullable();
             $table->string('file_type')->nullable();
             $table->integer('size')->nullable();
+            $table->string('lang');
             $table->foreignId('room_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('scene_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('phase_id')->nullable()->constrained()->onDelete('cascade');

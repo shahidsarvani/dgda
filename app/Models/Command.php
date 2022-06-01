@@ -13,6 +13,7 @@ class Command extends Model
         'name',
         'room_id',
         'hardware_id',
+        'scene_id',
         'description',
     ];
 
@@ -24,5 +25,10 @@ class Command extends Model
     public function hardware()
     {
         return $this->belongsTo(Hardware::class);
+    }
+
+    public function scenes()
+    {
+        return $this->belongsToMany(Scene::class);
     }
 }

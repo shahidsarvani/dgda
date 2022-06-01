@@ -1,6 +1,6 @@
 @extends('layouts.app-new')
 
-@section('title', 'Edit Scene')
+@section('title', 'Add Scene')
 @section('scripts')
 @endsection
 @section('content')
@@ -8,18 +8,17 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Edit Scene</h5>
+                    <h5 class="card-title">Add Scene</h5>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('scenes.update', $scene->id) }}" method="post" id="screen-form">
+                    <form action="{{ route('scenes.store') }}" method="post" id="screen-form">
                         @csrf
-                        @method('PATCH')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name:</label>
-                                    <input type="text" class="form-control" name="name" value="{{ $scene->name }}">
+                                    <input type="text" class="form-control" name="name">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -29,8 +28,7 @@
                                         onchange="getRoomCommand(this.value)">
                                         <option value="">Select Room</option>
                                         @foreach ($rooms as $room)
-                                            <option value="{{ $room->id }}"
-                                                {{ $scene->room_id == $room->id ? 'selected' : '' }}>{{ $room->name }}
+                                            <option value="{{ $room->id }}">{{ $room->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -41,11 +39,10 @@
                                     <label>Command:</label>
                                     <select name="command_ids[]" id="command_id" class="form-control" multiple>
                                         <option value="">Select Command</option>
-                                        @foreach ($commands as $command)
-                                            <option value="{{ $command->id }}"
-                                                {{ in_array($command->id, $scene->commands_arr) ? 'selected' : '' }}>{{ $command->name }}
+                                        {{-- @foreach ($commands as $command)
+                                            <option value="{{ $command->id }}">{{ $command->name }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -53,14 +50,14 @@
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
-                                        <option value="0" {{ !$scene->status ? 'selected' : ''}}>Inactive</option>
-                                        <option value="1" {{ $scene->status ? 'selected' : ''}}>Active</option>
+                                        <option value="0">Inactive</option>
+                                        <option value="1">Active</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Update <i
+                            <button type="submit" class="btn btn-primary">Add <i
                                     class="icon-plus-circle2 ml-2"></i></button>
                         </div>
                     </form>

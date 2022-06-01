@@ -77,15 +77,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('media.index') }}"
-                        class="nav-link @if (Route::is('media.index')) active @endif">
-                        <i class="icon-film4"></i>
-                        <span>
-                            Media
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('rooms.index') }}"
                         class="nav-link @if (Route::is('rooms.index', 'rooms.edit')) active @endif">
                         <i class="icon-home9"></i>
@@ -124,7 +115,19 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item nav-item-submenu @if (Route::is('scenes.*')) nav-item-open @endif">
+                    <a href="#" class="nav-link"><i class="icon-traffic-lights"></i> <span>Scenes</span></a>
+
+                    <ul class="nav nav-group-sub @if (Route::is('scenes.*')) d-block @endif" data-submenu-title="Layouts">
+                        <li class="nav-item">
+                            <a href="{{ route('scenes.index') }}" class="nav-link @if (Route::is('scenes.index','scenes.edit')) active @endif">Scenes List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('scenes.create') }}" class="nav-link @if (Route::is('scenes.create')) active @endif">Add Scene</a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- <li class="nav-item">
                     <a href="{{ route('scenes.index') }}"
                         class="nav-link @if (Route::is('scenes.index', 'scenes.edit')) active @endif">
                         <i class="icon-traffic-lights"></i>
@@ -132,7 +135,7 @@
                             Scenes
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('lightings.index') }}"
                         class="nav-link @if (Route::is('lightings.index', 'lightings.edit')) active @endif">
@@ -157,6 +160,15 @@
                         <i class="icon-map"></i>
                         <span>
                             Zones
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('media.index') }}"
+                        class="nav-link @if (Route::is('media.index', 'media.create')) active @endif">
+                        <i class="icon-film4"></i>
+                        <span>
+                            Media
                         </span>
                     </a>
                 </li>

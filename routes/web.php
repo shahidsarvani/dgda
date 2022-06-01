@@ -36,6 +36,7 @@ Route::middleware([
     Route::resource('/rooms', RoomController::class);
     Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');
     Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
+    Route::post('/rooms/get_room_scenes_and_phases', [RoomController::class, 'get_room_scenes_and_phases'])->name('rooms.get_room_scenes_and_phases');
     Route::resource('/settings', SettingController::class);
     Route::resource('/hardwares', HardwareController::class);
     Route::resource('/lighting_types', LightingTypeController::class);
@@ -43,6 +44,7 @@ Route::middleware([
     Route::resource('/scenes', SceneController::class);
     Route::resource('/lightings', LightingController::class);
     Route::resource('/phases', PhaseController::class);
+    Route::post('/phases/get_phase_zones', [PhaseController::class, 'get_phase_zones'])->name('phases.get_phase_zones');
     Route::resource('/zones', ZoneController::class);
     // Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
     Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('upload_media');

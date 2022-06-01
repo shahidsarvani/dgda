@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScenesTable extends Migration
+class CreateCommandSceneTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateScenesTable extends Migration
      */
     public function up()
     {
-        Schema::create('scenes', function (Blueprint $table) {
+        Schema::create('command_scene', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
-            $table->foreignId('command_id')->constrained()->onDelete('cascade');
-            $table->boolean('status');
+            $table->foreignId('scene_id');
+            $table->foreignId('command_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateScenesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scenes');
+        Schema::dropIfExists('command_scene');
     }
 }

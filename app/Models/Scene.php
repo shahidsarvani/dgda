@@ -12,17 +12,18 @@ class Scene extends Model
     protected $fillable = [
         'name',
         'room_id',
-        'command_id',
         'status',
     ];
+
+    protected $hidden = ['commands'];
 
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
 
-    public function command()
+    public function commands()
     {
-        return $this->belongsTo(Command::class);
+        return $this->belongsToMany(Command::class);
     }
 }

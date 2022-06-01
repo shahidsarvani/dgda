@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Command;
 use App\Models\Hardware;
+use App\Models\Phase;
 use App\Models\Room;
+use App\Models\Scene;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
@@ -135,6 +137,14 @@ class RoomController extends Controller
     {
         $commands = Command::whereRoomId($request->room_id)->get(['name', 'id']);
         return response()->json($commands);
+        // $hardwares;
+    }
+
+    public function get_room_scenes_and_phases(Request $request)
+    {
+        $data['scenes'] = Scene::whereRoomId($request->room_id)->get(['name', 'id']);
+        $data['phases'] = Phase::whereRoomId($request->room_id)->get(['name', 'id']);
+        return response()->json($data);
         // $hardwares;
     }
 }

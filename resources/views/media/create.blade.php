@@ -14,7 +14,17 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Language</label>
+                                <select id="lang" class="form-control">
+                                    <option value="">Select Language</option>
+                                    <option value="ar">Arabic</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Room</label>
                                 <select id="room_id" class="form-control">
@@ -25,36 +35,36 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Scene</label>
                                 <select id="scene_id" class="form-control">
                                     <option value="">Select Scene</option>
-                                    @foreach ($scenes as $item)
+                                    {{-- @foreach ($scenes as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Phase</label>
                                 <select id="phase_id" class="form-control">
                                     <option value="">Select Phase</option>
-                                    @foreach ($phases as $item)
+                                    {{-- @foreach ($phases as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Zone</label>
                                 <select id="zone_id" class="form-control">
                                     <option value="">Select Zone</option>
-                                    @foreach ($zones as $item)
+                                    {{-- @foreach ($zones as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -123,48 +133,88 @@
         };
 
         $('#room_id').change(function() {
+            getRoomScenesAndPhases(this.value)
+            if($("input[name=room_id]").length) {
+                $("input[name=room_id]").remove();
+            }
             list.append('<input type="hidden" name="room_id" value="' + this.value + '" >')
         })
 
         $('#scene_id').change(function() {
+            if($("input[name=scene_id]").length) {
+                $("input[name=scene_id]").remove();
+            }
             list.append('<input type="hidden" name="scene_id" value="' + this.value + '" >')
         })
 
         $('#phase_id').change(function() {
+            getPhaseZones(this.value)
+            if($("input[name=phase_id]").length) {
+                $("input[name=phase_id]").remove();
+            }
             list.append('<input type="hidden" name="phase_id" value="' + this.value + '" >')
         })
 
         $('#zone_id').change(function() {
+            if($("input[name=zone_id]").length) {
+                $("input[name=zone_id]").remove();
+            }
             list.append('<input type="hidden" name="zone_id" value="' + this.value + '" >')
         })
 
+        $('#lang').change(function() {
+            if($("input[name=lang]").length) {
+                $("input[name=lang]").remove();
+            }
+            list.append('<input type="hidden" name="lang" value="' + this.value + '" >')
+        })
 
-        // $('.add_media').click(function() {
-        //     var room_id = $('#room_id').val();
-        //     var scene_id = $('#scene_id').val();
-        //     var phase_id = $('#phase_id').val();
-        //     var zone_id = $('#zone_id').val();
-        //     var files = $('input[name="file_names"]').val();
-        //     console.log(files);
-        //     $.ajax({
-        //         url: "{{ route('media.store') }}",
-        //         method: "POST",
-        //         data: {
-        //             room_id: room_id,
-        //             scene_id: scene_id,
-        //             phase_id: phase_id,
-        //             zone_id: zone_id,
-        //             files: files,
-        //         },
-        //         dataType: "json",
-        //         success: function(response) {
-        //             if(response.status == 1) {
-        //                 window.location.href = response.location
-        //             } else {
-        //                 alert(JSON.strigify(response))
-        //             }
-        //         }
-        //     })
-        // })
+
+        function getRoomScenesAndPhases(roomId) {
+            console.log(roomId);
+            $.ajax({
+                url: "{{ route('rooms.get_room_scenes_and_phases') }}",
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    room_id: roomId
+                },
+                success: function(response) {
+                    // console.log(response.length)
+                    var scene_html_txt = '<option value="">Select Scene</option>'
+                    for (var i = 0; i < response.scenes.length; i++) {
+                        scene_html_txt += '<option value="' + response.scenes[i].id + '">' + response.scenes[i].name + '</option>'
+                    }
+                    $('#scene_id').empty().html(scene_html_txt);
+                    var phase_html_txt = '<option value="">Select Phase</option>'
+                    for (var i = 0; i < response.phases.length; i++) {
+                        phase_html_txt += '<option value="' + response.phases[i].id + '">' + response.phases[i].name + '</option>'
+                    }
+                    $('#phase_id').empty().html(phase_html_txt);
+                }
+            })
+        }
+
+        function getPhaseZones(phaseId) {
+            console.log(phaseId);
+            $.ajax({
+                url: "{{ route('phases.get_phase_zones') }}",
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    phase_id: phaseId
+                },
+                success: function(response) {
+                    // console.log(response.length)
+                    var html_txt = '<option value="">Select Zone</option>'
+                    for (var i = 0; i < response.length; i++) {
+                        html_txt += '<option value="' + response[i].id + '">' + response[i].name + '</option>'
+                    }
+                    $('#zone_id').empty().html(html_txt);
+                }
+            })
+        }
     </script>
 @endsection
