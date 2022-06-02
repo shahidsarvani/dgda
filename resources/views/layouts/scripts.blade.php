@@ -16,6 +16,7 @@
 <!-- /core JS files -->
 
 <!-- Theme JS files -->
+<script src="{{ asset('assets/js/plugins/forms/selects/select2.min.js') }}"></script>
 {{-- <script src="{{ asset('assets/js/plugins/forms/styling/switchery.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('assets/js/plugins/ui/moment/moment.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('assets/js/plugins/pickers/daterangepicker.js') }}"></script> --}}

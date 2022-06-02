@@ -2,6 +2,13 @@
 
 @section('title', 'Add Scene')
 @section('scripts')
+    <style>
+        .select2 {
+            border: 1px solid #ddd;
+            border-width: 1px 0;
+            border-top-color: transparent !important;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="row">
@@ -37,7 +44,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Command:</label>
-                                    <select name="command_ids[]" id="command_id" class="form-control" multiple>
+                                    <select name="command_ids[]" id="command_id" class="form-control select" multiple>
                                         <option value="">Select Command</option>
                                         {{-- @foreach ($commands as $command)
                                             <option value="{{ $command->id }}">{{ $command->name }}
