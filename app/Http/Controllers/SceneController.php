@@ -18,6 +18,7 @@ class SceneController extends Controller
     public function index()
     {
         //
+        return phpversion();
         $scenes = Scene::with('commands', 'room')->get();
         foreach ($scenes as $scene) {
             $commands = array();
