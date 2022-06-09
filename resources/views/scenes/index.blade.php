@@ -93,41 +93,41 @@
 
         function playScene(href) {
             // console.log(href);
-            // $.ajax({
-            //     url: href,
-            //     method: 'get',
-            //     dataType: 'json',
-            //     success: function(response) {
-            //         var type = ''
-            //         if (response.status) {
-            //             type = 'success'
-            //         } else {
-            //             type = 'error'
-            //         }
-            //         swalInit.fire({
-            //             title: response.title,
-            //             text: response.msg,
-            //             type: type
-            //         });
+            $.ajax({
+                url: href,
+                method: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    var type = ''
+                    if (response.status) {
+                        type = 'success'
+                    } else {
+                        type = 'error'
+                    }
+                    swalInit.fire({
+                        title: response.title,
+                        text: response.msg,
+                        type: type
+                    });
 
-            var socket = io();
+                    // var socket = io();
 
-            // form.addEventListener('submit', function(e) {
-            //     e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-            // });
+                    // form.addEventListener('submit', function(e) {
+                    //     e.preventDefault();
+                    // if (input.value) {
+                    //     socket.emit('chat message', input.value);
+                    //     input.value = '';
+                    // }
+                    // });
 
-            // socket.on('chat message', function(msg) {
-            //     var item = document.createElement('li');
-            //     item.textContent = msg;
-            //     messages.appendChild(item);
-            //     window.scrollTo(0, document.body.scrollHeight);
-            // });
-            // }
-            // })
+                    // socket.on('chat message', function(msg) {
+                    //     var item = document.createElement('li');
+                    //     item.textContent = msg;
+                    //     messages.appendChild(item);
+                    //     window.scrollTo(0, document.body.scrollHeight);
+                    // });
+                }
+            })
         }
     </script>
 @endsection

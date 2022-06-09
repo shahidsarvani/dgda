@@ -170,7 +170,7 @@ class SceneController extends Controller
     
         // $msg_error = 'Conexion no establecida';
     
-        $connection = socket_connect($socket, '127.0.0.1', 8000);
+        $connection = socket_connect($socket, '192.168.10.10', 58900);
     
         if ($connection == false) {
             return response()->json([
@@ -180,18 +180,17 @@ class SceneController extends Controller
             ]);
         }
     
-        $resultado = socket_sendto($socket, $msg, $len, 0, '127.0.0.1', 8688);
+        $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
     
         if($resultado){
             socket_close($socket);
-            return $msg;
+            return response()->json([
+                'status' => 1,
+                'title' => 'Success',
+                'msg' => 'Message sent!'
+            ]);
         }
     
         return $msg;
-        return response()->json([
-            'status' => 1,
-            'title' => 'Success',
-            'msg' => 'Socket is created!'
-        ]);
     }
 }
