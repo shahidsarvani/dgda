@@ -83,7 +83,7 @@
 
 @section('footer_script')
 
-    <script src="/socket.io/socket.io.js"></script>
+    {{-- <script src="/socket.io/socket.io.js"></script> --}}
     <script>
         var swalInit = swal.mixin({
             buttonsStyling: false,
