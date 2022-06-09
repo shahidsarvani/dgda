@@ -42,10 +42,10 @@ Route::middleware([
     Route::resource('/lighting_types', LightingTypeController::class);
     Route::resource('/commands', CommandController::class);
     Route::resource('/scenes', SceneController::class);
+    Route::get('scenes/{id}/play', [SceneController::class, 'scenes_play'])->name('scenes.play');
     Route::resource('/lightings', LightingController::class);
     Route::resource('/phases', PhaseController::class);
     Route::post('/phases/get_phase_zones', [PhaseController::class, 'get_phase_zones'])->name('phases.get_phase_zones');
     Route::resource('/zones', ZoneController::class);
-    // Route::post('/upload_media', [MediaController::class, 'upload_media'])->name('upload_media');
     Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('upload_media');
 });

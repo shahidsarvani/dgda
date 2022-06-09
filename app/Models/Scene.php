@@ -13,6 +13,8 @@ class Scene extends Model
         'name',
         'room_id',
         'status',
+        'model_up_delay',
+        'model_down_delay',
     ];
 
     protected $hidden = ['commands'];

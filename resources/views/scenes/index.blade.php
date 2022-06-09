@@ -2,63 +2,10 @@
 
 @section('title', 'Scenes')
 @section('scripts')
+    <script src="{{ asset('assets/js/plugins/notifications/sweet_alert.min.js') }}"></script>
 @endsection
 @section('content')
     <div class="row">
-        {{-- <div class="col-md-12">
-            <div class="card">
-                <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Add Scene</h5>
-                </div>
-
-                <div class="card-body">
-                    <form action="{{ route('scenes.store') }}" method="post" id="screen-form">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Name:</label>
-                                    <input type="text" class="form-control" name="name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Room:</label>
-                                    <select name="room_id" id="room_id" class="form-control"
-                                        onchange="getRoomCommand(this.value)">
-                                        <option value="">Select Room</option>
-                                        @foreach ($rooms as $room)
-                                            <option value="{{ $room->id }}">{{ $room->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Command:</label>
-                                    <select name="command_id" id="command_id" class="form-control">
-                                        <option value="">Select Command</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Status:</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="0">Inactive</option>
-                                        <option value="1">Active</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Add <i
-                                    class="icon-plus-circle2 ml-2"></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
@@ -93,6 +40,11 @@
                                         <td>{{ $value->status ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <div class="list-icons">
+                                                <a href="{{ route('scenes.play', $value->id) }}"
+                                                    onclick="event.preventDefault(); playScene(this.href)"
+                                                    class="list-icons-item text-success-600">
+                                                    <i class="icon-play3"></i>
+                                                </a>
                                                 <a href="{{ route('scenes.edit', $value->id) }}"
                                                     class="list-icons-item text-primary-600">
                                                     <i class="icon-pencil7"></i>
@@ -125,27 +77,53 @@
     </div>
 @endsection
 
-{{-- @section('footer_script')
+@section('footer_script')
+
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        function getRoomCommand(roomId) {
-            console.log(roomId);
-            $.ajax({
-                url: "{{ route('rooms.get_room_command') }}",
-                method: 'post',
-                dataType: 'json',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    room_id: roomId
-                },
-                success: function(response) {
-                    console.log(response.length)
-                    var html_txt = '<option value="">Select Command</option>'
-                    for (var i = 0; i < response.length; i++) {
-                        html_txt += '<option value="' + response[i].id + '">' + response[i].name + '</option>'
-                    }
-                    $('#command_id').empty().html(html_txt);
-                }
-            })
+        var swalInit = swal.mixin({
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-light'
+        });
+
+        function playScene(href) {
+            // console.log(href);
+            // $.ajax({
+            //     url: href,
+            //     method: 'get',
+            //     dataType: 'json',
+            //     success: function(response) {
+            //         var type = ''
+            //         if (response.status) {
+            //             type = 'success'
+            //         } else {
+            //             type = 'error'
+            //         }
+            //         swalInit.fire({
+            //             title: response.title,
+            //             text: response.msg,
+            //             type: type
+            //         });
+
+                    var socket = io();
+
+                    // form.addEventListener('submit', function(e) {
+                    //     e.preventDefault();
+                        if (input.value) {
+                            socket.emit('chat message', input.value);
+                            input.value = '';
+                        }
+                    // });
+
+                    // socket.on('chat message', function(msg) {
+                    //     var item = document.createElement('li');
+                    //     item.textContent = msg;
+                    //     messages.appendChild(item);
+                    //     window.scrollTo(0, document.body.scrollHeight);
+                    // });
+                // }
+            // })
         }
     </script>
-@endsection --}}
+@endsection

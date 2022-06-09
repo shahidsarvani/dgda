@@ -135,8 +135,15 @@ class RoomController extends Controller
 
     public function get_room_command(Request $request)
     {
-        $commands = Command::whereRoomId($request->room_id)->get(['name', 'id']);
-        return response()->json($commands);
+        $commands = Command::with('hardware')->whereRoomId($request->room_id)->get(['name', 'id', 'hardware_id']);
+        $temp_grouped = $commands->groupBy('hardware.name');
+        $commands_grouped = array();
+        foreach ($temp_grouped as $key => $value) {
+            $temp['hardware_name'] = $key;
+            $temp['commands'] = $value;
+            array_push($commands_grouped, $temp);
+        }
+        return response()->json($commands_grouped);
         // $hardwares;
     }
 

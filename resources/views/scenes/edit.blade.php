@@ -2,13 +2,14 @@
 
 @section('title', 'Edit Scene')
 @section('scripts')
-<style>
-    .select2 {
-        border: 1px solid #ddd;
-        border-width: 1px 0;
-        border-top-color: transparent !important;
-    }
-</style>
+    <style>
+        .select2 {
+            border: 1px solid #ddd;
+            border-width: 1px 0;
+            border-top-color: transparent !important;
+        }
+
+    </style>
 @endsection
 @section('content')
     <div class="row">
@@ -23,13 +24,13 @@
                         @csrf
                         @method('PATCH')
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Name:</label>
                                     <input type="text" class="form-control" name="name" value="{{ $scene->name }}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
@@ -43,7 +44,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Command:</label>
                                     <select name="command_ids[]" id="command_id" class="form-control select" multiple>
@@ -55,14 +56,47 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> --}}
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
-                                        <option value="0" {{ !$scene->status ? 'selected' : ''}}>Inactive</option>
-                                        <option value="1" {{ $scene->status ? 'selected' : ''}}>Active</option>
+                                        <option value="0" {{ !$scene->status ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ $scene->status ? 'selected' : '' }}>Active</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Model Up Time Delay</label>
+                                    <input type="text" class="form-control" name="model_up_delay"
+                                        value="{{ $scene->model_up_delay }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Model Down Time Delay</label>
+                                    <input type="text" class="form-control" name="model_down_delay"
+                                        value="{{ $scene->model_down_delay }}">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h6 class="font-weight-semibold">Select Commands:</h6>
+                                <div id="commands">
+                                    @foreach ($commands_grouped as $key => $command)
+                                        <label class="font-weight-semibold">{{ $key }}</label>
+                                        <div class="d-flex" style="gap: 10px; flex-wrap: wrap;">
+                                            @foreach ($command as $item)
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" name="command_ids[]" class="form-check-input"
+                                                            value="{{ $item->id }}" {{ in_array($item->id, $scene->commands_arr) ? 'checked' : '' }}>
+                                                        {{ $item->name }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -91,11 +125,27 @@
                 },
                 success: function(response) {
                     console.log(response.length)
-                    var html_txt = '<option value="">Select Command</option>'
+                    // var html_txt = '<option value="">Select Command</option>'
+                    var html_txt = ''
                     for (var i = 0; i < response.length; i++) {
-                        html_txt += '<option value="' + response[i].id + '">' + response[i].name + '</option>'
+                        console.log(response[i])
+                        console.log(response[i].name)
+                        html_txt += '<label class="font-weight-semibold">' + response[i].hardware_name +
+                            '</label>'
+                        html_txt += '<div class="d-flex" style="gap: 10px; flex-wrap: wrap;">'
+                        var commands = response[i].commands
+                        for (var j = 0; j < commands.length; j++) {
+                            html_txt += '<div class="form-check">' +
+                                '<label class="form-check-label">' +
+                                '<input type="checkbox" name="command_ids[]" class="form-check-input" value="' +
+                                commands[j].id + '">' +
+                                commands[j].name +
+                                '</label>' +
+                                '</div>'
+                        }
+                        html_txt += '</div>'
                     }
-                    $('#command_id').empty().html(html_txt);
+                    $('#commands').empty().html(html_txt);
                 }
             })
         }

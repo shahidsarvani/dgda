@@ -92,8 +92,17 @@ class SceneController extends Controller
         }
         $scene->commands_arr = $commands;
         $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
-        $commands = Command::whereRoomId($scene->room_id)->get(['name', 'id']);
-        return view('scenes.edit', compact('scene', 'rooms', 'commands'));
+        // $commands = Command::whereRoomId($scene->room_id)->get(['name', 'id']);
+
+        $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
+        $commands_grouped = $commands->groupBy('hardware.name');
+        // $commands_grouped = array();
+        // foreach ($temp_grouped as $key => $value) {
+        //     $temp['hardware_name'] = $key;
+        //     $temp['commands'] = $value;
+        //     array_push($commands_grouped, $temp);
+        // }
+        return view('scenes.edit', compact('scene', 'rooms', 'commands_grouped'));
     }
 
     /**
@@ -141,5 +150,47 @@ class SceneController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function scenes_play($id)
+    {
+        $scene = Scene::find($id);
+        // return $scene;
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if ($socket === false) {
+            return response()->json([
+                'status' => 0,
+                'title' => 'Error',
+                'msg' => 'Socket is not created!'
+            ]);
+        }
+        $msg = 'Hello World';
+        $len = strlen($msg);
+    
+        // $msg_error = 'Conexion no establecida';
+    
+        $connection = socket_connect($socket, '127.0.0.1', 8000);
+    
+        if ($connection == false) {
+            return response()->json([
+                'status' => 0,
+                'title' => 'Error',
+                'msg' => 'Socket connection failed!'
+            ]);
+        }
+    
+        $resultado = socket_sendto($socket, $msg, $len, 0, '127.0.0.1', 8688);
+    
+        if($resultado){
+            socket_close($socket);
+            return $msg;
+        }
+    
+        return $msg;
+        return response()->json([
+            'status' => 1,
+            'title' => 'Success',
+            'msg' => 'Socket is created!'
+        ]);
     }
 }
