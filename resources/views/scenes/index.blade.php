@@ -32,7 +32,11 @@
                                         <td>{{ $value->room->name }}</td>
                                         <td>
                                             @if (!$value->commands->isEmpty())
-                                                {{ implode($value->commands_arr, ', ') }}
+                                                @if (phpversion() == '8.1.6')
+                                                    {{ implode(', ', $value->commands_arr) }}
+                                                @else
+                                                    {{ implode($value->commands_arr, ', ') }}
+                                                @endif
                                             @else
                                                 No Commands attached
                                             @endif
@@ -106,23 +110,23 @@
             //             type: type
             //         });
 
-                    var socket = io();
+            var socket = io();
 
-                    // form.addEventListener('submit', function(e) {
-                    //     e.preventDefault();
-                        if (input.value) {
-                            socket.emit('chat message', input.value);
-                            input.value = '';
-                        }
-                    // });
+            // form.addEventListener('submit', function(e) {
+            //     e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message', input.value);
+                input.value = '';
+            }
+            // });
 
-                    // socket.on('chat message', function(msg) {
-                    //     var item = document.createElement('li');
-                    //     item.textContent = msg;
-                    //     messages.appendChild(item);
-                    //     window.scrollTo(0, document.body.scrollHeight);
-                    // });
-                // }
+            // socket.on('chat message', function(msg) {
+            //     var item = document.createElement('li');
+            //     item.textContent = msg;
+            //     messages.appendChild(item);
+            //     window.scrollTo(0, document.body.scrollHeight);
+            // });
+            // }
             // })
         }
     </script>
