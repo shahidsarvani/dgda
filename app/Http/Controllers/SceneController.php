@@ -155,53 +155,71 @@ class SceneController extends Controller
 
     public function scenes_play($id)
     {
-        $scene = Scene::find($id);
-        // return $scene;
-        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if ($socket === false) {
-            return response()->json([
-                'status' => 0,
-                'title' => 'Error',
-                'msg' => 'Socket is not created!'
-            ]);
-        }
-        $msg = 'Hello World';
-        $len = strlen($msg);
-
-        // $msg_error = 'Conexion no establecida';
-
-        // $connection = socket_connect($socket, '192.168.10.10', 58900);
-
-        // socket_bind($socket, '192.168.10.10', 58900);
-        socket_listen($socket, 1);
-        socket_set_nonblock($socket);
-        while (true) {
-            if (($newc = socket_accept($socket)) !== false) {
-                echo "Client $newc has connected\n";
-                $clients[] = $newc;
-            }
-        }
-        // sleep(20);
-
-        // if ($connection == false) {
-        //     return response()->json([
-        //         'status' => 0,
-        //         'title' => 'Error',
-        //         'msg' => 'Socket connection failed!'
-        //     ]);
+        $sock = socket_create_listen(0);
+        $addr = '192.168.10.10';
+        $port = 58900;
+        socket_getsockname($sock, $addr, $port);
+        print "Server Listening on $addr:$port\n";
+        // $fp = fopen($port_file, 'w');
+        // fwrite($fp, $port);
+        // fclose($fp);
+        // while ($c = socket_accept($sock)) {
+        //     /* do something useful */
+        //     socket_getpeername($c, $raddr, $rport);
+        //     print "Received Connection from $raddr:$rport\n";
         // }
-
-        // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
-
-        // if ($resultado) {
-        //     socket_close($socket);
-        //     return response()->json([
-        //         'status' => 1,
-        //         'title' => 'Success',
-        //         'msg' => 'Message sent!'
-        //     ]);
-        // }
-
-        // return $msg;
+        socket_close($sock);
     }
+
+    // public function scenes_play($id)
+    // {
+    //     $scene = Scene::find($id);
+    //     // return $scene;
+    //     $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+    //     if ($socket === false) {
+    //         return response()->json([
+    //             'status' => 0,
+    //             'title' => 'Error',
+    //             'msg' => 'Socket is not created!'
+    //         ]);
+    //     }
+    //     $msg = 'Hello World';
+    //     $len = strlen($msg);
+
+    //     // $msg_error = 'Conexion no establecida';
+
+    //     // $connection = socket_connect($socket, '192.168.10.10', 58900);
+
+    //     // socket_bind($socket, '192.168.10.10', 58900);
+    //     socket_listen($socket, 1);
+    //     socket_set_nonblock($socket);
+    //     while (true) {
+    //         if (($newc = socket_accept($socket)) !== false) {
+    //             echo "Client $newc has connected\n";
+    //             $clients[] = $newc;
+    //         }
+    //     }
+    //     // sleep(20);
+
+    //     // if ($connection == false) {
+    //     //     return response()->json([
+    //     //         'status' => 0,
+    //     //         'title' => 'Error',
+    //     //         'msg' => 'Socket connection failed!'
+    //     //     ]);
+    //     // }
+
+    //     // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
+
+    //     // if ($resultado) {
+    //     //     socket_close($socket);
+    //     //     return response()->json([
+    //     //         'status' => 1,
+    //     //         'title' => 'Success',
+    //     //         'msg' => 'Message sent!'
+    //     //     ]);
+    //     // }
+
+    //     // return $msg;
+    // }
 }
