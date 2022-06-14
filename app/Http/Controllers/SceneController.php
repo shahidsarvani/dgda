@@ -155,10 +155,14 @@ class SceneController extends Controller
 
     public function scenes_play($id)
     {
-        $sock = socket_create_listen(0);
-        $addr = '192.168.10.10';
+        $msg = 'Hello';
+        $len = strlen($msg);
         $port = 58900;
-        socket_getsockname($sock, $addr, $port);
+        $sock = socket_create_listen($port);
+        $addr = '192.168.10.10';
+        $name = socket_getsockname($sock, $addr, $port);
+        // return $name;
+        // socket_bind($sock, $addr, $port);
         print "Server Listening on $addr:$port\n";
         // $fp = fopen($port_file, 'w');
         // fwrite($fp, $port);
@@ -168,7 +172,17 @@ class SceneController extends Controller
         //     socket_getpeername($c, $raddr, $rport);
         //     print "Received Connection from $raddr:$rport\n";
         // }
-        socket_close($sock);
+        // socket_close($sock);
+        $resultado = socket_sendto($sock, $msg, $len, 0, $addr, $port);
+
+        if ($resultado) {
+            socket_close($sock);
+            return response()->json([
+                'status' => 1,
+                'title' => 'Success',
+                'msg' => 'Message sent!'
+            ]);
+        }
     }
 
     // public function scenes_play($id)
@@ -209,16 +223,16 @@ class SceneController extends Controller
     //     //     ]);
     //     // }
 
-    //     // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
+        // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
 
-    //     // if ($resultado) {
-    //     //     socket_close($socket);
-    //     //     return response()->json([
-    //     //         'status' => 1,
-    //     //         'title' => 'Success',
-    //     //         'msg' => 'Message sent!'
-    //     //     ]);
-    //     // }
+        // if ($resultado) {
+        //     socket_close($socket);
+        //     return response()->json([
+        //         'status' => 1,
+        //         'title' => 'Success',
+        //         'msg' => 'Message sent!'
+        //     ]);
+        // }
 
     //     // return $msg;
     // }
