@@ -156,7 +156,7 @@ class SceneController extends Controller
     public function scenes_play($id)
     {
         // set some variables
-        $host = "192.168.10.10";
+        $host = "0.0.0.0";
         $port = 58900;
         // don't timeout!
         set_time_limit(0);
@@ -167,6 +167,7 @@ class SceneController extends Controller
         // start listening for connections
         $result = socket_listen($socket, 3) or die("Could not set up socket listener\n");
 
+        return $result;
         // accept incoming connections
         // spawn another socket to handle communication
         $spawn = socket_accept($socket) or die("Could not accept incoming connection\n");
