@@ -155,35 +155,65 @@ class SceneController extends Controller
 
     public function scenes_play($id)
     {
-        $msg = 'Hello';
-        $len = strlen($msg);
+        // set some variables
+        $host = "192.168.10.10";
         $port = 58900;
-        $sock = socket_create_listen($port);
-        $addr = '192.168.10.10';
-        $name = socket_getsockname($sock, $addr, $port);
-        // return $name;
-        // socket_bind($sock, $addr, $port);
-        print "Server Listening on $addr:$port\n";
-        // $fp = fopen($port_file, 'w');
-        // fwrite($fp, $port);
-        // fclose($fp);
-        // while ($c = socket_accept($sock)) {
-        //     /* do something useful */
-        //     socket_getpeername($c, $raddr, $rport);
-        //     print "Received Connection from $raddr:$rport\n";
-        // }
-        // socket_close($sock);
-        $resultado = socket_sendto($sock, $msg, $len, 0, $addr, $port);
+        // don't timeout!
+        set_time_limit(0);
+        // create socket
+        $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+        // bind socket to port
+        $result = socket_bind($socket, $host, $port) or die("Could not bind to socket\n");
+        // start listening for connections
+        $result = socket_listen($socket, 3) or die("Could not set up socket listener\n");
 
-        if ($resultado) {
-            socket_close($sock);
-            return response()->json([
-                'status' => 1,
-                'title' => 'Success',
-                'msg' => 'Message sent!'
-            ]);
-        }
+        // accept incoming connections
+        // spawn another socket to handle communication
+        $spawn = socket_accept($socket) or die("Could not accept incoming connection\n");
+        // read client input
+        $input = socket_read($spawn, 1024) or die("Could not read input\n");
+        // clean up input string
+        $input = trim($input);
+        echo "Client Message : " . $input;
+        // reverse client input and send back
+        $output = strrev($input) . "\n";
+        socket_write($spawn, $output, strlen($output)) or die("Could not write output\n");
+        // close sockets
+        socket_close($spawn);
+        socket_close($socket);
     }
+
+    // public function scenes_play($id)
+    // {
+    //     $msg = 'Hello';
+    //     $len = strlen($msg);
+    //     $port = 58900;
+    //     $sock = socket_create_listen($port);
+    //     $addr = '192.168.10.10';
+    //     $name = socket_getsockname($sock, $addr, $port);
+    //     // return $name;
+    //     // socket_bind($sock, $addr, $port);
+    //     print "Server Listening on $addr:$port\n";
+    //     // $fp = fopen($port_file, 'w');
+    //     // fwrite($fp, $port);
+    //     // fclose($fp);
+    //     // while ($c = socket_accept($sock)) {
+    //     //     /* do something useful */
+    //     //     socket_getpeername($c, $raddr, $rport);
+    //     //     print "Received Connection from $raddr:$rport\n";
+    //     // }
+    //     // socket_close($sock);
+    //     $resultado = socket_sendto($sock, $msg, $len, 0, $addr, $port);
+
+    //     if ($resultado) {
+    //         socket_close($sock);
+    //         return response()->json([
+    //             'status' => 1,
+    //             'title' => 'Success',
+    //             'msg' => 'Message sent!'
+    //         ]);
+    //     }
+    // }
 
     // public function scenes_play($id)
     // {
@@ -223,16 +253,16 @@ class SceneController extends Controller
     //     //     ]);
     //     // }
 
-        // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
+    // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
 
-        // if ($resultado) {
-        //     socket_close($socket);
-        //     return response()->json([
-        //         'status' => 1,
-        //         'title' => 'Success',
-        //         'msg' => 'Message sent!'
-        //     ]);
-        // }
+    // if ($resultado) {
+    //     socket_close($socket);
+    //     return response()->json([
+    //         'status' => 1,
+    //         'title' => 'Success',
+    //         'msg' => 'Message sent!'
+    //     ]);
+    // }
 
     //     // return $msg;
     // }
