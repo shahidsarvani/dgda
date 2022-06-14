@@ -55,7 +55,7 @@ class SceneController extends Controller
         // return $request;
         try {
             $scene = Scene::create($request->except('_token'));
-            if($scene) {
+            if ($scene) {
                 $scene->commands()->attach($request->command_ids);
                 return redirect()->route('scenes.index')->with('success', 'Scene Created');
             } else {
@@ -120,7 +120,7 @@ class SceneController extends Controller
         // return $request;
         try {
             $updated = $scene->update($request->except('_token'));
-            if($updated) {
+            if ($updated) {
                 $scene->commands()->sync($request->command_ids);
                 return redirect()->route('scenes.index')->with('success', 'Scene Updated');
             } else {
@@ -143,7 +143,7 @@ class SceneController extends Controller
         // return $scene;
         try {
             $deleted = $scene->delete();
-            if($deleted) {
+            if ($deleted) {
                 return back()->with('deleted', 'Scene Deleted');
             } else {
                 return back()->with('warning', 'Scene could not be deleted');
@@ -167,30 +167,41 @@ class SceneController extends Controller
         }
         $msg = 'Hello World';
         $len = strlen($msg);
-    
+
         // $msg_error = 'Conexion no establecida';
-    
-        $connection = socket_connect($socket, '192.168.10.10', 58900);
-    
-        if ($connection == false) {
-            return response()->json([
-                'status' => 0,
-                'title' => 'Error',
-                'msg' => 'Socket connection failed!'
-            ]);
+
+        // $connection = socket_connect($socket, '192.168.10.10', 58900);
+
+        socket_bind($socket, '192.168.10.10', 58900);
+        socket_listen($socket, 1);
+        socket_set_nonblock($socket);
+        while (true) {
+            if (($newc = socket_accept($socket)) !== false) {
+                echo "Client $newc has connected\n";
+                $clients[] = $newc;
+            }
         }
-    
-        $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
-    
-        if($resultado){
-            socket_close($socket);
-            return response()->json([
-                'status' => 1,
-                'title' => 'Success',
-                'msg' => 'Message sent!'
-            ]);
-        }
-    
-        return $msg;
+        // sleep(20);
+
+        // if ($connection == false) {
+        //     return response()->json([
+        //         'status' => 0,
+        //         'title' => 'Error',
+        //         'msg' => 'Socket connection failed!'
+        //     ]);
+        // }
+
+        // $resultado = socket_sendto($socket, $msg, $len, 0, '192.168.10.10', 58900);
+
+        // if ($resultado) {
+        //     socket_close($socket);
+        //     return response()->json([
+        //         'status' => 1,
+        //         'title' => 'Success',
+        //         'msg' => 'Message sent!'
+        //     ]);
+        // }
+
+        // return $msg;
     }
 }
