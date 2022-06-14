@@ -172,7 +172,7 @@ class SceneController extends Controller
 
         // $connection = socket_connect($socket, '192.168.10.10', 58900);
 
-        socket_bind($socket, '192.168.10.10', 58900);
+        // socket_bind($socket, '192.168.10.10', 58900);
         socket_listen($socket, 1);
         socket_set_nonblock($socket);
         while (true) {
