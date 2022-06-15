@@ -32,6 +32,7 @@ Route::middleware([
     ])->group(function () {
     Route::get('/', [UserController::class, 'dashboard'])->name('home');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/test', [UserController::class, 'test'])->name('test');
     Route::resource('/media', MediaController::class);
     Route::resource('/rooms', RoomController::class);
     Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');

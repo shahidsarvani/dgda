@@ -163,9 +163,9 @@ class SceneController extends Controller
         // create socket
         $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
         // bind socket to port
-        // $result = socket_bind($socket, $host, $port) or die("Could not bind to socket\n");
+        $result = socket_bind($socket, $host, $port) or die("Could not bind to socket\n");
         // // start listening for connections
-        // $result = socket_listen($socket, 3) or die("Could not set up socket listener\n");
+        $result = socket_listen($socket, 3) or die("Could not set up socket listener\n");
 
         // return $result;
         // accept incoming connections

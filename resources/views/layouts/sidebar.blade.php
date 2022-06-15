@@ -68,6 +68,15 @@
                         title="Main"></i>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('test') }}"
+                        class="nav-link @if (Route::is('test')) active @endif">
+                        <i class="icon-home4"></i>
+                        <span>
+                            Test
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link @if (Route::is('dashboard', 'home')) active @endif">
                         <i class="icon-home4"></i>
