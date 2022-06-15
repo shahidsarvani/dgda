@@ -16,10 +16,19 @@ class UserController extends Controller
 
     public function test()
     {
-        $server = new SocketServer("", 58900); // Create a Server binding to the given ip address and listen to port 58900 for connections
+        return view('test');
+    }
+
+    public function do_test(Request $request)
+    {
+        // return $request;
+        $port = $request->get('port');
+        // return $port;
+        $server = new SocketServer("", $port); // Create a Server binding to the given ip address and listen to port 58900 for connections
         //$client = new SocketServerClient($server, 1);
         $server->max_clients = 10; // Allow no more than 10 people to connect at a time
-        $server->hook("CONNECT", "handle_connect"); // Run handle_connect every time someone connects
+        $res = $server->hook("CONNECT", "handle_connect"); // Run handle_connect every time someone connects
+        return $res;
         $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
         $server->loop_once();
     }
