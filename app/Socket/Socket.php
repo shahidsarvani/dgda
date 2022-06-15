@@ -58,7 +58,7 @@ class SocketServer
 
 		$this->master_socket = socket_create(AF_INET, SOCK_STREAM, 0);
 		$bResult = socket_bind($this->master_socket, $this->config["ip"], $this->config["port"]) or die("Issue Binding");
-		Log::info('Bound on ' . $bind_ip . ':' . $$port . ' ' . $bResult);
+		Log::info('Bound on ' . $bind_ip . ':' . $port . ' ' . $bResult);
 		$bResult = socket_getsockname($this->master_socket, $bind_ip, $port);
 		Log::info('getSockName Reuslt ' . $bResult);
 		socket_listen($this->master_socket);
@@ -125,7 +125,7 @@ class SocketServer
 				$read[$i + 1] = $this->clients[$i]->socket;
 			}
 		}
-		SocketServer::debug("For Loop finished" . "<br />");
+		Log::info("For Loop finished" . "<br />");
 
 		// try
 		// {
@@ -134,15 +134,15 @@ class SocketServer
 		// // Set up a blocking call to socket_select
 		// if(socket_select($read,$write, $except, $tv_sec = 15) < 1)
 		// {
-		// SocketServer::debug("Problem blocking socket_select?" . "<br />");
+		// Log::info("Problem blocking socket_select?" . "<br />");
 		// return true;
 		// }
-		// else SocketServer::debug("Problem blocking socket_select else part" . "<br />");
+		// else Log::info("Problem blocking socket_select else part" . "<br />");
 		// }
 		// catch(Exception $e) {
-		// SocketServer::debug("Message" . $e->getMessage() . "<br />");
+		// Log::info("Message" . $e->getMessage() . "<br />");
 		// echo 'Message: ' .$e->getMessage();
-		// //SocketServer::debug("Listenting for connections on {$bind_ip}:{$port}");
+		// //Log::info("Listenting for connections on {$bind_ip}:{$port}");
 		// }
 
 		// Handle new Connections
@@ -154,7 +154,7 @@ class SocketServer
 					$this->trigger_hooks("CONNECT", $this->clients[$i], "");
 					break;
 				} elseif ($i == ($this->max_clients - 1)) {
-					SocketServer::debug("Too many clients... :( ");
+					Log::info("Too many clients... :( ");
 				}
 			}
 		}
@@ -168,7 +168,7 @@ class SocketServer
 					if ($input == null) {
 						$this->disconnect($i);
 					} else {
-						SocketServer::debug("{$i}@{$this->clients[$i]->ip} --> {$input}");
+						Log::info("{$i}@{$this->clients[$i]->ip} --> {$input}");
 						$this->trigger_hooks("INPUT", $this->clients[$i], $input);
 					}
 				}
@@ -186,7 +186,7 @@ class SocketServer
 	public function disconnect($client_index, $message = "")
 	{
 		$i = $client_index;
-		SocketServer::debug("Client {$i} from {$this->clients[$i]->ip} Disconnecting");
+		Log::info("Client {$i} from {$this->clients[$i]->ip} Disconnecting");
 		$this->trigger_hooks("DISCONNECT", $this->clients[$i], $message);
 		$this->clients[$i]->destroy();
 		unset($this->clients[$i]);
@@ -203,7 +203,7 @@ class SocketServer
 	{
 		if (isset($this->hooks[$command])) {
 			foreach ($this->hooks[$command] as $function) {
-				SocketServer::debug("Triggering Hook '{$function}' for '{$command}'");
+				Log::info("Triggering Hook '{$function}' for '{$command}'");
 				$continue = call_user_func($function, $this, $client, $input);
 				if ($continue === FALSE) {
 					break;
@@ -249,7 +249,7 @@ class SocketServer
 		*/
 	public static function socket_write_smart(&$sock, $string, $crlf = "\r\n")
 	{
-		SocketServer::debug("<-- {$string}");
+		Log::info("<-- {$string}");
 		if ($crlf) {
 			$string = "{$string}{$crlf}";
 		}
@@ -305,7 +305,7 @@ class SocketServerClient
 	{
 		$this->server_clients_index = $i;
 		$this->socket = socket_accept($socket) or die("Failed to Accept");
-		SocketServer::debug("New Client Connected");
+		Log::info("New Client Connected");
 		socket_getpeername($this->socket, $ip);
 		$this->ip = $ip;
 	}
