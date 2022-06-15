@@ -25,7 +25,8 @@ class UserController extends Controller
         // return $request;
         $port = $request->get('port');
         // return $port;
-        $server = new SocketServer("", $port); // Create a Server binding to the given ip address and listen to port 58900 for connections
+        $server = new SocketServer("192.168.10.10", $port); // Create a Server binding to the given ip address and listen to port 58900 for connections
+
         return json_encode($server);
         //$client = new SocketServerClient($server, 1);
         $server->max_clients = 10; // Allow no more than 10 people to connect at a time
