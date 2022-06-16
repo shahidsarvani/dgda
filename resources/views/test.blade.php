@@ -54,7 +54,7 @@
                     dataType: 'json',
                     method: 'GET',
                     beforeSend: function() {
-                            document.getElementById('status').innerHTML = 'Listening...'
+                        document.getElementById('status').innerHTML = 'Listening...'
                     },
                     success: function(response) {
                         if (response.status) {
@@ -64,9 +64,20 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log(xhr.responseText)
-                        console.log(status)
-                        console.log(error)
+                        var swalInit = swal.mixin({
+                            buttonsStyling: false,
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-light'
+                        });
+                        $('#sweet_error').on('click', function() {
+                            swalInit.fire({
+                                title: 'Error',
+                                text: error,
+                                type: 'error'
+                            });
+                        });
+                        document.getElementById('status').innerHTML = 'connection cannot be made!'
+                        // console.log(error)
                     }
                 })
             })
