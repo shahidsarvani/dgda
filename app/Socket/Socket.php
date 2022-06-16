@@ -201,10 +201,8 @@ class SocketServer
 		*/
 	public function trigger_hooks($command, &$client, $input)
 	{
-		Log::info($command);
-		Log::info($client);
+		Log::info(json_encode($client));
 		if (isset($this->hooks[$command])) {
-			Log::info($this->hooks[$command]);
 			foreach ($this->hooks[$command] as $function) {
 				Log::info("Triggering Hook '{$function}' for '{$command}'");
 				$continue = call_user_func($function, $this, $client, $input);
