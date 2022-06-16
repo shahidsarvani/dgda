@@ -54,11 +54,12 @@
                     dataType: 'json',
                     method: 'GET',
                     beforeSend: function() {
-                        document.getElementById('status').innerHTML = 'Listening...'
+                        document.getElementById('status').innerHTML = '<span class="text-info">Listening...<span class="text-success">'
+                        $('#listen').attr('disabled', 'disabled');
                     },
                     success: function(response) {
                         if (response.status) {
-                            document.getElementById('status').innerHTML = 'Connected!'
+                            document.getElementById('status').innerHTML = '<span class="text-success">Connected!</span>'
                         } else {
                             alert('Error!' + response.msg)
                         }
@@ -75,8 +76,9 @@
                             type: 'error'
                         });
                         document.getElementById('status').innerHTML =
-                            'connection cannot be made!'
-                        // console.log(error)
+                            '<span class="text-warning">connection cannot be made!</span>'
+
+                        $('#listen').removeAttr('disabled');
                     }
                 })
             })

@@ -32,14 +32,13 @@ class UserController extends Controller
             //$client = new SocketServerClient($server, 1);
             $server->max_clients = 10; // Allow no more than 10 people to connect at a time
             $res = $server->hook("CONNECT", "handle_connect"); // Run handle_connect every time someone connects
-            Log::info(json_encode($res));
             // $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
-            $server->loop_once();
+            $client = $server->loop_once();
             // $server->infinite_loop();
             // return json_encode($res);
-
+            
+            Log::info(json_encode($server->clients));
             return response()->json([
-                'server' => $server,
                 'status' => true,
             ]);
             

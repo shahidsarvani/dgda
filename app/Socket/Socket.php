@@ -152,6 +152,7 @@ class SocketServer
 					$temp_sock = $this->master_socket;
 					$this->clients[$i] = new SocketServerClient($this->master_socket, $i);
 					Log::info($this->clients[$i]->lookup_hostname());
+					return $this->clients[$i];
 					// $this->trigger_hooks("CONNECT", $this->clients[$i], "");
 					break;
 				} elseif ($i == ($this->max_clients - 1)) {
