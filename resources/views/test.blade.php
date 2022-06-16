@@ -51,9 +51,17 @@
                     data: {
                         port: document.getElementById('port').value
                     },
+                    dataType: 'json',
                     method: 'GET',
+                    beforeSend: function() {
+                            document.getElementById('status').innerHTML = 'Listening...'
+                    },
                     success: function(response) {
-
+                        if (response.status) {
+                            document.getElementById('status').innerHTML = 'Connected!'
+                        } else {
+                            alert('Error!' + response.msg)
+                        }
                     }
                 })
             })
