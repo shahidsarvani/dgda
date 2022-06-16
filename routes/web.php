@@ -35,6 +35,8 @@ Route::middleware([
     Route::get('/test', [UserController::class, 'test'])->name('test');
     Route::get('/do_test', [UserController::class, 'do_test'])->name('do_test');
     Route::get('/do_send_command', [UserController::class, 'do_send_command'])->name('do_send_command');
+    Route::get('/handle_connect', [UserController::class, 'handle_connect'])->name('handle_connect');
+    Route::get('/handle_input', [UserController::class, 'handle_input'])->name('handle_connect');
     Route::resource('/media', MediaController::class);
     Route::resource('/rooms', RoomController::class);
     Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');

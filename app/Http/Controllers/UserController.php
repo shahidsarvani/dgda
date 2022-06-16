@@ -32,7 +32,7 @@ class UserController extends Controller
             // return json_encode($server);
             //$client = new SocketServerClient($server, 1);
             $server->max_clients = 10; // Allow no more than 10 people to connect at a time
-            $res = $server->hook("CONNECT", "handle_connect"); // Run handle_connect every time someone connects
+            $res = $server->hook("CONNECT", route('handle_connect')); // Run handle_connect every time someone connects
             // $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
             $server->loop_once();
             // $server->infinite_loop();
@@ -43,11 +43,6 @@ class UserController extends Controller
             ]);
 
 
-            // function handle_connect(&$server, &$client, $input)
-            // {
-            //     SocketServer::socket_write_smart($client->socket, "String? ", "");
-            //     Log::info("Client Connected");
-            // }
             // function handle_input(&$server, &$client, $input)
             // {
             //     // You probably want to sanitize your inputs here
@@ -74,19 +69,24 @@ class UserController extends Controller
         }
     }
 
-    public function do_send_command(Request $request)
-    {
-        try {
-            $command = $request->command;
-            $server = Session::get('server');
-            $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
-            $server->loop_once();
-        } catch (\Exception $th) {
-            //throw $th;
-            Log::error('Error: ' . $th->getMessage());
-            return response()->json([
-                'status' => false,
-            ]);
-        }
-    }
+    // public function do_send_command(Request $request)
+    // {
+    //     try {
+    //         $command = $request->command;
+    //         $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
+    //         $server->loop_once();
+    //     } catch (\Exception $th) {
+    //         //throw $th;
+    //         Log::error('Error: ' . $th->getMessage());
+    //         return response()->json([
+    //             'status' => false,
+    //         ]);
+    //     }
+    // }
+    
+    // function handle_connect(&$server, &$client, $input)
+    // {
+    //     SocketServer::socket_write_smart($client->socket, "String? ", "");
+    //     Log::info("Client Connected");
+    // }
 }

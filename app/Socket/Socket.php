@@ -152,10 +152,8 @@ class SocketServer
 					$temp_sock = $this->master_socket;
 					$this->clients[$i] = new SocketServerClient($this->master_socket, $i);
 					Log::info($this->clients[$i]->lookup_hostname());
-
-					Session::put('server', $this->clients[$i]);
 					// return $this->clients[$i];
-					$this->trigger_hooks("CONNECT", $this->clients[$i], "");
+					// $this->trigger_hooks("CONNECT", $this->clients[$i], "");
 					break;
 				} elseif ($i == ($this->max_clients - 1)) {
 					Log::info("Too many clients... :( ");
@@ -164,20 +162,20 @@ class SocketServer
 		}
 
 		// Handle Input
-		for ($i = 0; $i < $this->max_clients; $i++) // for each client
-		{
-			if (isset($this->clients[$i])) {
-				if (in_array($this->clients[$i]->socket, $read)) {
-					$input = socket_read($this->clients[$i]->socket, $this->max_read);
-					if ($input == null) {
-						$this->disconnect($i);
-					} else {
-						Log::info("{$i}@{$this->clients[$i]->ip} --> {$input}");
-						$this->trigger_hooks("INPUT", $this->clients[$i], $input);
-					}
-				}
-			}
-		}
+		// for ($i = 0; $i < $this->max_clients; $i++) // for each client
+		// {
+		// 	if (isset($this->clients[$i])) {
+		// 		if (in_array($this->clients[$i]->socket, $read)) {
+		// 			$input = socket_read($this->clients[$i]->socket, $this->max_read);
+		// 			if ($input == null) {
+		// 				$this->disconnect($i);
+		// 			} else {
+		// 				Log::info("{$i}@{$this->clients[$i]->ip} --> {$input}");
+		// 				$this->trigger_hooks("INPUT", $this->clients[$i], $input);
+		// 			}
+		// 		}
+		// 	}
+		// }
 		return true;
 	}
 
