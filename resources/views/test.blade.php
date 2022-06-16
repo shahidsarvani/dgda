@@ -62,6 +62,11 @@
                         } else {
                             alert('Error!' + response.msg)
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText)
+                        console.log(status)
+                        console.log(error)
                     }
                 })
             })
