@@ -68,7 +68,7 @@ class UserController extends Controller
             }
         } catch (\Exception $th) {
             //throw $th;
-            Log::error('Error: '.$th->getMessage);
+            Log::error('Error: '.$th->getMessage());
             return response()->json([
                 'status' => false,
             ]);
