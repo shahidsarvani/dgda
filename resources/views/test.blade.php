@@ -69,14 +69,13 @@
                             confirmButtonClass: 'btn btn-primary',
                             cancelButtonClass: 'btn btn-light'
                         });
-                        $('#sweet_error').on('click', function() {
-                            swalInit.fire({
-                                title: 'Error',
-                                text: error,
-                                type: 'error'
-                            });
+                        swalInit.fire({
+                            title: 'Error',
+                            text: error,
+                            type: 'error'
                         });
-                        document.getElementById('status').innerHTML = 'connection cannot be made!'
+                        document.getElementById('status').innerHTML =
+                            'connection cannot be made!'
                         // console.log(error)
                     }
                 })

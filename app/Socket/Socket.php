@@ -160,20 +160,20 @@ class SocketServer
 		}
 
 		// Handle Input
-		for ($i = 0; $i < $this->max_clients; $i++) // for each client
-		{
-			if (isset($this->clients[$i])) {
-				if (in_array($this->clients[$i]->socket, $read)) {
-					$input = socket_read($this->clients[$i]->socket, $this->max_read);
-					if ($input == null) {
-						$this->disconnect($i);
-					} else {
-						Log::info("{$i}@{$this->clients[$i]->ip} --> {$input}");
-						$this->trigger_hooks("INPUT", $this->clients[$i], $input);
-					}
-				}
-			}
-		}
+		// for ($i = 0; $i < $this->max_clients; $i++) // for each client
+		// {
+		// 	if (isset($this->clients[$i])) {
+		// 		if (in_array($this->clients[$i]->socket, $read)) {
+		// 			$input = socket_read($this->clients[$i]->socket, $this->max_read);
+		// 			if ($input == null) {
+		// 				$this->disconnect($i);
+		// 			} else {
+		// 				Log::info("{$i}@{$this->clients[$i]->ip} --> {$input}");
+		// 				$this->trigger_hooks("INPUT", $this->clients[$i], $input);
+		// 			}
+		// 		}
+		// 	}
+		// }
 		return true;
 	}
 
