@@ -151,7 +151,8 @@ class SocketServer
 				if (empty($this->clients[$i])) {
 					$temp_sock = $this->master_socket;
 					$this->clients[$i] = new SocketServerClient($this->master_socket, $i);
-					$this->trigger_hooks("CONNECT", $this->clients[$i], "");
+					Log::info($this->clients[$i]->lookup_hostname());
+					// $this->trigger_hooks("CONNECT", $this->clients[$i], "");
 					break;
 				} elseif ($i == ($this->max_clients - 1)) {
 					Log::info("Too many clients... :( ");
