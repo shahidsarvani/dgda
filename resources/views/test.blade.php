@@ -45,9 +45,45 @@
     <script>
         $(document).ready(function() {
             $('#listen').click(function() {
-                console.log(document.getElementById('port').value)
                 $.ajax({
                     url: '{{ route('do_test') }}',
+                    data: {
+                        port: document.getElementById('port').value
+                    },
+                    dataType: 'json',
+                    method: 'GET',
+                    beforeSend: function() {
+                        document.getElementById('status').innerHTML = '<span class="text-info">Listening...<span class="text-success">'
+                        $('#listen').attr('disabled', 'disabled');
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            document.getElementById('status').innerHTML = '<span class="text-success">Connected!</span>'
+                        } else {
+                            alert('Error!' + response.msg)
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var swalInit = swal.mixin({
+                            buttonsStyling: false,
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-light'
+                        });
+                        swalInit.fire({
+                            title: 'Error',
+                            text: error,
+                            type: 'error'
+                        });
+                        document.getElementById('status').innerHTML =
+                            '<span class="text-warning">connection cannot be made!</span>'
+
+                        $('#listen').removeAttr('disabled');
+                    }
+                })
+            })
+            $('#send_command').click(function() {
+                $.ajax({
+                    url: '{{ route('do_send_command') }}',
                     data: {
                         port: document.getElementById('port').value
                     },

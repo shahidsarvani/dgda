@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use SocketServer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -33,41 +34,56 @@ class UserController extends Controller
             $server->max_clients = 10; // Allow no more than 10 people to connect at a time
             $res = $server->hook("CONNECT", "handle_connect"); // Run handle_connect every time someone connects
             // $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
-            $client = $server->loop_once();
+            $server->loop_once();
             // $server->infinite_loop();
             // return json_encode($res);
-            
             Log::info(json_encode($server->clients));
             return response()->json([
                 'status' => true,
             ]);
-            
-    
-            function handle_connect(&$server, &$client, $input)
-            {
-                SocketServer::socket_write_smart($client->socket, "String? ", "");
-                Log::info("Client Connected");
-            }
-            function handle_input(&$server, &$client, $input)
-            {
-                // You probably want to sanitize your inputs here
-                $trim = trim($input); // Trim the input, Remove Line Endings and Extra Whitespace.
-        
-                if (strtolower($trim) == "quit") // User Wants to quit the server
-                {
-                    SocketServer::socket_write_smart($client->socket, "Oh... Goodbye..."); // Give the user a sad goodbye message, meany!
-                    $server->disconnect($client->server_clients_index); // Disconnect this client.
-                    return; // Ends the function
-                }
-        
-                $output = strrev($trim); // Reverse the String
-        
-                SocketServer::socket_write_smart($client->socket, $output); // Send the Client back the String
-                SocketServer::socket_write_smart($client->socket, "String? ", ""); // Request Another String
-            }
+
+
+            // function handle_connect(&$server, &$client, $input)
+            // {
+            //     SocketServer::socket_write_smart($client->socket, "String? ", "");
+            //     Log::info("Client Connected");
+            // }
+            // function handle_input(&$server, &$client, $input)
+            // {
+            //     // You probably want to sanitize your inputs here
+            //     $trim = trim($input); // Trim the input, Remove Line Endings and Extra Whitespace.
+
+            //     if (strtolower($trim) == "quit") // User Wants to quit the server
+            //     {
+            //         SocketServer::socket_write_smart($client->socket, "Oh... Goodbye..."); // Give the user a sad goodbye message, meany!
+            //         $server->disconnect($client->server_clients_index); // Disconnect this client.
+            //         return; // Ends the function
+            //     }
+
+            //     $output = strrev($trim); // Reverse the String
+
+            //     SocketServer::socket_write_smart($client->socket, $output); // Send the Client back the String
+            //     SocketServer::socket_write_smart($client->socket, "String? ", ""); // Request Another String
+            // }
         } catch (\Exception $th) {
             //throw $th;
-            Log::error('Error: '.$th->getMessage());
+            Log::error('Error: ' . $th->getMessage());
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+    }
+
+    public function do_send_command(Request $request)
+    {
+        try {
+            $command = $request->command;
+            $server = Session::get('server');
+            $server->hook("INPUT", "handle_input"); // Run handle_input whenever text is sent to the server
+            $server->loop_once();
+        } catch (\Exception $th) {
+            //throw $th;
+            Log::error('Error: ' . $th->getMessage());
             return response()->json([
                 'status' => false,
             ]);
