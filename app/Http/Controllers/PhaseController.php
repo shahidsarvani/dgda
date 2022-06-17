@@ -6,6 +6,7 @@ use App\Models\Phase;
 use App\Models\Room;
 use App\Models\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PhaseController extends Controller
 {
@@ -43,7 +44,31 @@ class PhaseController extends Controller
         //
         // return $request;
         try {
-            $phase = Phase::create($request->except('_token'));
+            $data = $request->except('_token', 'image', 'image_ar');
+            $phase = new Phase();
+            if ($file = $request->file('image')) {
+                // return $input;
+                $imagePath = $phase->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                $name = 'phase_english_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image'] = $name;
+            }
+            if ($file = $request->file('image_ar')) {
+                // return $input;
+                $imagePath = $phase->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image_ar'] = $name;
+            }
+            $phase = Phase::create($data);
             if($phase) {
                 return back()->with('success', 'Phase Created');
             } else {
@@ -91,7 +116,38 @@ class PhaseController extends Controller
         // return $phase;
         // return $request;
         try {
-            $updated = $phase->update($request->except('_token'));
+            $data = $request->except('_token', 'image', 'image_ar');
+            if ($file = $request->file('image')) {
+                // return $input;
+                $imagePath = $phase->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                if ($phase->image) {
+                    // return 'World';
+                    Storage::delete(['/' . $imagePath . '/' . $phase->image]);
+                }
+                $name = 'phase_english_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image'] = $name;
+            }
+            if ($file = $request->file('image_ar')) {
+                // return $input;
+                $imagePath = $phase->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                if ($phase->image) {
+                    // return 'World';
+                    Storage::delete(['/' . $imagePath . '/' . $phase->image_ar]);
+                }
+                $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image_ar'] = $name;
+            }
+            $updated = $phase->update($data);
             if($updated) {
                 return redirect()->route('phases.index')->with('success', 'Phase Updated');
             } else {

@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\Scene;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TryCatch;
 
 class RoomController extends Controller
@@ -47,7 +48,31 @@ class RoomController extends Controller
         //
         // return $request;
         try {
-            $room = Room::create($request->except('_token'));
+            $data = $request->except('_token', 'image', 'image_ar');
+            $room = new Room();
+            if ($file = $request->file('image')) {
+                // return $input;
+                $imagePath = $room->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                $name = 'room_english_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image'] = $name;
+            }
+            if ($file = $request->file('image_ar')) {
+                // return $input;
+                $imagePath = $room->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                $name = 'room_arabic_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image_ar'] = $name;
+            }
+            $room = Room::create($data);
             if($room) {
                 return back()->with('success', 'Room Created');
             } else {
@@ -94,7 +119,38 @@ class RoomController extends Controller
         // return $room;
         // return $request;
         try {
-            $updated = $room->update($request->except('_token'));
+            $data = $request->except('_token', 'image', 'image_ar');
+            if ($file = $request->file('image')) {
+                // return $input;
+                $imagePath = $room->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                if ($room->image) {
+                    // return 'World';
+                    Storage::delete(['/' . $imagePath . '/' . $room->image]);
+                }
+                $name = 'room_english_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image'] = $name;
+            }
+            if ($file = $request->file('image_ar')) {
+                // return $input;
+                $imagePath = $room->getImagePath();
+                if (!file_exists(Storage::path($imagePath))) {
+                    // return 'Hello';
+                    mkdir(Storage::path($imagePath), 755, true);
+                }
+                if ($room->image) {
+                    // return 'World';
+                    Storage::delete(['/' . $imagePath . '/' . $room->image_ar]);
+                }
+                $name = 'room_arabic_'.time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                $data['image_ar'] = $name;
+            }
+            $updated = $room->update($data);
             if($updated) {
                 return redirect()->route('rooms.index')->with('success', 'Room Updated');
             } else {

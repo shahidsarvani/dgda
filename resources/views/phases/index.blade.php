@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('phases.store') }}" method="post" id="screen-form">
+                    <form action="{{ route('phases.store') }}" method="post" id="screen-form" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -25,6 +25,18 @@
                                 <div class="form-group">
                                     <label>Name (Arabic):</label>
                                     <input type="text" class="form-control" name="name_ar">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image (English):</label>
+                                    <input type="file" class="form-control" name="image" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image (Arabic):</label>
+                                    <input type="file" class="form-control" name="image_ar" accept="image/*">
                                 </div>
                             </div>
                             <div class="col-md-6">
