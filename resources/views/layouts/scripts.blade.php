@@ -22,7 +22,7 @@
 {{-- <script src="{{ asset('assets/js/plugins/forms/styling/switchery.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('assets/js/plugins/ui/moment/moment.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('assets/js/plugins/pickers/daterangepicker.js') }}"></script> --}}
-
+<script src="{{ asset('assets/js/plugins/forms/inputs/duallistbox/duallistbox.min.js') }}"></script>
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script>
     var upload_medial_url = "{{ route('upload_media') }}"

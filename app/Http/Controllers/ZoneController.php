@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Phase;
+use App\Models\Room;
+use App\Models\Scene;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 
@@ -17,8 +19,8 @@ class ZoneController extends Controller
     {
         //
         $zones = Zone::with('phase')->get();
-        $phases = Phase::whereStatus(1)->get(['name', 'id']);
-        return view('zones.index', compact('zones', 'phases'));
+        $rooms = Room::whereStatus(1)->get(['name', 'id']);
+        return view('zones.index', compact('zones', 'rooms'));
     }
 
     /**
@@ -74,7 +76,9 @@ class ZoneController extends Controller
     {
         //
         $phases = Phase::whereStatus(1)->get(['name', 'id']);
-        return view('zones.edit', compact('zone', 'phases'));
+        $scenes = Scene::whereStatus(1)->get(['name', 'id']);
+        $rooms = Room::whereStatus(1)->get(['name', 'id']);
+        return view('zones.edit', compact('zone', 'phases', 'scenes', 'rooms'));
     }
 
     /**

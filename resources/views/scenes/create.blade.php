@@ -8,8 +8,8 @@
             border-width: 1px 0;
             border-top-color: transparent !important;
         }
-
     </style>
+    {{-- <script src="{{ asset('assets/js/demo_pages/form_dual_listboxes.js') }}"></script> --}}
 @endsection
 @section('content')
     <div class="row">
@@ -59,13 +59,25 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Media:</label>
+                                    <select name="media_id" id="media_id" class="form-control">
+                                        <option value="">Select Media</option>
+                                        @foreach ($media as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Up Time Delay</label>
                                     <input type="text" class="form-control" name="model_up_delay">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Down Time Delay</label>
                                     <input type="text" class="form-control" name="model_down_delay">
@@ -74,7 +86,33 @@
                             <div class="col-md-12">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
+                                    {{-- <label class="font-weight-semibold">Hello World</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" name="command_ids[]"
+                                                                class="form-check-input" value="1">Name
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Sort</label>
+                                                        <input type="text" name="sort[]" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
                                 </div>
+                                {{-- <div class="form-group">
+                                    <select name="command_ids[]" id="command_id" class="form-control listbox" data-fouc multiple>
+                                        <option value="">Select Command</option>
+                                    </select>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="text-right">
@@ -90,6 +128,20 @@
 
 @section('footer_script')
     <script>
+        // $('.listbox').bootstrapDualListbox({
+        //     showFilterInputs: false
+        // });
+
+        function show_sort(elem) {
+            console.log(elem)
+            var _this = $(elem)
+            if(_this.is(':checked')) {
+                _this.parents('.command-wrapper').find('.sort-wrapper').removeClass('d-none');
+            } else {
+                _this.parents('.command-wrapper').find('.sort-wrapper').addClass('d-none');
+            }
+        }
+
         function getRoomCommand(roomId) {
             console.log(roomId);
             $.ajax({
@@ -104,25 +156,48 @@
                     console.log(response.length)
                     // var html_txt = '<option value="">Select Command</option>'
                     var html_txt = ''
+                    // var command_html_txt = ''
                     for (var i = 0; i < response.length; i++) {
                         console.log(response[i])
-                        console.log(response[i].name)
+                        // console.log(response[i].name)
                         html_txt += '<label class="font-weight-semibold">' + response[i].hardware_name +
                             '</label>'
-                        html_txt += '<div class="d-flex" style="gap: 10px; flex-wrap: wrap;">'
+                        html_txt += '<div class="row">'
                         var commands = response[i].commands
                         for (var j = 0; j < commands.length; j++) {
-                            html_txt += '<div class="form-check">' +
+                            html_txt += '<div class="col-md-4 command-wrapper">' +
+                                '<div class="row">' +
+                                '<div class="col-md-6 checkbox-wrapper">' +
+                                '<div class="form-check">' +
                                 '<label class="form-check-label">' +
-                                '<input type="checkbox" name="command_ids[]" class="form-check-input" value="' +
-                                commands[j].id + '">' +
-                                commands[j].name +
+                                '<input type="checkbox" name="command_ids[]" class="form-check-input" onchange="show_sort(this)" value="' +
+                                commands[j].id + '">' + commands[j].name +
                                 '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="col-md-6 d-none sort-wrapper">' +
+                                '<div class="form-group">' +
+                                '<label>Sort</label>' +
+                                '<input type="text" name="sort_order[]" class="form-control">' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
                                 '</div>'
+                            // html_txt += '<div class="col-md-4"><div class="row"><div class="form-check">' +
+                            //     '<label class="form-check-label">' +
+                            //     '<input type="checkbox" name="command_ids[]" class="form-check-input" value="' +
+                            //     commands[j].id + '">' +
+                            //     commands[j].name +
+                            //     '</label>' +
+                            //     '</div>'
+                            // command_html_txt += '<option value="' + commands[j].id + '">' + commands[j].name +
+                            //     '</option>'
                         }
                         html_txt += '</div>'
                     }
                     $('#commands').empty().html(html_txt);
+                    // $('#command_id').empty().html(command_html_txt);
+                    // $('.listbox').bootstrapDualListbox('refresh');
                 }
             })
         }

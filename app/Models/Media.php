@@ -27,4 +27,9 @@ class Media extends Model
     {
         return $this->mediaPath;
     }
+
+    public function scene()
+    {
+        return $this->belongsTo(Scene::class);
+    }
 }

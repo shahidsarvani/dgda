@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Scene extends Model
+class LightScene extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,6 @@ class Scene extends Model
         'name',
         'room_id',
         'status',
-        'model_up_delay',
-        'model_down_delay',
     ];
 
     protected $hidden = ['commands'];
@@ -26,11 +24,6 @@ class Scene extends Model
 
     public function commands()
     {
-        return $this->belongsToMany(Command::class)->withPivot('sort_order');
-    }
-
-    public function media()
-    {
-        return $this->hasOne(Media::class);
+        return $this->belongsToMany(Command::class, CommandLightScene::class);
     }
 }

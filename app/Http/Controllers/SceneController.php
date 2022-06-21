@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
+use App\Models\Media;
 use App\Models\Room;
 use App\Models\Scene;
 use App\Models\Zone;
@@ -40,7 +41,8 @@ class SceneController extends Controller
     {
         //
         $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
-        return view('scenes.create', compact('rooms'));
+        $media = Media::whereSceneId(null)->get(['name', 'id']);
+        return view('scenes.create', compact('rooms', 'media'));
     }
 
     /**
@@ -52,17 +54,39 @@ class SceneController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request;
+        $sort = $request->sort_order;
+        $ids = $request->command_ids;
+        $filtered = array();
+        $data = array();
+        for ($i = 0; $i < count($sort); $i++) {
+            if ($sort[$i]) {
+                array_push($filtered, $sort[$i]);
+            }
+        }
+        for ($i = 0; $i < count($filtered); $i++) {
+            array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
+        }
+        // return $data;
         try {
             $scene = Scene::create($request->except('_token'));
             if ($scene) {
-                $scene->commands()->attach($request->command_ids);
+                // $scene->commands()->attach($request->command_ids);
+                $scene->commands()->attach($data);
+                if ($request->media_id) {
+                    $media = Media::find($request->media_id);
+                    $media->update(['scene_id' => $scene->id]);
+                }
                 return redirect()->route('scenes.index')->with('success', 'Scene Created');
             } else {
                 return back()->with('warning', 'Scene could not be created');
             }
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
+        }
+
+        function remove_null($value)
+        {
+            return !is_null($value);
         }
     }
 
@@ -86,24 +110,32 @@ class SceneController extends Controller
     public function edit($id)
     {
         //
-        $scene = Scene::with('commands')->find($id);
+        $scene = Scene::with('commands', 'media')->find($id);
+        // return $scene->commands;
         $commands = array();
+        $sort_order = array();
         foreach ($scene->commands as $command) {
             array_push($commands, $command->id);
+            array_push($sort_order, $command->pivot->sort_order);
         }
+        // return $sort_order;
+        // return $commands;
         $scene->commands_arr = $commands;
+        $sort_arr = $sort_order;
         $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
         // $commands = Command::whereRoomId($scene->room_id)->get(['name', 'id']);
 
         $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
         $commands_grouped = $commands->groupBy('hardware.name');
+        $media = Media::whereSceneId(null)->orWhere('scene_id', $scene->id)->get(['name', 'id']);
+        // return $media;
         // $commands_grouped = array();
         // foreach ($temp_grouped as $key => $value) {
         //     $temp['hardware_name'] = $key;
         //     $temp['commands'] = $value;
         //     array_push($commands_grouped, $temp);
         // }
-        return view('scenes.edit', compact('scene', 'rooms', 'commands_grouped'));
+        return view('scenes.edit', compact('scene', 'rooms', 'commands_grouped', 'media', 'sort_arr'));
     }
 
     /**
@@ -118,10 +150,28 @@ class SceneController extends Controller
         //
         // return $scene;
         // return $request;
+        $sort = $request->sort_order;
+        $ids = $request->command_ids;
+        $filtered = array();
+        $data = array();
+        for ($i = 0; $i < count($sort); $i++) {
+            if ($sort[$i]) {
+                array_push($filtered, $sort[$i]);
+            }
+        }
+        for ($i = 0; $i < count($filtered); $i++) {
+            array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
+        }
+        // return $data;
         try {
             $updated = $scene->update($request->except('_token'));
             if ($updated) {
-                $scene->commands()->sync($request->command_ids);
+                // $scene->commands()->sync($request->command_ids);
+                $scene->commands()->sync($data);
+                if ($request->media_id) {
+                    $media = Media::find($request->media_id);
+                    $media->update(['scene_id' => $scene->id]);
+                }
                 return redirect()->route('scenes.index')->with('success', 'Scene Updated');
             } else {
                 return back()->with('warning', 'Scene could not be updated');

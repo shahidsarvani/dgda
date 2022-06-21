@@ -136,6 +136,18 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item nav-item-submenu @if (Route::is('light_scenes.*')) nav-item-open @endif">
+                    <a href="#" class="nav-link"><i class="icon-traffic-lights"></i> <span>Light Scenes</span></a>
+
+                    <ul class="nav nav-group-sub @if (Route::is('light_scenes.*')) d-block @endif" data-submenu-title="Layouts">
+                        <li class="nav-item">
+                            <a href="{{ route('light_scenes.index') }}" class="nav-link @if (Route::is('light_scenes.index','light_scenes.edit')) active @endif">Light Scenes List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('light_scenes.create') }}" class="nav-link @if (Route::is('light_scenes.create')) active @endif">Add Light Scene</a>
+                        </li>
+                    </ul>
+                </li>
                 {{-- <li class="nav-item">
                     <a href="{{ route('scenes.index') }}"
                         class="nav-link @if (Route::is('scenes.index', 'scenes.edit')) active @endif">

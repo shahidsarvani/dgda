@@ -13,6 +13,8 @@ class Zone extends Model
         'name',
         'name_ar',
         'phase_id',
+        'room_id',
+        'scene_id',
         'status',
     ];
 

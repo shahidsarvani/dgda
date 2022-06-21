@@ -4,6 +4,7 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\HardwareController;
 use App\Http\Controllers\LightingController;
 use App\Http\Controllers\LightingTypeController;
+use App\Http\Controllers\LightSceneController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PhaseController;
 use App\Http\Controllers\RoomController;
@@ -48,6 +49,7 @@ Route::middleware([
     Route::resource('/commands', CommandController::class);
     Route::resource('/scenes', SceneController::class);
     Route::get('scenes/{id}/play', [SceneController::class, 'scenes_play'])->name('scenes.play');
+    Route::resource('light_scenes', LightSceneController::class);
     Route::resource('/lightings', LightingController::class);
     Route::resource('/phases', PhaseController::class);
     Route::post('/phases/get_phase_zones', [PhaseController::class, 'get_phase_zones'])->name('phases.get_phase_zones');

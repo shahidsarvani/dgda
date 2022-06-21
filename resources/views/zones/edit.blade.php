@@ -16,19 +16,31 @@
                         @csrf
                         @method('PATCH')
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Name (English):</label>
                                     <input type="text" class="form-control" name="name" value="{{ $zone->name }}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Name (Arabic):</label>
                                     <input type="text" class="form-control" name="name_ar" value="{{ $zone->name_ar }}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Room:</label>
+                                    <select name="room_id" id="room_id" class="form-control"
+                                        onchange="getRoomScenesAndPhases(this.value)">
+                                        <option value="">Select Room</option>
+                                        @foreach ($rooms as $room)
+                                            <option value="{{ $room->id }}" {{ $zone->room_id == $room->id ? 'selected' : '' }}>{{ $room->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Phase:</label>
                                     <select name="phase_id" id="phase_id" class="form-control">
@@ -41,7 +53,20 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Scene:</label>
+                                    <select name="scene_id" id="scene_id" class="form-control">
+                                        <option value="">Select Scene</option>
+                                        @foreach ($scenes as $scene)
+                                            <option value="{{ $scene->id }}"
+                                                {{ $zone->scene_id == $scene->id ? 'selected' : '' }}>{{ $scene->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
@@ -60,4 +85,36 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer_script')
+    <script>
+        function getRoomScenesAndPhases(roomId) {
+            console.log(roomId);
+            $.ajax({
+                url: "{{ route('rooms.get_room_scenes_and_phases') }}",
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    room_id: roomId
+                },
+                success: function(response) {
+                    // console.log(response.length)
+                    var scene_html_txt = '<option value="">Select Scene</option>'
+                    for (var i = 0; i < response.scenes.length; i++) {
+                        scene_html_txt += '<option value="' + response.scenes[i].id + '">' + response.scenes[i]
+                            .name + '</option>'
+                    }
+                    $('#scene_id').empty().html(scene_html_txt);
+                    var phase_html_txt = '<option value="">Select Phase</option>'
+                    for (var i = 0; i < response.phases.length; i++) {
+                        phase_html_txt += '<option value="' + response.phases[i].id + '">' + response.phases[i]
+                            .name + '</option>'
+                    }
+                    $('#phase_id').empty().html(phase_html_txt);
+                }
+            })
+        }
+    </script>
 @endsection
