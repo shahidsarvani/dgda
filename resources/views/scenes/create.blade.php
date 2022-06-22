@@ -23,13 +23,13 @@
                     <form action="{{ route('scenes.store') }}" method="post" id="screen-form">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name:</label>
                                     <input type="text" class="form-control" name="name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
@@ -50,7 +50,7 @@
                                     </select>
                                 </div>
                             </div> --}}
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
@@ -59,7 +59,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Media:</label>
                                     <select name="media_id" id="media_id" class="form-control">
@@ -71,18 +71,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Up Time Delay</label>
                                     <input type="text" class="form-control" name="model_up_delay">
                                 </div>
-                            </div>
-                            <div class="col-md-4">
+                            </div> --}}
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Down Time Delay</label>
                                     <input type="text" class="form-control" name="model_down_delay">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
@@ -135,10 +135,24 @@
         function show_sort(elem) {
             console.log(elem)
             var _this = $(elem)
-            if(_this.is(':checked')) {
+            if (_this.is(':checked')) {
                 _this.parents('.command-wrapper').find('.sort-wrapper').removeClass('d-none');
+                if(_this.data('value') === 'MODELUP') {
+                    var model_up_html = '<div class="form-group modelup"><label for="">Model Up Time Delay</label><input type="text" class="form-control" name="model_up_delay"></div>'
+                    _this.parents('.command-wrapper').find('.sort-wrapper').append(model_up_html)
+                }
+                if(_this.data('value') === 'MODELDOWN') {
+                    var model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay</label><input type="text" class="form-control" name="model_down_delay"></div>'
+                    _this.parents('.command-wrapper').find('.sort-wrapper').append(model_down_html)
+                }
             } else {
                 _this.parents('.command-wrapper').find('.sort-wrapper').addClass('d-none');
+                if(_this.data('value') === 'MODELUP') {
+                    _this.parents('.command-wrapper').find('.sort-wrapper .modelup').remove()
+                }
+                if(_this.data('value') === 'MODELDOWN') {
+                    _this.parents('.command-wrapper').find('.sort-wrapper .modeldown').remove()
+                }
             }
         }
 
@@ -170,7 +184,8 @@
                                 '<div class="col-md-6 checkbox-wrapper">' +
                                 '<div class="form-check">' +
                                 '<label class="form-check-label">' +
-                                '<input type="checkbox" name="command_ids[]" class="form-check-input" onchange="show_sort(this)" value="' +
+                                '<input type="checkbox" name="command_ids[]" class="form-check-input" data-value="' +
+                                commands[j].name + '" onchange="show_sort(this)" value="' +
                                 commands[j].id + '">' + commands[j].name +
                                 '</label>' +
                                 '</div>' +

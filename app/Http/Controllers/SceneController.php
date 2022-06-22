@@ -54,6 +54,7 @@ class SceneController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request;
         $sort = $request->sort_order;
         $ids = $request->command_ids;
         $filtered = array();
@@ -128,7 +129,7 @@ class SceneController extends Controller
         $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
         $commands_grouped = $commands->groupBy('hardware.name');
         $media = Media::whereSceneId(null)->orWhere('scene_id', $scene->id)->get(['name', 'id']);
-        // return $media;
+        // return $commands;
         // $commands_grouped = array();
         // foreach ($temp_grouped as $key => $value) {
         //     $temp['hardware_name'] = $key;

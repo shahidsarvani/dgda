@@ -23,13 +23,13 @@
                         @csrf
                         @method('PATCH')
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name:</label>
                                     <input type="text" class="form-control" name="name" value="{{ $scene->name }}">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
@@ -56,7 +56,7 @@
                                     </select>
                                 </div>
                             </div> --}}
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
@@ -65,7 +65,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Media:</label>
                                     <select name="media_id" id="media_id" class="form-control">
@@ -79,7 +79,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Up Time Delay</label>
                                     <input type="text" class="form-control" name="model_up_delay"
@@ -92,7 +92,7 @@
                                     <input type="text" class="form-control" name="model_down_delay"
                                         value="{{ $scene->model_down_delay }}">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
@@ -106,20 +106,30 @@
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" name="command_ids[]"
-                                                                        class="form-check-input" onchange="show_sort(this)" 
+                                                                        class="form-check-input" onchange="show_sort(this)" data-value="{{ $item->name }}"
                                                                         value="{{ $item->id }}"
                                                                         {{ in_array($item->id, $scene->commands_arr) ? 'checked' : '' }}>{{ $item->name }}
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
+                                                        <div class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
                                                             <div class="form-group">
                                                                 <label>Sort</label>
                                                                 <input type="text" name="sort_order[]"
-                                                                    class="form-control"
-                                                                    value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
+                                                                    class="form-control" value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
                                                             </div>
+                                                            @if ($item->name === 'MODELUP' && $scene->model_up_delay)
+                                                            <div class="form-group modelup">
+                                                                <label for="">Model Up Time Delay</label>
+                                                                <input type="text" class="form-control" name="model_up_delay" value="{{ $scene->model_up_delay }}">
+                                                            </div>
+                                                            @endif
+                                                            @if ($item->name === 'MODELDOWN' && $scene->model_down_delay)
+                                                            <div class="form-group modeldown">
+                                                                <label for="">Model Down Time Delay</label>
+                                                                <input type="text" class="form-control" name="model_down_delay" value="{{ $scene->model_down_delay }}">
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                         @php
                                                             if (in_array($item->id, $scene->commands_arr)) {
@@ -152,9 +162,23 @@
             var _this = $(elem)
             if (_this.is(':checked')) {
                 _this.parents('.command-wrapper').find('.sort-wrapper').removeClass('d-none');
+                if(_this.data('value') === 'MODELUP') {
+                    var model_up_html = '<div class="form-group modelup"><label for="">Model Up Time Delay</label><input type="text" class="form-control" name="model_up_delay"></div>'
+                    _this.parents('.command-wrapper').find('.sort-wrapper').append(model_up_html)
+                }
+                if(_this.data('value') === 'MODELDOWN') {
+                    var model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay</label><input type="text" class="form-control" name="model_down_delay"></div>'
+                    _this.parents('.command-wrapper').find('.sort-wrapper').append(model_down_html)
+                }
             } else {
                 _this.parents('.command-wrapper').find('.sort-wrapper').addClass('d-none');
                 _this.parents('.command-wrapper').find('.sort-wrapper input').val(null);
+                if(_this.data('value') === 'MODELUP') {
+                    _this.parents('.command-wrapper').find('.sort-wrapper .modelup').remove()
+                }
+                if(_this.data('value') === 'MODELDOWN') {
+                    _this.parents('.command-wrapper').find('.sort-wrapper .modeldown').remove()
+                }
             }
         }
 
