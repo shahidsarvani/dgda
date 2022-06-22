@@ -79,6 +79,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" name="is_default" class="form-check-input" value="1" {{ $scene->is_default ? 'checked' : '' }}>Default Scene
+                                    </label>
+                                </div>
+                            </div>
                             {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Up Time Delay</label>
@@ -93,7 +100,7 @@
                                         value="{{ $scene->model_down_delay }}">
                                 </div>
                             </div> --}}
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
                                     @foreach ($commands_grouped as $key => $command)

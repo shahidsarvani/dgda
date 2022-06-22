@@ -8,7 +8,6 @@
             border-width: 1px 0;
             border-top-color: transparent !important;
         }
-
     </style>
 @endsection
 @section('content')
@@ -23,13 +22,19 @@
                     <form action="{{ route('light_scenes.store') }}" method="post" id="screen-form">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Name:</label>
+                                    <label>Name (English):</label>
                                     <input type="text" class="form-control" name="name">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Name (Arabic):</label>
+                                    <input type="text" class="form-control" name="name_ar">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
@@ -42,7 +47,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
@@ -70,6 +75,17 @@
 
 @section('footer_script')
     <script>
+        function show_sort(elem) {
+            console.log(elem)
+            var _this = $(elem)
+            if (_this.is(':checked')) {
+                _this.parents('.command-wrapper').find('.sort-wrapper').removeClass('d-none');
+            } else {
+                _this.parents('.command-wrapper').find('.sort-wrapper').addClass('d-none');
+                _this.parents('.command-wrapper').find('.sort-wrapper input').val(null);
+            }
+        }
+
         function getRoomCommand(roomId) {
             console.log(roomId);
             $.ajax({
@@ -82,22 +98,33 @@
                 },
                 success: function(response) {
                     console.log(response.length)
-                    // var html_txt = '<option value="">Select Command</option>'
                     var html_txt = ''
                     for (var i = 0; i < response.length; i++) {
                         console.log(response[i])
-                        console.log(response[i].name)
+                        // console.log(response[i].name)
                         html_txt += '<label class="font-weight-semibold">' + response[i].hardware_name +
                             '</label>'
-                        html_txt += '<div class="d-flex" style="gap: 10px; flex-wrap: wrap;">'
+                        html_txt += '<div class="row">'
                         var commands = response[i].commands
                         for (var j = 0; j < commands.length; j++) {
-                            html_txt += '<div class="form-check">' +
+                            html_txt += '<div class="col-md-4 command-wrapper">' +
+                                '<div class="row">' +
+                                '<div class="col-md-6 checkbox-wrapper">' +
+                                '<div class="form-check">' +
                                 '<label class="form-check-label">' +
-                                '<input type="checkbox" name="command_ids[]" class="form-check-input" value="' +
-                                commands[j].id + '">' +
-                                commands[j].name +
+                                '<input type="checkbox" name="command_ids[]" class="form-check-input" data-value="' +
+                                commands[j].name + '" onchange="show_sort(this)" value="' +
+                                commands[j].id + '">' + commands[j].name +
                                 '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="col-md-6 d-none sort-wrapper">' +
+                                '<div class="form-group">' +
+                                '<label>Sort</label>' +
+                                '<input type="text" name="sort_order[]" class="form-control">' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
                                 '</div>'
                         }
                         html_txt += '</div>'

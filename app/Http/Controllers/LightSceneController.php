@@ -51,10 +51,23 @@ class LightSceneController extends Controller
     {
         //
         // return $request;
+        $sort = $request->sort_order;
+        $ids = $request->command_ids;
+        $filtered = array();
+        $data = array();
+        for ($i = 0; $i < count($sort); $i++) {
+            if ($sort[$i]) {
+                array_push($filtered, $sort[$i]);
+            }
+        }
+        for ($i = 0; $i < count($filtered); $i++) {
+            array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
+        }
+        // return $data;
         try {
             $scene = LightScene::create($request->except('_token'));
             if ($scene) {
-                $scene->commands()->attach($request->command_ids);
+                $scene->commands()->attach($data);
                 return redirect()->route('light_scenes.index')->with('success', 'Light Scene Created');
             } else {
                 return back()->with('warning', 'Light Scene could not be created');
@@ -86,22 +99,19 @@ class LightSceneController extends Controller
         //
         $scene = LightScene::with('commands')->find($id);
         $commands = array();
+        $sort_order = array();
         foreach ($scene->commands as $command) {
             array_push($commands, $command->id);
+            array_push($sort_order, $command->pivot->sort_order);
         }
         $scene->commands_arr = $commands;
+        $sort_arr = $sort_order;
         $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
         // $commands = Command::whereRoomId($scene->room_id)->get(['name', 'id']);
 
         $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
         $commands_grouped = $commands->groupBy('hardware.name');
-        // $commands_grouped = array();
-        // foreach ($temp_grouped as $key => $value) {
-        //     $temp['hardware_name'] = $key;
-        //     $temp['commands'] = $value;
-        //     array_push($commands_grouped, $temp);
-        // }
-        return view('light_scenes.edit', compact('scene', 'rooms', 'commands_grouped'));
+        return view('light_scenes.edit', compact('scene', 'rooms', 'commands_grouped', 'sort_arr'));
     }
 
     /**
@@ -114,10 +124,23 @@ class LightSceneController extends Controller
     public function update(Request $request, LightScene $lightScene)
     {
         //
+        $sort = $request->sort_order;
+        $ids = $request->command_ids;
+        $filtered = array();
+        $data = array();
+        for ($i = 0; $i < count($sort); $i++) {
+            if ($sort[$i]) {
+                array_push($filtered, $sort[$i]);
+            }
+        }
+        for ($i = 0; $i < count($filtered); $i++) {
+            array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
+        }
+        // return $data;
         try {
             $updated = $lightScene->update($request->except('_token'));
             if ($updated) {
-                $lightScene->commands()->sync($request->command_ids);
+                $lightScene->commands()->sync($data);
                 return redirect()->route('light_scenes.index')->with('success', 'Light Scene Updated');
             } else {
                 return back()->with('warning', 'Light Scene could not be updated');

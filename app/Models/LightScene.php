@@ -11,6 +11,7 @@ class LightScene extends Model
 
     protected $fillable = [
         'name',
+        'name_ar',
         'room_id',
         'status',
     ];
@@ -24,6 +25,6 @@ class LightScene extends Model
 
     public function commands()
     {
-        return $this->belongsToMany(Command::class, CommandLightScene::class);
+        return $this->belongsToMany(Command::class, CommandLightScene::class)->withPivot('sort_order');
     }
 }

@@ -71,6 +71,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" name="is_default" class="form-check-input" value="1">Default Scene
+                                    </label>
+                                </div>
+                            </div>
                             {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Model Up Time Delay</label>
@@ -83,7 +90,7 @@
                                     <input type="text" class="form-control" name="model_down_delay">
                                 </div>
                             </div> --}}
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
                                     {{-- <label class="font-weight-semibold">Hello World</label>
@@ -147,6 +154,7 @@
                 }
             } else {
                 _this.parents('.command-wrapper').find('.sort-wrapper').addClass('d-none');
+                _this.parents('.command-wrapper').find('.sort-wrapper input').val(null);
                 if(_this.data('value') === 'MODELUP') {
                     _this.parents('.command-wrapper').find('.sort-wrapper .modelup').remove()
                 }
@@ -168,9 +176,7 @@
                 },
                 success: function(response) {
                     console.log(response.length)
-                    // var html_txt = '<option value="">Select Command</option>'
                     var html_txt = ''
-                    // var command_html_txt = ''
                     for (var i = 0; i < response.length; i++) {
                         console.log(response[i])
                         // console.log(response[i].name)
@@ -198,21 +204,10 @@
                                 '</div>' +
                                 '</div>' +
                                 '</div>'
-                            // html_txt += '<div class="col-md-4"><div class="row"><div class="form-check">' +
-                            //     '<label class="form-check-label">' +
-                            //     '<input type="checkbox" name="command_ids[]" class="form-check-input" value="' +
-                            //     commands[j].id + '">' +
-                            //     commands[j].name +
-                            //     '</label>' +
-                            //     '</div>'
-                            // command_html_txt += '<option value="' + commands[j].id + '">' + commands[j].name +
-                            //     '</option>'
                         }
                         html_txt += '</div>'
                     }
                     $('#commands').empty().html(html_txt);
-                    // $('#command_id').empty().html(command_html_txt);
-                    // $('.listbox').bootstrapDualListbox('refresh');
                 }
             })
         }

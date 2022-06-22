@@ -18,6 +18,7 @@ class Room extends Model
         'status',
         'image',
         'image_ar',
+        'has_model',
     ];
     
     public function getImagePath()

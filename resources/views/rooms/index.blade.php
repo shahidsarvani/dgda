@@ -58,6 +58,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Model Controller:</label>
+                                        <select name="has_model" id="has_model" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary">Add <i

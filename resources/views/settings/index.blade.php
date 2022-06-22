@@ -16,10 +16,16 @@
                         @csrf
                         @method('PATCH')
                         <div class="row">
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Room Count:</label>
                                     <input type="number" class="form-control" name="room_count" value="{{ $setting->room_count }}">
+                                </div>
+                            </div> --}}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Delay in Commands (ms):</label>
+                                    <input type="number" class="form-control" name="delay" value="{{ $setting->delay }}">
                                 </div>
                             </div>
                         </div>

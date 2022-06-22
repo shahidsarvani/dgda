@@ -67,7 +67,7 @@ class SceneController extends Controller
         for ($i = 0; $i < count($filtered); $i++) {
             array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
         }
-        // return $data;
+        // return $filtered;
         try {
             $scene = Scene::create($request->except('_token'));
             if ($scene) {
@@ -163,9 +163,13 @@ class SceneController extends Controller
         for ($i = 0; $i < count($filtered); $i++) {
             array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
         }
-        // return $data;
+        $input = $request->except('_token');
+        if(!$request->is_default) {
+            $input['is_default'] = 0;
+        }
+        // return $input;
         try {
-            $updated = $scene->update($request->except('_token'));
+            $updated = $scene->update($input);
             if ($updated) {
                 // $scene->commands()->sync($request->command_ids);
                 $scene->commands()->sync($data);

@@ -15,6 +15,7 @@ class Scene extends Model
         'status',
         'model_up_delay',
         'model_down_delay',
+        'is_default',
     ];
 
     protected $hidden = ['commands'];
