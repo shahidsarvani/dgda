@@ -35,6 +35,11 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'node' => [
+            'driver' => 'local',
+            'root' => env('NODE_APP_MEDIA_PATH'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

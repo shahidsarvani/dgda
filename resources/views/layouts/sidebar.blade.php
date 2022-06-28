@@ -68,11 +68,11 @@
                         title="Main"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('test') }}"
-                        class="nav-link @if (Route::is('test')) active @endif">
+                    <a href="{{ route('settings.export_db') }}"
+                        class="nav-link @if (Route::is('settings.export_db')) active @endif">
                         <i class="icon-home4"></i>
                         <span>
-                            Test
+                            Export DB
                         </span>
                     </a>
                 </li>

@@ -55,6 +55,7 @@ class PhaseController extends Controller
                 }
                 $name = 'phase_english_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
@@ -66,6 +67,7 @@ class PhaseController extends Controller
                 }
                 $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image_ar'] = $name;
             }
             $phase = Phase::create($data);
@@ -130,6 +132,7 @@ class PhaseController extends Controller
                 }
                 $name = 'phase_english_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
@@ -145,6 +148,7 @@ class PhaseController extends Controller
                 }
                 $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image_ar'] = $name;
             }
             $updated = $phase->update($data);

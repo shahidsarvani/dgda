@@ -51,29 +51,29 @@ class RoomController extends Controller
             $data = $request->except('_token', 'image', 'image_ar');
             $room = new Room();
             if ($file = $request->file('image')) {
-                // return $input;
                 $imagePath = $room->getImagePath();
                 if (!file_exists(Storage::path($imagePath))) {
                     // return 'Hello';
                     mkdir(Storage::path($imagePath), 755, true);
                 }
-                $name = 'room_english_'.time() . $file->getClientOriginalName();
+                $name = 'room_english_' . time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
-                // return $input;
                 $imagePath = $room->getImagePath();
                 if (!file_exists(Storage::path($imagePath))) {
                     // return 'Hello';
                     mkdir(Storage::path($imagePath), 755, true);
                 }
-                $name = 'room_arabic_'.time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image_ar'] = $name;
             }
             $room = Room::create($data);
-            if($room) {
+            if ($room) {
                 return back()->with('success', 'Room Created');
             } else {
                 return back()->with('warning', 'Room could not be created');
@@ -121,7 +121,6 @@ class RoomController extends Controller
         try {
             $data = $request->except('_token', 'image', 'image_ar');
             if ($file = $request->file('image')) {
-                // return $input;
                 $imagePath = $room->getImagePath();
                 if (!file_exists(Storage::path($imagePath))) {
                     // return 'Hello';
@@ -131,12 +130,13 @@ class RoomController extends Controller
                     // return 'World';
                     Storage::delete(['/' . $imagePath . '/' . $room->image]);
                 }
-                $name = 'room_english_'.time() . $file->getClientOriginalName();
+                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                // $data['base64_image'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
-                // return $input;
                 $imagePath = $room->getImagePath();
                 if (!file_exists(Storage::path($imagePath))) {
                     // return 'Hello';
@@ -146,12 +146,14 @@ class RoomController extends Controller
                     // return 'World';
                     Storage::delete(['/' . $imagePath . '/' . $room->image_ar]);
                 }
-                $name = 'room_arabic_'.time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                // $data['base64_image_ar'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
+                $file->storeAs('images', $name, 'node');
                 $data['image_ar'] = $name;
             }
             $updated = $room->update($data);
-            if($updated) {
+            if ($updated) {
                 return redirect()->route('rooms.index')->with('success', 'Room Updated');
             } else {
                 return back()->with('warning', 'Room could not be updated');
@@ -172,7 +174,7 @@ class RoomController extends Controller
         //
         try {
             $deleted = $room->delete();
-            if($deleted) {
+            if ($deleted) {
                 return back()->with('deleted', 'Room Deleted');
             } else {
                 return back()->with('warning', 'Room could not be deleted');

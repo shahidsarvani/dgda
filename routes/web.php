@@ -44,6 +44,7 @@ Route::middleware([
     Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
     Route::post('/rooms/get_room_scenes_and_phases', [RoomController::class, 'get_room_scenes_and_phases'])->name('rooms.get_room_scenes_and_phases');
     Route::resource('/settings', SettingController::class);
+    Route::get('/export_db', [SettingController::class, 'export_db'])->name('settings.export_db');
     Route::resource('/hardwares', HardwareController::class);
     Route::resource('/lighting_types', LightingTypeController::class);
     Route::resource('/commands', CommandController::class);
