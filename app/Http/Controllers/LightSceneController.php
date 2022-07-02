@@ -64,7 +64,7 @@ class LightSceneController extends Controller
         for ($i = 0; $i < count($filtered); $i++) {
             array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
         }
-        $datas = $request->except('_token', 'image', 'image_ar');
+        $datas = $request->except('_token', 'image_en', 'image_ar');
         $scene = new LightScene();
         if ($file = $request->file('image_en')) {
             $imagePath = $scene->getImagePath();
@@ -162,8 +162,39 @@ class LightSceneController extends Controller
             array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
         }
         // return $data;
+        $datas = $request->except('_token', 'image_en', 'image_ar');
+        if ($file = $request->file('image')) {
+            $imagePath = $lightScene->getImagePath();
+            if (!file_exists(Storage::path($imagePath))) {
+                // return 'Hello';
+                mkdir(Storage::path($imagePath), 755, true);
+            }
+            if ($lightScene->image) {
+                // return 'World';
+                Storage::delete(['/' . $imagePath . '/' . $lightScene->image]);
+            }
+            $name = 'scene_english_' . time() . $file->getClientOriginalName();
+            $file->storeAs($imagePath, $name);
+            $file->storeAs('images', $name, 'node');
+            $datas['image_en'] = $name;
+        }
+        if ($file = $request->file('image_ar')) {
+            $imagePath = $lightScene->getImagePath();
+            if (!file_exists(Storage::path($imagePath))) {
+                // return 'Hello';
+                mkdir(Storage::path($imagePath), 755, true);
+            }
+            if ($lightScene->image) {
+                // return 'World';
+                Storage::delete(['/' . $imagePath . '/' . $lightScene->image_ar]);
+            }
+            $name = 'scene_arabic_' . time() . $file->getClientOriginalName();
+            $file->storeAs($imagePath, $name);
+            $file->storeAs('images', $name, 'node');
+            $datas['image_ar'] = $name;
+        }
         try {
-            $updated = $lightScene->update($request->except('_token'));
+            $updated = $lightScene->update($datas);
             if ($updated) {
                 $lightScene->commands()->sync($data);
                 return redirect()->route('light_scenes.index')->with('success', 'Light Scene Updated');
