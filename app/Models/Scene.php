@@ -30,8 +30,8 @@ class Scene extends Model
         return $this->belongsToMany(Command::class)->withPivot('sort_order');
     }
 
-    public function media()
+    public function medias()
     {
-        return $this->hasOne(Media::class);
+        return $this->hasMany(Media::class);
     }
 }

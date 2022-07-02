@@ -61,10 +61,22 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Media:</label>
-                                    <select name="media_id" id="media_id" class="form-control">
+                                    <label>Media (English):</label>
+                                    <select name="media_en_id" id="media_en_id" class="form-control">
                                         <option value="">Select Media</option>
-                                        @foreach ($media as $item)
+                                        @foreach ($media_en as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Media (Arabic):</label>
+                                    <select name="media_ar_id" id="media_ar_id" class="form-control">
+                                        <option value="">Select Media</option>
+                                        @foreach ($media_ar as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}
                                             </option>
                                         @endforeach

@@ -41,8 +41,9 @@ class SceneController extends Controller
     {
         //
         $rooms = Room::whereStatus(1)->whereType(1)->get(['name', 'id']);
-        $media = Media::whereSceneId(null)->get(['name', 'id']);
-        return view('scenes.create', compact('rooms', 'media'));
+        $media_en = Media::whereSceneId(null)->whereLang('en')->get(['name', 'id']);
+        $media_ar = Media::whereSceneId(null)->whereLang('ar')->get(['name', 'id']);
+        return view('scenes.create', compact('rooms', 'media_en', 'media_ar'));
     }
 
     /**
@@ -73,8 +74,12 @@ class SceneController extends Controller
             if ($scene) {
                 // $scene->commands()->attach($request->command_ids);
                 $scene->commands()->attach($data);
-                if ($request->media_id) {
-                    $media = Media::find($request->media_id);
+                if ($request->media_ar_id) {
+                    $media = Media::find($request->media_ar_id);
+                    $media->update(['scene_id' => $scene->id]);
+                }
+                if ($request->media_en_id) {
+                    $media = Media::find($request->media_en_id);
                     $media->update(['scene_id' => $scene->id]);
                 }
                 return redirect()->route('scenes.index')->with('success', 'Scene Created');
