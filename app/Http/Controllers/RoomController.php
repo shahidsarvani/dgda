@@ -122,10 +122,6 @@ class RoomController extends Controller
             $data = $request->except('_token', 'image', 'image_ar');
             if ($file = $request->file('image')) {
                 $imagePath = $room->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
                 if ($room->image) {
                     // return 'World';
                     Storage::delete(['/' . $imagePath . '/' . $room->image]);
@@ -138,10 +134,6 @@ class RoomController extends Controller
             }
             if ($file = $request->file('image_ar')) {
                 $imagePath = $room->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
                 if ($room->image) {
                     // return 'World';
                     Storage::delete(['/' . $imagePath . '/' . $room->image_ar]);
