@@ -56,6 +56,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image (English):</label>
+                                    <input type="file" name="image_en" id="image_en" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image (Arabic):</label>
+                                    <input type="file" name="image_ar" id="image_ar" class="form-control">
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">

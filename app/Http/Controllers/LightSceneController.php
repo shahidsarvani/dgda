@@ -6,6 +6,7 @@ use App\Models\Command;
 use App\Models\LightScene;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LightSceneController extends Controller
 {
@@ -63,9 +64,33 @@ class LightSceneController extends Controller
         for ($i = 0; $i < count($filtered); $i++) {
             array_push($data, ['command_id' => $ids[$i], 'sort_order' => $filtered[$i]]);
         }
+        $datas = $request->except('_token', 'image', 'image_ar');
+        $scene = new LightScene();
+        if ($file = $request->file('image_en')) {
+            $imagePath = $scene->getImagePath();
+            if (!file_exists(Storage::path($imagePath))) {
+                // return 'Hello';
+                mkdir(Storage::path($imagePath), 777, true);
+            }
+            $name = 'scene_english_' . time() . $file->getClientOriginalName();
+            $file->storeAs($imagePath, $name);
+            $file->storeAs('images', $name, 'node');
+            $datas['image_en'] = $name;
+        }
+        if ($file = $request->file('image_ar')) {
+            $imagePath = $scene->getImagePath();
+            if (!file_exists(Storage::path($imagePath))) {
+                // return 'Hello';
+                mkdir(Storage::path($imagePath), 777, true);
+            }
+            $name = 'scene_arabic_' . time() . $file->getClientOriginalName();
+            $file->storeAs($imagePath, $name);
+            $file->storeAs('images', $name, 'node');
+            $datas['image_ar'] = $name;
+        }
         // return $data;
         try {
-            $scene = LightScene::create($request->except('_token'));
+            $scene = LightScene::create($datas);
             if ($scene) {
                 $scene->commands()->attach($data);
                 return redirect()->route('light_scenes.index')->with('success', 'Light Scene Created');

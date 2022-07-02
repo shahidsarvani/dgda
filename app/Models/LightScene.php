@@ -9,11 +9,15 @@ class LightScene extends Model
 {
     use HasFactory;
 
+    public $imagePath = "public/light_scene/images";
+
     protected $fillable = [
         'name',
         'name_ar',
         'room_id',
         'status',
+        'image_en',
+        'image_ar',
     ];
 
     protected $hidden = ['commands'];
