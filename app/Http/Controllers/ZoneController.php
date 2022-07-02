@@ -18,7 +18,7 @@ class ZoneController extends Controller
     public function index()
     {
         //
-        $zones = Zone::with('phase')->get();
+        $zones = Zone::with('phase', 'room')->get();
         $rooms = Room::whereStatus(1)->get(['name', 'id']);
         return view('zones.index', compact('zones', 'rooms'));
     }

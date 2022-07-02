@@ -99,7 +99,7 @@
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->name_ar }}</td>
                                         <td>{{ $value->phase->name }}</td>
-                                        <td>{{ $value->room->name }}</td>
+                                        <td>{{ $value->room ? $value->room->name : 'N/A' }}</td>
                                         <td>{{ $value->status ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <div class="list-icons">
