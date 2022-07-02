@@ -68,11 +68,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Media:</label>
-                                    <select name="media_id" id="media_id" class="form-control">
-                                        <option value="">Select Media</option>
-                                        @foreach ($media as $item)
+                                    <select name="media_en_id" id="media_en_id" class="form-control">
+                                        <option value="">Select Media (English)</option>
+                                        @foreach ($media_en as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ $scene->media ? ($scene->media->id == $item->id ? 'selected' : '') : '' }}>
+                                                {{ $scene->medias ? ($scene->medias->id == $item->id ? 'selected' : '') : '' }}>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Media:</label>
+                                    <select name="media_ar_id" id="media_ar_id" class="form-control">
+                                        <option value="">Select Media (Arabic)</option>
+                                        @foreach ($media_ar as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ $scene->medias ? ($scene->medias->id == $item->id ? 'selected' : '') : '' }}>
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach

@@ -116,8 +116,8 @@ class SceneController extends Controller
     public function edit($id)
     {
         //
-        $scene = Scene::with('commands', 'media')->find($id);
-        // return $scene->commands;
+        $scene = Scene::with('commands', 'medias')->find($id);
+        // return $scene->medias;
         $commands = array();
         $sort_order = array();
         foreach ($scene->commands as $command) {
@@ -133,7 +133,9 @@ class SceneController extends Controller
 
         $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
         $commands_grouped = $commands->groupBy('hardware.name');
-        $media = Media::whereSceneId(null)->orWhere('scene_id', $scene->id)->get(['name', 'id']);
+        // $media = Media::whereSceneId(null)->orWhere('scene_id', $scene->id)->get(['name', 'id']);
+        $media_en = Media::whereSceneId(null)->whereLang('en')->orWhere('scene_id', $scene->id)->get(['name', 'id']);
+        $media_ar = Media::whereSceneId(null)->whereLang('ar')->orWhere('scene_id', $scene->id)->get(['name', 'id']);
         // return $commands;
         // $commands_grouped = array();
         // foreach ($temp_grouped as $key => $value) {
@@ -141,7 +143,7 @@ class SceneController extends Controller
         //     $temp['commands'] = $value;
         //     array_push($commands_grouped, $temp);
         // }
-        return view('scenes.edit', compact('scene', 'rooms', 'commands_grouped', 'media', 'sort_arr'));
+        return view('scenes.edit', compact('scene', 'rooms', 'commands_grouped', 'media_en', 'media_ar', 'sort_arr'));
     }
 
     /**
