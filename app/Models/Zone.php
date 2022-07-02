@@ -22,4 +22,9 @@ class Zone extends Model
     {
         return $this->belongsTo(Phase::class);
     }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }
