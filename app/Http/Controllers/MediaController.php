@@ -52,18 +52,25 @@ class MediaController extends Controller
     {
         //
         // return $request;
-        foreach($request->file_names as $fileName) {
-            // $media = Media::whereName($fileName)->first();
-            $media = Media::create([
-                'lang' => $request->lang,
-                'name' => $fileName,
-                'room_id' => $request->room_id,
-                'phase_id' => $request->phase_id ?? null,
-                'zone_id' => $request->zone_id ?? null,
-                'scene_id' => $request->scene_id ?? null,
-            ]);
+        if(!$request->lang) {
+            return back()->with('error', 'Select Language');
         }
-        return redirect()->route('media.index');
+        if($request->file_names) {
+            foreach($request->file_names as $fileName) {
+                // $media = Media::whereName($fileName)->first();
+                $media = Media::create([
+                    'lang' => $request->lang,
+                    'name' => $fileName,
+                    'room_id' => $request->room_id,
+                    'phase_id' => $request->phase_id ?? null,
+                    'zone_id' => $request->zone_id ?? null,
+                    'scene_id' => $request->scene_id ?? null,
+                ]);
+            }
+            return redirect()->route('media.index');
+        } else {
+            return back()->with('error', 'Upload Media File');
+        }
     }
 
     /**
