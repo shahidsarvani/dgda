@@ -43,6 +43,9 @@ class ZoneController extends Controller
     {
         //
         // return $request;
+        if(!$request->room_id) {
+            return back()->with('error', 'Please select room');
+        }
         try {
             $zone = Zone::create($request->except('_token'));
             if($zone) {
@@ -93,6 +96,9 @@ class ZoneController extends Controller
         //
         // return $zone;
         // return $request;
+        if(!$request->room_id) {
+            return back()->with('error', 'Please select room');
+        }
         try {
             $updated = $zone->update($request->except('_token'));
             if($updated) {

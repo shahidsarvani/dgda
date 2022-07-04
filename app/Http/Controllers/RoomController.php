@@ -58,7 +58,9 @@ class RoomController extends Controller
                 }
                 $name = 'room_english_' . time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
@@ -69,7 +71,9 @@ class RoomController extends Controller
                 }
                 $name = 'room_arabic_' . time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image_ar'] = $name;
             }
             $room = Room::create($data);
@@ -129,7 +133,9 @@ class RoomController extends Controller
                 $name = 'room_english_' . time() . $file->getClientOriginalName();
                 // $data['base64_image'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
@@ -141,7 +147,9 @@ class RoomController extends Controller
                 $name = 'room_arabic_' . time() . $file->getClientOriginalName();
                 // $data['base64_image_ar'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image_ar'] = $name;
             }
             $updated = $room->update($data);

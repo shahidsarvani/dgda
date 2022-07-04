@@ -31,4 +31,9 @@ class LightScene extends Model
     {
         return $this->belongsToMany(Command::class, CommandLightScene::class)->withPivot('sort_order');
     }
+    
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
 }

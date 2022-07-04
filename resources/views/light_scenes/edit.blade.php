@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('light_scenes.update', $scene->id) }}" method="post" id="screen-form">
+                    <form action="{{ route('light_scenes.update', $scene->id) }}" method="post" id="screen-form" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="row">

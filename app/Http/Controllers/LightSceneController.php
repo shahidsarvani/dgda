@@ -68,21 +68,16 @@ class LightSceneController extends Controller
         $scene = new LightScene();
         if ($file = $request->file('image_en')) {
             $imagePath = $scene->getImagePath();
-            if (!file_exists(Storage::path($imagePath))) {
-                // return 'Hello';
-                mkdir(Storage::path($imagePath), 777, true);
-            }
             $name = 'scene_english_' . time() . $file->getClientOriginalName();
             $file->storeAs($imagePath, $name);
-            $file->storeAs('images', $name, 'node');
+            if(1 == 2) {
+                $file->storeAs('images', $name, 'node');
+            }
             $datas['image_en'] = $name;
         }
+        // return $datas;
         if ($file = $request->file('image_ar')) {
             $imagePath = $scene->getImagePath();
-            if (!file_exists(Storage::path($imagePath))) {
-                // return 'Hello';
-                mkdir(Storage::path($imagePath), 777, true);
-            }
             $name = 'scene_arabic_' . time() . $file->getClientOriginalName();
             $file->storeAs($imagePath, $name);
             $file->storeAs('images', $name, 'node');
@@ -175,7 +170,9 @@ class LightSceneController extends Controller
             }
             $name = 'scene_english_' . time() . $file->getClientOriginalName();
             $file->storeAs($imagePath, $name);
-            $file->storeAs('images', $name, 'node');
+            if(1 == 2) {
+                $file->storeAs('images', $name, 'node');
+            }
             $datas['image_en'] = $name;
         }
         if ($file = $request->file('image_ar')) {
