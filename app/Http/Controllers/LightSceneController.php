@@ -160,10 +160,6 @@ class LightSceneController extends Controller
         $datas = $request->except('_token', 'image_en', 'image_ar');
         if ($file = $request->file('image')) {
             $imagePath = $lightScene->getImagePath();
-            if (!file_exists(Storage::path($imagePath))) {
-                // return 'Hello';
-                mkdir(Storage::path($imagePath), 755, true);
-            }
             if ($lightScene->image) {
                 // return 'World';
                 Storage::delete(['/' . $imagePath . '/' . $lightScene->image]);
@@ -177,10 +173,6 @@ class LightSceneController extends Controller
         }
         if ($file = $request->file('image_ar')) {
             $imagePath = $lightScene->getImagePath();
-            if (!file_exists(Storage::path($imagePath))) {
-                // return 'Hello';
-                mkdir(Storage::path($imagePath), 755, true);
-            }
             if ($lightScene->image) {
                 // return 'World';
                 Storage::delete(['/' . $imagePath . '/' . $lightScene->image_ar]);

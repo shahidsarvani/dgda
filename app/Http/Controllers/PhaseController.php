@@ -49,25 +49,21 @@ class PhaseController extends Controller
             if ($file = $request->file('image')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
                 $name = 'phase_english_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
                 $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image_ar'] = $name;
             }
             $phase = Phase::create($data);
@@ -122,33 +118,21 @@ class PhaseController extends Controller
             if ($file = $request->file('image')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
-                if ($phase->image) {
-                    // return 'World';
-                    Storage::delete(['/' . $imagePath . '/' . $phase->image]);
-                }
                 $name = 'phase_english_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                if (!file_exists(Storage::path($imagePath))) {
-                    // return 'Hello';
-                    mkdir(Storage::path($imagePath), 755, true);
-                }
-                if ($phase->image) {
-                    // return 'World';
-                    Storage::delete(['/' . $imagePath . '/' . $phase->image_ar]);
-                }
                 $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
                 $file->storeAs($imagePath, $name);
-                $file->storeAs('images', $name, 'node');
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
                 $data['image_ar'] = $name;
             }
             $updated = $phase->update($data);
