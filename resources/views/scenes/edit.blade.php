@@ -67,12 +67,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Media:</label>
+                                    <label>Media (English):</label>
                                     <select name="media_en_id" id="media_en_id" class="form-control">
-                                        <option value="">Select Media (English)</option>
+                                        <option value="">Select Media</option>
                                         @foreach ($media_en as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ $scene->medias ? ($scene->medias->id == $item->id ? 'selected' : '') : '' }}>
+                                                {{ $scene->medias ? (collect($scene->medias)->where('lang', 'en')->first()->id == $item->id ? 'selected' : '') : '' }}>
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach
@@ -81,12 +81,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Media:</label>
+                                    <label>Media (Arabic):</label>
                                     <select name="media_ar_id" id="media_ar_id" class="form-control">
-                                        <option value="">Select Media (Arabic)</option>
+                                        <option value="">Select Media</option>
                                         @foreach ($media_ar as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ $scene->medias ? ($scene->medias->id == $item->id ? 'selected' : '') : '' }}>
+                                                {{ $scene->medias ? (collect($scene->medias)->where('lang', 'ar')->first()->id == $item->id ? 'selected' : '') : '' }}>
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach

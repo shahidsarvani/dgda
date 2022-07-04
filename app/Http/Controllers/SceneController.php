@@ -117,7 +117,6 @@ class SceneController extends Controller
     {
         //
         $scene = Scene::with('commands', 'medias')->find($id);
-        // return $scene->medias;
         $commands = array();
         $sort_order = array();
         foreach ($scene->commands as $command) {
@@ -134,8 +133,8 @@ class SceneController extends Controller
         $commands = Command::with('hardware')->whereRoomId($scene->room_id)->get(['name', 'id', 'hardware_id']);
         $commands_grouped = $commands->groupBy('hardware.name');
         // $media = Media::whereSceneId(null)->orWhere('scene_id', $scene->id)->get(['name', 'id']);
-        $media_en = Media::whereSceneId(null)->whereLang('en')->orWhere('scene_id', $scene->id)->get(['name', 'id']);
-        $media_ar = Media::whereSceneId(null)->whereLang('ar')->orWhere('scene_id', $scene->id)->get(['name', 'id']);
+        $media_en = Media::whereSceneId(null)->orWhere('lang', 'en')->where('scene_id', $scene->id)->get(['name', 'id']);
+        $media_ar = Media::whereSceneId(null)->orWhere('lang', 'ar')->where('scene_id', $scene->id)->get(['name', 'id']);
         // return $commands;
         // $commands_grouped = array();
         // foreach ($temp_grouped as $key => $value) {
