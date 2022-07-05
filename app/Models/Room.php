@@ -19,10 +19,16 @@ class Room extends Model
         'image',
         'image_ar',
         'has_model',
+        'scene_id',
     ];
     
     public function getImagePath()
     {
         return $this->imagePath;
+    }
+
+    public function scene()
+    {
+        return $this->belongsTo(Scene::class);
     }
 }

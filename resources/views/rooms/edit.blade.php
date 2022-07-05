@@ -12,7 +12,8 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('rooms.update', $room->id) }}" method="post" id="screen-form" enctype="multipart/form-data">
+                    <form action="{{ route('rooms.update', $room->id) }}" method="post" id="screen-form"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="row">
@@ -25,7 +26,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name (Arabic):</label>
-                                    <input type="text" class="form-control" name="name_ar" value="{{ $room->name_ar }}">
+                                    <input type="text" class="form-control" name="name_ar"
+                                        value="{{ $room->name_ar }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -44,8 +46,8 @@
                                 <div class="form-group">
                                     <label>Type:</label>
                                     <select name="type" id="type" class="form-control">
-                                        <option value="1" {{ $room->type == 1 ? 'selected' : ''}}>1</option>
-                                        <option value="2" {{ $room->type == 2 ? 'selected' : ''}}>2</option>
+                                        <option value="1" {{ $room->type == 1 ? 'selected' : '' }}>1</option>
+                                        <option value="2" {{ $room->type == 2 ? 'selected' : '' }}>2</option>
                                     </select>
                                 </div>
                             </div>
@@ -53,8 +55,8 @@
                                 <div class="form-group">
                                     <label>Status:</label>
                                     <select name="status" id="status" class="form-control">
-                                        <option value="0" {{ !$room->status ? 'selected' : ''}}>Inactive</option>
-                                        <option value="1" {{ $room->status ? 'selected' : ''}}>Active</option>
+                                        <option value="0" {{ !$room->status ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ $room->status ? 'selected' : '' }}>Active</option>
                                     </select>
                                 </div>
                             </div>
@@ -62,8 +64,21 @@
                                 <div class="form-group">
                                     <label>Model Controller:</label>
                                     <select name="has_model" id="has_model" class="form-control">
-                                        <option value="0" {{ !$room->has_model ? 'selected' : ''}}>No</option>
-                                        <option value="1" {{ $room->has_model ? 'selected' : ''}}>Yes</option>
+                                        <option value="0" {{ !$room->has_model ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ $room->has_model ? 'selected' : '' }}>Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Scene:</label>
+                                    <select name="scene_id" id="scene_id" class="form-control">
+                                        <option value="">Select Scene</option>
+                                        @foreach ($scenes as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ $item->id == $room->scene_id ? 'selected' : '' }}>{{ $item->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

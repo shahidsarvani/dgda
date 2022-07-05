@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('light_scenes.store') }}" method="post" id="screen-form">
+                    <form action="{{ route('light_scenes.store') }}" method="post" id="screen-form" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">

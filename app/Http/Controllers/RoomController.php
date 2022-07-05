@@ -23,8 +23,9 @@ class RoomController extends Controller
     {
         //
         $rooms = Room::all();
+        $scenes = Scene::all();
         $setting = Setting::find(1);
-        return view('rooms.index', compact('rooms', 'setting'));
+        return view('rooms.index', compact('rooms', 'setting', 'scenes'));
     }
 
     /**
@@ -99,7 +100,8 @@ class RoomController extends Controller
     public function edit(Room $room)
     {
         //
-        return view('rooms.edit', compact('room'));
+        $scenes = Scene::all();
+        return view('rooms.edit', compact('room','scenes'));
     }
 
     /**
