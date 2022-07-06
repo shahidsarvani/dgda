@@ -68,6 +68,16 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Projector Video</label>
+                                <select id="is_projector" class="form-control">
+                                    <option value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Upload Media:</label>
@@ -167,6 +177,13 @@
                 $("input[name=lang]").remove();
             }
             list.append('<input type="hidden" name="lang" value="' + this.value + '" >')
+        })
+
+        $('#is_projector').change(function() {
+            if($("input[name=is_projector]").length) {
+                $("input[name=is_projector]").remove();
+            }
+            list.append('<input type="hidden" name="is_projector" value="' + this.value + '" >')
         })
 
 

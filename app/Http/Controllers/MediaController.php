@@ -65,6 +65,7 @@ class MediaController extends Controller
                     'phase_id' => $request->phase_id ?? null,
                     'zone_id' => $request->zone_id ?? null,
                     'scene_id' => $request->scene_id ?? null,
+                    'is_projector' => $request->is_projector,
                 ]);
             }
             return redirect()->route('media.index');
