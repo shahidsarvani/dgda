@@ -13,7 +13,8 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard-new');
+        // return view('dashboard-new');
+        return redirect()->route('rooms.index');
     }
 
     public function test()
