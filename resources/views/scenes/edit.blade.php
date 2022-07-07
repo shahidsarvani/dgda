@@ -26,14 +26,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name:</label>
-                                    <input type="text" class="form-control" name="name" value="{{ $scene->name }}">
+                                    <input type="text" class="form-control" name="name" value="{{ $scene->name }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
-                                        onchange="getRoomCommand(this.value)">
+                                        onchange="getRoomCommand(this.value)" required>
                                         <option value="">Select Room</option>
                                         @foreach ($rooms as $room)
                                             <option value="{{ $room->id }}"
@@ -59,13 +59,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status:</label>
-                                    <select name="status" id="status" class="form-control">
+                                    <select name="status" id="status" class="form-control" required>
                                         <option value="0" {{ !$scene->status ? 'selected' : '' }}>Inactive</option>
                                         <option value="1" {{ $scene->status ? 'selected' : '' }}>Active</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Media (English):</label>
                                     <select name="media_en_id" id="media_en_id" class="form-control">
@@ -92,9 +92,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-check">
+                            </div> --}}
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
                                     <label class="form-check-label">
                                         <input type="checkbox" name="is_default" class="form-check-input" value="1" {{ $scene->is_default ? 'checked' : '' }}>Default Scene
                                     </label>

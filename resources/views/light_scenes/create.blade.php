@@ -25,20 +25,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name (English):</label>
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name (Arabic):</label>
-                                    <input type="text" class="form-control" name="name_ar">
+                                    <input type="text" class="form-control" name="name_ar" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
-                                        onchange="getRoomCommand(this.value)">
+                                        onchange="getRoomCommand(this.value)" required>
                                         <option value="">Select Room</option>
                                         @foreach ($rooms as $room)
                                             <option value="{{ $room->id }}">{{ $room->name }}
@@ -50,7 +50,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status:</label>
-                                    <select name="status" id="status" class="form-control">
+                                    <select name="status" id="status" class="form-control" required>
                                         <option value="0">Inactive</option>
                                         <option value="1">Active</option>
                                     </select>
@@ -59,13 +59,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Image (English):</label>
-                                    <input type="file" name="image_en" id="image_en" class="form-control">
+                                    <input type="file" name="image_en" id="image_en" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Image (Arabic):</label>
-                                    <input type="file" name="image_ar" id="image_ar" class="form-control">
+                                    <input type="file" name="image_ar" id="image_ar" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-12">

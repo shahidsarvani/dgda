@@ -18,14 +18,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Command:</label>
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Room:</label>
                                     <select name="room_id" id="room_id" class="form-control"
-                                        onchange="getRoomHardware(this.value)">
+                                        onchange="getRoomHardware(this.value)" required>
                                         <option value="">Select Room</option>
                                         @foreach ($rooms as $room)
                                             <option value="{{ $room->id }}">{{ $room->name }}</option>
@@ -36,7 +36,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Hardware:</label>
-                                    <select name="hardware_id" id="hardware_id" class="form-control">
+                                    <select name="hardware_id" id="hardware_id" class="form-control" required>
                                         <option value="">Select Hardware</option>
                                     </select>
                                 </div>
@@ -44,7 +44,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Description:</label>
-                                    <textarea name="description" id="description" class="form-control" cols="30" rows="3"></textarea>
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="3" required></textarea>
                                 </div>
                             </div>
                         </div>
