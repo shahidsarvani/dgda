@@ -67,7 +67,7 @@
                     <div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu"
                         title="Main"></i>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('settings.export_db') }}"
                         class="nav-link @if (Route::is('settings.export_db')) active @endif">
                         <i class="icon-home4"></i>
@@ -84,7 +84,7 @@
                             Dashboard
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('rooms.index') }}"
                         class="nav-link @if (Route::is('rooms.index', 'rooms.edit')) active @endif">
@@ -94,7 +94,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('lighting_types.index') }}"
                         class="nav-link @if (Route::is('lighting_types.index', 'lighting_types.edit')) active @endif">
                         <i class="icon-spotlight2"></i>
@@ -102,7 +102,7 @@
                             Lighting Types
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*')) nav-item-open @endif">
                     <a href="#" class="nav-link"><i class="icon-hammer-wrench"></i> <span>Hardwares</span></a>
 
@@ -157,7 +157,7 @@
                         </span>
                     </a>
                 </li> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('lightings.index') }}"
                         class="nav-link @if (Route::is('lightings.index', 'lightings.edit')) active @endif">
                         <i class="icon-spotlight2"></i>
@@ -165,7 +165,7 @@
                             Lightings
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('phases.index') }}"
                         class="nav-link @if (Route::is('phases.index', 'phases.edit')) active @endif">

@@ -32,7 +32,7 @@ Route::middleware([
     'verified'
     ])->group(function () {
     Route::get('/', [UserController::class, 'dashboard'])->name('home');
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    // Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/test', [UserController::class, 'test'])->name('test');
     Route::get('/do_test', [UserController::class, 'do_test'])->name('do_test');
     Route::get('/do_send_command', [UserController::class, 'do_send_command'])->name('do_send_command');
@@ -44,14 +44,14 @@ Route::middleware([
     Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
     Route::post('/rooms/get_room_scenes_and_phases', [RoomController::class, 'get_room_scenes_and_phases'])->name('rooms.get_room_scenes_and_phases');
     Route::resource('/settings', SettingController::class);
-    Route::get('/export_db', [SettingController::class, 'export_db'])->name('settings.export_db');
+    // Route::get('/export_db', [SettingController::class, 'export_db'])->name('settings.export_db');
     Route::resource('/hardwares', HardwareController::class);
-    Route::resource('/lighting_types', LightingTypeController::class);
+    // Route::resource('/lighting_types', LightingTypeController::class);
     Route::resource('/commands', CommandController::class);
     Route::resource('/scenes', SceneController::class);
     Route::get('scenes/{id}/play', [SceneController::class, 'scenes_play'])->name('scenes.play');
     Route::resource('light_scenes', LightSceneController::class);
-    Route::resource('/lightings', LightingController::class);
+    // Route::resource('/lightings', LightingController::class);
     Route::resource('/phases', PhaseController::class);
     Route::post('/phases/get_phase_zones', [PhaseController::class, 'get_phase_zones'])->name('phases.get_phase_zones');
     Route::resource('/zones', ZoneController::class);
