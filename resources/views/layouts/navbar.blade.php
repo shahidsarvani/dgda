@@ -1,7 +1,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-expand-md navbar-dark bg-indigo navbar-static">
     <div class="navbar-brand">
-        <a href="{{ route('dashboard') }}" class="d-inline-block">
+        <a href="#" class="d-inline-block">
             {{-- <img src="{{ asset('assets/images/logo_light.png') }}" alt=""> --}}
             <h3 class="m-0 font-weight-black text-white">DGDA Control Panel</h3>
         </a>
