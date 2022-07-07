@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Language</label>
+                                <label>Language *</label>
                                 <select id="lang" class="form-control">
                                     <option value="">Select Language</option>
                                     <option value="ar">Arabic</option>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Room</label>
+                                <label>Room *</label>
                                 <select id="room_id" class="form-control">
                                     <option value="">Select Room</option>
                                     @foreach ($rooms as $item)
@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Scene</label>
+                                <label>Scene *</label>
                                 <select id="scene_id" class="form-control">
                                     <option value="">Select Scene</option>
                                     {{-- @foreach ($scenes as $item)
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Projector Video</label>
+                                <label>Projector Video *</label>
                                 <select id="is_projector" class="form-control">
                                     <option value="">Select</option>
                                     <option value="1">Yes</option>
@@ -85,7 +85,7 @@
                         <form action="{{ route('upload_media') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
-                        <form action="{{ route('media.store') }}" method="post">
+                        <form action="{{ route('media.store') }}" method="post" id="mediaForm">
                             @csrf
                             <ul id="file-upload-list" class="list-unstyled">
                             </ul>
@@ -104,6 +104,32 @@
 
 @section('footer_script')
     <script>
+        var err = 0;
+        $('.add_media').click(function(e) {
+            e.preventDefault();
+            var form = document.getElementById('mediaForm')
+            if(!$('input[name=lang]').length) {
+                err = 1;
+            }
+            if(!$('input[name=is_projector]').length) {
+                err = 1;
+            }
+            if(!$('input[name=room_id]').length) {
+                err = 1;
+            }
+            if(!$('input[name=scene_id]').length) {
+                err = 1;
+            }
+            if(!err) {
+                form.submit();
+            } else {
+                alert('Please complete required fields')
+            }
+        })
+        // function submitForm(e) {
+        //     // alert(e)
+        //     e.preventDefault();
+        // }
         var list = $('#file-upload-list');
         console.log(list)
         // Multiple files
@@ -148,15 +174,17 @@
                 $("input[name=room_id]").remove();
             }
             list.append('<input type="hidden" name="room_id" value="' + this.value + '" >')
+            err = 0
         })
-
+        
         $('#scene_id').change(function() {
             if($("input[name=scene_id]").length) {
                 $("input[name=scene_id]").remove();
             }
             list.append('<input type="hidden" name="scene_id" value="' + this.value + '" >')
+            err = 0
         })
-
+        
         $('#phase_id').change(function() {
             getPhaseZones(this.value)
             if($("input[name=phase_id]").length) {
@@ -164,26 +192,28 @@
             }
             list.append('<input type="hidden" name="phase_id" value="' + this.value + '" >')
         })
-
+        
         $('#zone_id').change(function() {
             if($("input[name=zone_id]").length) {
                 $("input[name=zone_id]").remove();
             }
             list.append('<input type="hidden" name="zone_id" value="' + this.value + '" >')
         })
-
+        
         $('#lang').change(function() {
             if($("input[name=lang]").length) {
                 $("input[name=lang]").remove();
             }
             list.append('<input type="hidden" name="lang" value="' + this.value + '" >')
+            err = 0
         })
-
+        
         $('#is_projector').change(function() {
             if($("input[name=is_projector]").length) {
                 $("input[name=is_projector]").remove();
             }
             list.append('<input type="hidden" name="is_projector" value="' + this.value + '" >')
+            err = 0
         })
 
 
