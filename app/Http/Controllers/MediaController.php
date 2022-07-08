@@ -52,11 +52,11 @@ class MediaController extends Controller
     {
         //
         // return $request;
-        if(!$request->lang) {
+        if (!$request->lang) {
             return back()->with('error', 'Select Language');
         }
-        if($request->file_names) {
-            foreach($request->file_names as $fileName) {
+        if ($request->file_names) {
+            foreach ($request->file_names as $index => $fileName) {
                 // $media = Media::whereName($fileName)->first();
                 $media = Media::create([
                     'lang' => $request->lang,
@@ -66,6 +66,7 @@ class MediaController extends Controller
                     'zone_id' => $request->zone_id ?? null,
                     'scene_id' => $request->scene_id ?? null,
                     'is_projector' => $request->is_projector,
+                    'duration' => $request->durations[$index],
                 ]);
             }
             return redirect()->route('media.index');
@@ -123,7 +124,7 @@ class MediaController extends Controller
             $mediaPath = $media->getMediaPath();
             Storage::delete(['/' . $mediaPath . '/' . $media->name]);
             $deleted = $media->delete();
-            if($deleted) {
+            if ($deleted) {
                 return back()->with('deleted', 'Media Deleted');
             } else {
                 return back()->with('warning', 'Media could not be deleted');
@@ -133,7 +134,8 @@ class MediaController extends Controller
         }
     }
 
-    public function upload_media_dropzone(Request $request) {
+    public function upload_media_dropzone(Request $request)
+    {
         // create the file receiver
         $receiver = new FileReceiver("media", $request, HandlerFactory::classFromRequest($request));
 
@@ -174,7 +176,7 @@ class MediaController extends Controller
         $media = new Media();
         $filePath = $media->getMediaPath();
         // $filePath = "upload/{$mime}/{$dateFolder}/";
-        $finalPath = storage_path("app/".$filePath);
+        $finalPath = storage_path("app/" . $filePath);
 
         // move the file name
         $file->move($finalPath, $fileName);
@@ -182,10 +184,18 @@ class MediaController extends Controller
         // Media::create([
         //     'name' => $fileName
         // ]);
+        Log::info($finalPath . $fileName);
+        // $media = FFMpeg::getMedia($finalPath.$fileName);
+        // $durationInMiliseconds = $media->getDurationInMiliseconds();
+        $getID3 = new \getID3;
+        $video_file = $getID3->analyze($finalPath.$fileName);
+        $duration_seconds = $video_file['playtime_seconds'];
+        Log::info($duration_seconds);
 
         return response()->json([
             'path' => $filePath,
             'name' => $fileName,
+            'duration' => $duration_seconds,
             'mime_type' => $mime
         ]);
     }
@@ -193,7 +203,7 @@ class MediaController extends Controller
     protected function createFilename(UploadedFile $file)
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = str_replace(".".$extension, "", $file->getClientOriginalName()); // Filename without extension
+        $filename = str_replace("." . $extension, "", $file->getClientOriginalName()); // Filename without extension
 
         // Add timestamp hash to name of the file
         $filename .= "_" . md5(time()) . "." . $extension;

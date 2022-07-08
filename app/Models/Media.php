@@ -22,6 +22,7 @@ class Media extends Model
         'phase_id',
         'zone_id',
         'is_projector',
+        'duration',
     ];
 
     public function getMediaPath()
