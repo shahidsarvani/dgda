@@ -136,10 +136,10 @@
         Dropzone.options.dropzoneMultiple = {
             paramName: "media", // The name that will be used to transfer the file
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
-            maxFilesize: 400000000, // MB
+            // maxFilesize: 1000000000, // MB
             addRemoveLinks: true,
             chunking: true,
-            chunkSize: 4000000,
+            chunkSize: 10000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
             acceptedFiles: 'video/*',
