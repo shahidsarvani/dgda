@@ -55,6 +55,9 @@ class MediaController extends Controller
         if (!$request->lang) {
             return back()->with('error', 'Select Language');
         }
+        if (!$request->is_projector) {
+            return back()->with('error', 'Select Pojector');
+        }
         if ($request->file_names) {
             foreach ($request->file_names as $index => $fileName) {
                 // $media = Media::whereName($fileName)->first();
