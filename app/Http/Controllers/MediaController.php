@@ -56,7 +56,9 @@ class MediaController extends Controller
             return back()->with('error', 'Select Language');
         }
         if (!$request->is_projector) {
-            return back()->with('error', 'Select Pojector');
+            $is_projector = 0;
+        } else {
+            $is_projector = $request->is_projector;
         }
         if ($request->file_names) {
             foreach ($request->file_names as $index => $fileName) {
@@ -68,7 +70,7 @@ class MediaController extends Controller
                     'phase_id' => $request->phase_id ?? null,
                     'zone_id' => $request->zone_id ?? null,
                     'scene_id' => $request->scene_id ?? null,
-                    'is_projector' => $request->is_projector,
+                    'is_projector' => $is_projector,
                     'duration' => $request->durations[$index],
                 ]);
             }
