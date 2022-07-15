@@ -82,7 +82,7 @@
                     <div class="form-group">
                         <label>Upload Media:</label>
                         {{-- <input type="file" name="media" class="file-input-ajax" accept="video/*" multiple="multiple" data-fouc> --}}
-                        <form action="{{ route('upload_media') }}" class="dropzone" id="dropzone_multiple">
+                        <form action="{{ route('upload_projectormedia') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
                         <form action="{{ route('media.store') }}" method="post" id="mediaForm">
@@ -142,7 +142,7 @@
             chunkSize: 10000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
-            acceptedFiles: 'video/*',
+            acceptedFiles: 'video/*, image/*',
             init: function() {
                 this.on('addedfile', function() {
                         list.append('<li>Uploading</li>')
@@ -162,7 +162,8 @@
                                 list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
                                     '</li><input type="hidden" name="file_names[]" value="' +
                                     uploadResponse.name + '" ><input type="hidden" name="durations[]" value="' +
-                                    uploadResponse.duration + '" >')
+                                    uploadResponse.duration + '" ><input type="hidden" name="is_images[]" value="' +
+                                    uploadResponse.is_image + '" >')
                             }
                         }
                     })

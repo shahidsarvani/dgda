@@ -189,7 +189,16 @@
                         class="nav-link @if (Route::is('media.index', 'media.create')) active @endif">
                         <i class="icon-film4"></i>
                         <span>
-                            Media
+                            Video Wall Media
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('projectormedia.index') }}"
+                        class="nav-link @if (Route::is('projectormedia.index', 'projectormedia.create')) active @endif">
+                        <i class="icon-film4"></i>
+                        <span>
+                            Projector Media
                         </span>
                     </a>
                 </li>

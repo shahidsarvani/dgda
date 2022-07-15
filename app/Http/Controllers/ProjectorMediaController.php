@@ -3,20 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
-use App\Models\Phase;
 use App\Models\Room;
-use App\Models\Scene;
-use App\Models\Zone;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
-use Illuminate\Http\UploadedFile;
 
-class MediaController extends Controller
+class ProjectorMediaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,8 +22,8 @@ class MediaController extends Controller
     public function index()
     {
         //
-        $media = Media::where('is_projector', 0)->get();
-        return view('media.index', compact('media'));
+        $media = Media::where('is_projector', 1)->get();
+        return view('projectormedia.index', compact('media'));
     }
 
     /**
@@ -39,7 +35,7 @@ class MediaController extends Controller
     {
         //
         $rooms = Room::get(['name', 'id']);
-        return view('media.create', compact('rooms'));
+        return view('projectormedia.create', compact('rooms'));
     }
 
     /**
@@ -55,7 +51,6 @@ class MediaController extends Controller
         if (!$request->lang) {
             return back()->with('error', 'Select Language');
         }
-            $is_projector = 0;
         if ($request->file_names) {
             foreach ($request->file_names as $index => $fileName) {
                 // $media = Media::whereName($fileName)->first();
@@ -66,12 +61,12 @@ class MediaController extends Controller
                     'phase_id' => $request->phase_id ?? null,
                     'zone_id' => $request->zone_id ?? null,
                     'scene_id' => $request->scene_id ?? null,
-                    'is_projector' => $is_projector,
+                    'is_projector' => 1,
                     'duration' => $request->durations[$index],
-                    'is_image' => 0
+                    'is_image' => $request->is_images[$index]
                 ]);
             }
-            return redirect()->route('media.index');
+            return redirect()->route('projectormedia.index');
         } else {
             return back()->with('error', 'Upload Media File');
         }
@@ -171,6 +166,7 @@ class MediaController extends Controller
         $fileName = $this->createFilename($file);
         // Group files by mime type
         $mime = str_replace('/', '-', $file->getMimeType());
+        $type = explode('-', $mime)[0];
         // Group files by the date (week
         $dateFolder = date("Y-m-W");
 
@@ -186,20 +182,27 @@ class MediaController extends Controller
         // Media::create([
         //     'name' => $fileName
         // ]);
+        $duration_seconds = 0;
+        $is_image = 0;
         Log::info($finalPath . $fileName);
-        // $media = FFMpeg::getMedia($finalPath.$fileName);
-        // $durationInMiliseconds = $media->getDurationInMiliseconds();
-        $getID3 = new \getID3;
-        $video_file = $getID3->analyze($finalPath.$fileName);
-        $duration_seconds = $video_file['playtime_seconds'];
-        Log::info($duration_seconds);
-
-        return response()->json([
+        if($type != 'image') {
+            $getID3 = new \getID3;
+            $video_file = $getID3->analyze($finalPath.$fileName);
+            $duration_seconds = $video_file['playtime_seconds'];
+            Log::info($duration_seconds);
+        }
+        if($type == 'image') {
+            $is_image = 1;
+        }
+        $response = [
             'path' => $filePath,
             'name' => $fileName,
             'duration' => $duration_seconds,
+            'is_image' => $is_image,
             'mime_type' => $mime
-        ]);
+        ];
+
+        return response()->json($response);
     }
 
     protected function createFilename(UploadedFile $file)
