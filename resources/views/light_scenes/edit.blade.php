@@ -77,40 +77,43 @@
                                 <h6 class="font-weight-semibold">Select Commands:</h6>
                                 <div id="commands">
                                     @foreach ($commands_grouped as $key => $command)
-                                        <label class="font-weight-semibold">{{ $key }}</label>
-                                        <div class="row">
-                                            @foreach ($command as $item)
-                                                <div class="col-md-4 command-wrapper">
-                                                    <div class="row">
-                                                        <div class="col-md-6 checkbox-wrapper">
-                                                            <div class="form-check">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" name="command_ids[]"
-                                                                        class="form-check-input" onchange="show_sort(this)"
-                                                                        data-value="{{ $item->name }}"
-                                                                        value="{{ $item->id }}"
-                                                                        {{ in_array($item->id, $scene->commands_arr) ? 'checked' : '' }}>{{ $item->name }}
-                                                                </label>
+                                        @if ($key == 'Creston Controller')
+                                            <label class="font-weight-semibold">{{ $key }}</label>
+                                            <div class="row">
+                                                @foreach ($command as $item)
+                                                    <div class="col-md-4 command-wrapper">
+                                                        <div class="row">
+                                                            <div class="col-md-6 checkbox-wrapper">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox" name="command_ids[]"
+                                                                            class="form-check-input"
+                                                                            onchange="show_sort(this)"
+                                                                            data-value="{{ $item->name }}"
+                                                                            value="{{ $item->id }}"
+                                                                            {{ in_array($item->id, $scene->commands_arr) ? 'checked' : '' }}>{{ $item->name }}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div
-                                                            class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
-                                                            <div class="form-group">
-                                                                <label>Sort</label>
-                                                                <input type="text" name="sort_order[]"
-                                                                    class="form-control"
-                                                                    value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
+                                                            <div
+                                                                class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
+                                                                <div class="form-group">
+                                                                    <label>Sort</label>
+                                                                    <input type="text" name="sort_order[]"
+                                                                        class="form-control"
+                                                                        value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
+                                                                </div>
                                                             </div>
+                                                            @php
+                                                                if (in_array($item->id, $scene->commands_arr)) {
+                                                                    array_shift($sort_arr);
+                                                                }
+                                                            @endphp
                                                         </div>
-                                                        @php
-                                                            if (in_array($item->id, $scene->commands_arr)) {
-                                                                array_shift($sort_arr);
-                                                            }
-                                                        @endphp
                                                     </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
