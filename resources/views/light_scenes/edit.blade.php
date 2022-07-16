@@ -19,14 +19,16 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('light_scenes.update', $scene->id) }}" method="post" id="screen-form" enctype="multipart/form-data">
+                    <form action="{{ route('light_scenes.update', $scene->id) }}" method="post" id="screen-form"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name (English):</label>
-                                    <input type="text" class="form-control" name="name" value="{{ $scene->name }}" required>
+                                    <input type="text" class="form-control" name="name" value="{{ $scene->name }}"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -84,17 +86,20 @@
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" name="command_ids[]"
-                                                                        class="form-check-input" onchange="show_sort(this)" data-value="{{ $item->name }}"
+                                                                        class="form-check-input" onchange="show_sort(this)"
+                                                                        data-value="{{ $item->name }}"
                                                                         value="{{ $item->id }}"
                                                                         {{ in_array($item->id, $scene->commands_arr) ? 'checked' : '' }}>{{ $item->name }}
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
+                                                        <div
+                                                            class="col-md-6 sort-wrapper {{ in_array($item->id, $scene->commands_arr) ? '' : 'd-none' }}">
                                                             <div class="form-group">
                                                                 <label>Sort</label>
                                                                 <input type="text" name="sort_order[]"
-                                                                    class="form-control" value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
+                                                                    class="form-control"
+                                                                    value="{{ in_array($item->id, $scene->commands_arr) ? $sort_arr[0] : '' }}">
                                                             </div>
                                                         </div>
                                                         @php
@@ -137,7 +142,7 @@
         function getRoomCommand(roomId) {
             console.log(roomId);
             $.ajax({
-                url: "{{ route('rooms.get_room_command') }}",
+                url: "{{ route('rooms.get_room_crestron_command') }}",
                 method: 'post',
                 dataType: 'json',
                 data: {
@@ -150,32 +155,34 @@
                     for (var i = 0; i < response.length; i++) {
                         console.log(response[i])
                         // console.log(response[i].name)
-                        html_txt += '<label class="font-weight-semibold">' + response[i].hardware_name +
-                            '</label>'
-                        html_txt += '<div class="row">'
-                        var commands = response[i].commands
-                        for (var j = 0; j < commands.length; j++) {
-                            html_txt += '<div class="col-md-4 command-wrapper">' +
-                                '<div class="row">' +
-                                '<div class="col-md-6 checkbox-wrapper">' +
-                                '<div class="form-check">' +
-                                '<label class="form-check-label">' +
-                                '<input type="checkbox" name="command_ids[]" class="form-check-input" data-value="' +
-                                commands[j].name + '" onchange="show_sort(this)" value="' +
-                                commands[j].id + '">' + commands[j].name +
-                                '</label>' +
-                                '</div>' +
-                                '</div>' +
-                                '<div class="col-md-6 d-none sort-wrapper">' +
-                                '<div class="form-group">' +
-                                '<label>Sort</label>' +
-                                '<input type="text" name="sort_order[]" class="form-control">' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>'
+                        if (response[i].hardware_name == 'Creston Controller') {
+                            html_txt += '<label class="font-weight-semibold">' + response[i].hardware_name +
+                                '</label>'
+                            html_txt += '<div class="row">'
+                            var commands = response[i].commands
+                            for (var j = 0; j < commands.length; j++) {
+                                html_txt += '<div class="col-md-4 command-wrapper">' +
+                                    '<div class="row">' +
+                                    '<div class="col-md-6 checkbox-wrapper">' +
+                                    '<div class="form-check">' +
+                                    '<label class="form-check-label">' +
+                                    '<input type="checkbox" name="command_ids[]" class="form-check-input" data-value="' +
+                                    commands[j].name + '" onchange="show_sort(this)" value="' +
+                                    commands[j].id + '">' + commands[j].name +
+                                    '</label>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="col-md-6 d-none sort-wrapper">' +
+                                    '<div class="form-group">' +
+                                    '<label>Sort</label>' +
+                                    '<input type="text" name="sort_order[]" class="form-control">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                            }
+                            html_txt += '</div>'
                         }
-                        html_txt += '</div>'
                     }
                     $('#commands').empty().html(html_txt);
                 }
