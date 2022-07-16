@@ -85,7 +85,7 @@
                         <form action="{{ route('upload_projectormedia') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
-                        <form action="{{ route('media.store') }}" method="post" id="mediaForm">
+                        <form action="{{ route('projectormedia.store') }}" method="post" id="mediaForm">
                             @csrf
                             <ul id="file-upload-list" class="list-unstyled">
                             </ul>
