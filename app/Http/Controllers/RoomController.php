@@ -191,6 +191,21 @@ class RoomController extends Controller
         // $hardwares;
     }
 
+    public function get_room_crestron_command(Request $request)
+    {
+        $commands = Command::with('hardware')->whereRoomId($request->room_id)->get(['name', 'id', 'hardware_id']);
+        // return $commands;
+        $temp_grouped = $commands->groupBy('hardware.name');
+        $commands_grouped = array();
+        foreach ($temp_grouped as $key => $value) {
+            $temp['hardware_name'] = $key;
+            $temp['commands'] = $value;
+            array_push($commands_grouped, $temp);
+        }
+        return response()->json($commands_grouped);
+        // $hardwares;
+    }
+
     public function get_room_scenes_and_phases(Request $request)
     {
         $data['scenes'] = Scene::whereRoomId($request->room_id)->get(['name', 'id']);
