@@ -44,6 +44,7 @@ Route::middleware([
     Route::resource('/rooms', RoomController::class);
     Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');
     Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
+    Route::post('/rooms/get_room_crestron_command', [RoomController::class, 'get_room_crestron_command'])->name('rooms.get_room_crestron_command');
     Route::post('/rooms/get_room_scenes_and_phases', [RoomController::class, 'get_room_scenes_and_phases'])->name('rooms.get_room_scenes_and_phases');
     Route::resource('/settings', SettingController::class);
     // Route::get('/export_db', [SettingController::class, 'export_db'])->name('settings.export_db');
