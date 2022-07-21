@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Media;
 use App\Models\Room;
+use App\Models\WallMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
-class MediaController extends Controller
+class WallMediaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +22,8 @@ class MediaController extends Controller
     public function index()
     {
         //
-        $media = Media::where('is_projector', 0)->get();
-        return view('media.index', compact('media'));
+        $media = WallMedia::all();
+        return view('wallmedia.index', compact('media'));
     }
 
     /**
@@ -35,7 +35,7 @@ class MediaController extends Controller
     {
         //
         $rooms = Room::get(['name', 'id']);
-        return view('media.create', compact('rooms'));
+        return view('wallmedia.create', compact('rooms'));
     }
 
     /**
@@ -48,26 +48,17 @@ class MediaController extends Controller
     {
         //
         // return $request;
-        if (!$request->lang) {
-            return back()->with('error', 'Select Language');
-        }
-            $is_projector = 0;
         if ($request->file_names) {
             foreach ($request->file_names as $index => $fileName) {
                 // $media = Media::whereName($fileName)->first();
-                $media = Media::create([
-                    'lang' => $request->lang,
+                $media = WallMedia::create([
                     'name' => $fileName,
                     'room_id' => $request->room_id,
-                    'phase_id' => $request->phase_id ?? null,
-                    'zone_id' => $request->zone_id ?? null,
-                    'scene_id' => $request->scene_id ?? null,
-                    'is_projector' => $is_projector,
-                    'duration' => $request->durations[$index],
-                    'is_image' => 0
+                    'title_en' => $request->title_en,
+                    'title_ar' => $request->title_ar,
                 ]);
             }
-            return redirect()->route('media.index');
+            return redirect()->route('wallmedia.index');
         } else {
             return back()->with('error', 'Upload Media File');
         }
@@ -76,10 +67,10 @@ class MediaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\WallMedia  $wallMedia
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(WallMedia $wallMedia)
     {
         //
     }
@@ -87,10 +78,10 @@ class MediaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\WallMedia  $wallMedia
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(WallMedia $wallMedia)
     {
         //
     }
@@ -99,10 +90,10 @@ class MediaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\WallMedia  $wallMedia
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, WallMedia $wallMedia)
     {
         //
     }
@@ -110,22 +101,21 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\WallMedia  $wallMedia
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
-        // return $id;
         try {
-            $media = Media::find($id);
-            $mediaPath = $media->getMediaPath();
-            Storage::delete(['/' . $mediaPath . '/' . $media->name]);
-            $deleted = $media->delete();
+            $wallMedia = WallMedia::find($id);
+            $mediaPath = $wallMedia->getMediaPath();
+            Storage::delete(['/' . $mediaPath . '/' . $wallMedia->name]);
+            $deleted = $wallMedia->delete();
             if ($deleted) {
-                return back()->with('deleted', 'Media Deleted');
+                return back()->with('deleted', 'Wall Media Deleted');
             } else {
-                return back()->with('warning', 'Media could not be deleted');
+                return back()->with('warning', 'Wall Media could not be deleted');
             }
         } catch (\Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
@@ -167,33 +157,20 @@ class MediaController extends Controller
         $fileName = $this->createFilename($file);
         // Group files by mime type
         $mime = str_replace('/', '-', $file->getMimeType());
-        // Group files by the date (week
-        $dateFolder = date("Y-m-W");
 
         // Build the file path 
-        $media = new Media();
+        $media = new WallMedia();
         $filePath = $media->getMediaPath();
         // $filePath = "upload/{$mime}/{$dateFolder}/";
         $finalPath = storage_path("app/" . $filePath);
 
         // move the file name
         $file->move($finalPath, $fileName);
-
-        // Media::create([
-        //     'name' => $fileName
-        // ]);
         Log::info($finalPath . $fileName);
-        // $media = FFMpeg::getMedia($finalPath.$fileName);
-        // $durationInMiliseconds = $media->getDurationInMiliseconds();
-        $getID3 = new \getID3;
-        $video_file = $getID3->analyze($finalPath.$fileName);
-        $duration_seconds = $video_file['playtime_seconds'];
-        Log::info($duration_seconds);
 
         return response()->json([
             'path' => $filePath,
             'name' => $fileName,
-            'duration' => $duration_seconds,
             'mime_type' => $mime
         ]);
     }

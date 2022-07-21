@@ -12,6 +12,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WallMediaController;
 use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::middleware([
     Route::get('/handle_input', [UserController::class, 'handle_input'])->name('handle_connect');
     Route::resource('/media', MediaController::class);
     Route::resource('/projectormedia', ProjectorMediaController::class);
+    Route::resource('/wallmedia', WallMediaController::class);
     Route::resource('/rooms', RoomController::class);
     Route::post('/rooms/get_room_hardware', [RoomController::class, 'get_room_hardware'])->name('rooms.get_room_hardware');
     Route::post('/rooms/get_room_command', [RoomController::class, 'get_room_command'])->name('rooms.get_room_command');
@@ -59,5 +61,6 @@ Route::middleware([
     Route::post('/phases/get_phase_zones', [PhaseController::class, 'get_phase_zones'])->name('phases.get_phase_zones');
     Route::resource('/zones', ZoneController::class);
     Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('upload_media');
+    Route::post('/upload_wallmedia', [WallMediaController::class, 'upload_media_dropzone'])->name('upload_wallmedia');
     Route::post('/upload_projectormedia', [ProjectorMediaController::class, 'upload_media_dropzone'])->name('upload_projectormedia');
 });

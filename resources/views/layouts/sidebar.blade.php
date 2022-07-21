@@ -203,6 +203,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('wallmedia.index') }}"
+                        class="nav-link @if (Route::is('wallmedia.index', 'wallmedia.create')) active @endif">
+                        <i class="icon-film4"></i>
+                        <span>
+                            Wall Media
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('settings.index') }}"
                         class="nav-link @if (Route::is('settings.index', 'settings.edit')) active @endif">
                         <i class="icon-cog"></i>
