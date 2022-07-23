@@ -38,9 +38,14 @@
                 <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-img-actions m-1">
+                            @if ($item->is_image)
+                            <div class="card-img embed-responsive">
+                                <img src="{{ URL::asset('public/storage/media/' . $item->name) }}" alt="" width="100%">
+                            @else
                             <div class="card-img embed-responsive embed-responsive-16by9">
                                 <video src="{{ URL::asset('public/storage/media/' . $item->name) }}" muted
                                     controls></video>
+                                @endif
                                 <div class="video-content">
                                     <a href="{{ route('media.destroy', $item->id) }}"
                                         onclick="event.preventDefault(); $('.delete-form{{ $item->id }}').submit();"
