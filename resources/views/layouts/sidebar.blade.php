@@ -189,7 +189,7 @@
                         class="nav-link @if (Route::is('media.index', 'media.create')) active @endif">
                         <i class="icon-film4"></i>
                         <span>
-                            Video Wall Media
+                            Media
                         </span>
                     </a>
                 </li>
@@ -207,7 +207,7 @@
                         class="nav-link @if (Route::is('wallmedia.index', 'wallmedia.create')) active @endif">
                         <i class="icon-film4"></i>
                         <span>
-                            Wall Media
+                            Video Wall Media
                         </span>
                     </a>
                 </li>
