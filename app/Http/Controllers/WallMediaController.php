@@ -56,6 +56,7 @@ class WallMediaController extends Controller
                     'room_id' => $request->room_id,
                     'title_en' => $request->title_en,
                     'title_ar' => $request->title_ar,
+                    'duration' => $request->durations[$index],
                 ]);
             }
             return redirect()->route('wallmedia.index');
@@ -167,10 +168,15 @@ class WallMediaController extends Controller
         // move the file name
         $file->move($finalPath, $fileName);
         Log::info($finalPath . $fileName);
+        $getID3 = new \getID3;
+        $video_file = $getID3->analyze($finalPath . $fileName);
+        $duration_seconds = $video_file['playtime_seconds'];
+        Log::info($duration_seconds);
 
         return response()->json([
             'path' => $filePath,
             'name' => $fileName,
+            'duration' => $duration_seconds,
             'mime_type' => $mime
         ]);
     }

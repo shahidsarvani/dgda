@@ -16,6 +16,7 @@ class WallMedia extends Model
         'title_ar',
         'title_en',
         'room_id',
+        'duration',
     ];
 
     public function getMediaPath()

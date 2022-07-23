@@ -98,7 +98,8 @@
                                 list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
                                     '</li><input type="hidden" name="file_names[]" value="' +
                                     uploadResponse.name +
-                                    '" >')
+                                    '" ><input type="hidden" name="durations[]" value="' +
+                                    uploadResponse.duration + '" >')
                             }
                         }
                     })
