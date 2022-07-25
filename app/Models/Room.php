@@ -18,6 +18,8 @@ class Room extends Model
         'status',
         'image',
         'image_ar',
+        'icon',
+        'icon_ar',
         'has_model',
         'scene_id',
     ];
