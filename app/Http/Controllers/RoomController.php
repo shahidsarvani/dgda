@@ -49,7 +49,7 @@ class RoomController extends Controller
         //
         // return $request;
         try {
-            $data = $request->except('_token', 'image', 'image_ar');
+            $data = $request->except('_token', 'image', 'image_ar', 'icon', 'icon_ar');
             $room = new Room();
             if ($file = $request->file('image')) {
                 $imagePath = $room->getImagePath();
@@ -68,6 +68,24 @@ class RoomController extends Controller
                     $file->storeAs('images', $name, 'node');
                 }
                 $data['image_ar'] = $name;
+            }
+            if ($file = $request->file('icon')) {
+                $imagePath = $room->getImagePath();
+                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
+                $data['icon'] = $name;
+            }
+            if ($file = $request->file('icon_ar')) {
+                $imagePath = $room->getImagePath();
+                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
+                $data['icon_ar'] = $name;
             }
             $room = Room::create($data);
             if ($room) {
@@ -117,11 +135,10 @@ class RoomController extends Controller
         // return $room;
         // return $request;
         try {
-            $data = $request->except('_token', 'image', 'image_ar');
+            $data = $request->except('_token', 'image', 'image_ar', 'icon', 'icon_ar');
             if ($file = $request->file('image')) {
                 $imagePath = $room->getImagePath();
                 $name = 'room_english_' . time() . $file->getClientOriginalName();
-                // $data['base64_image'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
                 if(1 == 2) {
                     $file->storeAs('images', $name, 'node');
@@ -131,12 +148,29 @@ class RoomController extends Controller
             if ($file = $request->file('image_ar')) {
                 $imagePath = $room->getImagePath();
                 $name = 'room_arabic_' . time() . $file->getClientOriginalName();
-                // $data['base64_image_ar'] = 'data:image/' . $file->getClientOriginalName() . ';base64,' . file_get_contents($file);
                 $file->storeAs($imagePath, $name);
                 if(1 == 2) {
                     $file->storeAs('images', $name, 'node');
                 }
                 $data['image_ar'] = $name;
+            }
+            if ($file = $request->file('icon')) {
+                $imagePath = $room->getImagePath();
+                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
+                $data['image'] = $name;
+            }
+            if ($file = $request->file('icon_ar')) {
+                $imagePath = $room->getImagePath();
+                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $file->storeAs($imagePath, $name);
+                if(1 == 2) {
+                    $file->storeAs('images', $name, 'node');
+                }
+                $data['icon_ar'] = $name;
             }
             $updated = $room->update($data);
             if ($updated) {

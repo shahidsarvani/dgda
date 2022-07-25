@@ -42,6 +42,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Icon (English):</label>
+                                        <input type="file" class="form-control" name="icon" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Icon (Arabic):</label>
+                                        <input type="file" class="form-control" name="icon_ar" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label>Type:</label>
                                         <select name="type" id="type" class="form-control">
                                             <option value="1">1</option>
