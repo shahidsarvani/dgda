@@ -161,7 +161,7 @@ class RoomController extends Controller
                 if(1 == 2) {
                     $file->storeAs('images', $name, 'node');
                 }
-                $data['image'] = $name;
+                $data['icon'] = $name;
             }
             if ($file = $request->file('icon_ar')) {
                 $imagePath = $room->getImagePath();
