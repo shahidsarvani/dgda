@@ -15,6 +15,8 @@ class Scene extends Model
         'status',
         'model_up_delay',
         'model_down_delay',
+        'model_up_delay_ar',
+        'model_down_delay_ar',
         'is_default',
     ];
 

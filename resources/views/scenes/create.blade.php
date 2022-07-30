@@ -157,11 +157,13 @@
             if (_this.is(':checked')) {
                 _this.parents('.command-wrapper').find('.sort-wrapper').removeClass('d-none');
                 if(_this.data('value') === 'MODELUP') {
-                    var model_up_html = '<div class="form-group modelup"><label for="">Model Up Time Delay</label><input type="text" class="form-control" name="model_up_delay"></div>'
+                    var model_up_html = '<div class="form-group modelup"><label for="">Model Up Time Delay (English)</label><input type="text" class="form-control" name="model_up_delay"></div>'
+                    model_up_html += '<div class="form-group modelup"><label for="">Model Up Time Delay (Arabic)</label><input type="text" class="form-control" name="model_up_delay_ar"></div>' 
                     _this.parents('.command-wrapper').find('.sort-wrapper').append(model_up_html)
                 }
                 if(_this.data('value') === 'MODELDOWN') {
-                    var model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay</label><input type="text" class="form-control" name="model_down_delay"></div>'
+                    var model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay (English)</label><input type="text" class="form-control" name="model_down_delay"></div>'
+                    model_down_html += '<div class="form-group modeldown"><label for="">Model Down Time Delay (Arabic)</label><input type="text" class="form-control" name="model_down_delay_ar"></div>'
                     _this.parents('.command-wrapper').find('.sort-wrapper').append(model_down_html)
                 }
             } else {
