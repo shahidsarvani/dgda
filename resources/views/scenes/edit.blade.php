@@ -202,7 +202,7 @@
                 }
                 if(_this.data('value') === 'MODELDOWN') {
                     var model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay (English)</label><input type="text" class="form-control" name="model_down_delay"></div>'
-                    model_down_html = '<div class="form-group modeldown"><label for="">Model Down Time Delay (Arabic)</label><input type="text" class="form-control" name="model_down_delay_ar"></div>'
+                    model_down_html += '<div class="form-group modeldown"><label for="">Model Down Time Delay (Arabic)</label><input type="text" class="form-control" name="model_down_delay_ar"></div>'
                     _this.parents('.command-wrapper').find('.sort-wrapper').append(model_down_html)
                 }
             } else {
