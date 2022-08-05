@@ -68,19 +68,15 @@ class LightSceneController extends Controller
         $scene = new LightScene();
         if ($file = $request->file('image_en')) {
             $imagePath = $scene->getImagePath();
-            $name = 'scene_english_' . time() . $file->getClientOriginalName();
+            $name = 'scene_english_' . md5(time());
             $file->storeAs($imagePath, $name);
-            if(1 == 2) {
-                $file->storeAs('images', $name, 'node');
-            }
             $datas['image_en'] = $name;
         }
         // return $datas;
         if ($file = $request->file('image_ar')) {
             $imagePath = $scene->getImagePath();
-            $name = 'scene_arabic_' . time() . $file->getClientOriginalName();
+            $name = 'scene_arabic_' . md5(time());
             $file->storeAs($imagePath, $name);
-            $file->storeAs('images', $name, 'node');
             $datas['image_ar'] = $name;
         }
         // return $data;
@@ -164,11 +160,8 @@ class LightSceneController extends Controller
                 // return 'World';
                 Storage::delete(['/' . $imagePath . '/' . $lightScene->image]);
             }
-            $name = 'scene_english_' . time() . $file->getClientOriginalName();
+            $name = 'scene_english_' . md5(time());
             $file->storeAs($imagePath, $name);
-            if(1 == 2) {
-                $file->storeAs('images', $name, 'node');
-            }
             $datas['image_en'] = $name;
         }
         if ($file = $request->file('image_ar')) {
@@ -177,9 +170,8 @@ class LightSceneController extends Controller
                 // return 'World';
                 Storage::delete(['/' . $imagePath . '/' . $lightScene->image_ar]);
             }
-            $name = 'scene_arabic_' . time() . $file->getClientOriginalName();
+            $name = 'scene_arabic_' . md5(time());
             $file->storeAs($imagePath, $name);
-            $file->storeAs('images', $name, 'node');
             $datas['image_ar'] = $name;
         }
         try {

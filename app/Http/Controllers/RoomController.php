@@ -53,38 +53,26 @@ class RoomController extends Controller
             $room = new Room();
             if ($file = $request->file('image')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $name = 'room_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image_ar'] = $name;
             }
             if ($file = $request->file('icon')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $name = 'room_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['icon'] = $name;
             }
             if ($file = $request->file('icon_ar')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['icon_ar'] = $name;
             }
             $room = Room::create($data);
@@ -119,7 +107,7 @@ class RoomController extends Controller
     {
         //
         $scenes = Scene::all();
-        return view('rooms.edit', compact('room','scenes'));
+        return view('rooms.edit', compact('room', 'scenes'));
     }
 
     /**
@@ -138,38 +126,26 @@ class RoomController extends Controller
             $data = $request->except('_token', 'image', 'image_ar', 'icon', 'icon_ar');
             if ($file = $request->file('image')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $name = 'room_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image_ar'] = $name;
             }
             if ($file = $request->file('icon')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_english_' . time() . $file->getClientOriginalName();
+                $name = 'room_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['icon'] = $name;
             }
             if ($file = $request->file('icon_ar')) {
                 $imagePath = $room->getImagePath();
-                $name = 'room_arabic_' . time() . $file->getClientOriginalName();
+                $name = 'room_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['icon_ar'] = $name;
             }
             $updated = $room->update($data);

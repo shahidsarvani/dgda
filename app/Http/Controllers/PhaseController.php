@@ -49,25 +49,19 @@ class PhaseController extends Controller
             if ($file = $request->file('image')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                $name = 'phase_english_'.time() . $file->getClientOriginalName();
+                $name = 'phase_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
+                $name = 'phase_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image_ar'] = $name;
             }
             $phase = Phase::create($data);
-            if($phase) {
+            if ($phase) {
                 return back()->with('success', 'Phase Created');
             } else {
                 return back()->with('warning', 'Phase could not be created');
@@ -118,25 +112,19 @@ class PhaseController extends Controller
             if ($file = $request->file('image')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                $name = 'phase_english_'.time() . $file->getClientOriginalName();
+                $name = 'phase_english_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image'] = $name;
             }
             if ($file = $request->file('image_ar')) {
                 // return $input;
                 $imagePath = $phase->getImagePath();
-                $name = 'phase_arabic_'.time() . $file->getClientOriginalName();
+                $name = 'phase_arabic_' . md5(time());
                 $file->storeAs($imagePath, $name);
-                if(1 == 2) {
-                    $file->storeAs('images', $name, 'node');
-                }
                 $data['image_ar'] = $name;
             }
             $updated = $phase->update($data);
-            if($updated) {
+            if ($updated) {
                 return redirect()->route('phases.index')->with('success', 'Phase Updated');
             } else {
                 return back()->with('warning', 'Phase could not be updated');
@@ -158,7 +146,7 @@ class PhaseController extends Controller
         // return $phase;
         try {
             $deleted = $phase->delete();
-            if($deleted) {
+            if ($deleted) {
                 return back()->with('deleted', 'Phase Deleted');
             } else {
                 return back()->with('warning', 'Phase could not be deleted');

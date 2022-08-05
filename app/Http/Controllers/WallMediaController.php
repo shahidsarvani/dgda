@@ -184,7 +184,8 @@ class WallMediaController extends Controller
     protected function createFilename(UploadedFile $file)
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = str_replace("." . $extension, "", $file->getClientOriginalName()); // Filename without extension
+        // $filename = str_replace("." . $extension, "", $file->getClientOriginalName()); // Filename without extension
+        $filename = 'wall_media';
 
         // Add timestamp hash to name of the file
         $filename .= "_" . md5(time()) . "." . $extension;
