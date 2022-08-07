@@ -136,7 +136,7 @@
         Dropzone.options.dropzoneMultiple = {
             paramName: "media", // The name that will be used to transfer the file
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
-            // maxFilesize: 1000000000, // MB
+            maxFilesize: 10000000000000, // MB
             addRemoveLinks: true,
             chunking: true,
             chunkSize: 10000000,
