@@ -136,37 +136,39 @@
         Dropzone.options.dropzoneMultiple = {
             paramName: "media", // The name that will be used to transfer the file
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
-            maxFilesize: 10000000000000, // MB
-            addRemoveLinks: true,
+            maxFilesize: 10240, // 10 GB and old // 10000000000000 MB
+            addRemoveLinks: true,  
             chunking: true,
-            chunkSize: 10000000,
-            // If true, the individual chunks of a file are being uploaded simultaneously.
+            forceChunking: true,
+            chunkSize: 5 * 1024 * 1024, // 5 MB chunks 10000000
             parallelChunkUploads: true,
+            retryChunks: true,           // Retry failed chunks
+            retryChunksLimit: 5,
             acceptedFiles: 'video/*, image/*',
             init: function() {
                 this.on('addedfile', function() {
-                        list.append('<li>Uploading</li>')
-                    }),
-                    this.on('sending', function(file, xhr, formData) {
-                        formData.append("_token", csrf_token);
-
-                        // This will track all request so we can get the correct request that returns final response:
-                        // We will change the load callback but we need to ensure that we will call original
-                        // load callback from dropzone
-                        var dropzoneOnLoad = xhr.onload;
-                        xhr.onload = function(e) {
-                            dropzoneOnLoad(e)
-                            // Check for final chunk and get the response
-                            var uploadResponse = JSON.parse(xhr.responseText)
-                            if (typeof uploadResponse.name === 'string') {
-                                list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
-                                    '</li><input type="hidden" name="file_names[]" value="' +
-                                    uploadResponse.name + '" ><input type="hidden" name="durations[]" value="' +
-                                    uploadResponse.duration + '" ><input type="hidden" name="is_images[]" value="' +
-                                    uploadResponse.is_image + '" >')
-                            }
+                    list.append('<li>Uploading</li>')
+                }),
+                this.on('sending', function(file, xhr, formData) {
+                    /* formData.append("_token", csrf_token); */
+                    formData.append("_token", "{{ csrf_token() }}");
+                    // This will track all request so we can get the correct request that returns final response:
+                    // We will change the load callback but we need to ensure that we will call original
+                    // load callback from dropzone
+                    var dropzoneOnLoad = xhr.onload;
+                    xhr.onload = function(e) {
+                        dropzoneOnLoad(e)
+                        // Check for final chunk and get the response
+                        var uploadResponse = JSON.parse(xhr.responseText)
+                        if (typeof uploadResponse.name === 'string') {
+                            list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
+                                '</li><input type="hidden" name="file_names[]" value="' +
+                                uploadResponse.name + '" ><input type="hidden" name="durations[]" value="' +
+                                uploadResponse.duration + '" ><input type="hidden" name="is_images[]" value="' +
+                                uploadResponse.is_image + '" >')
                         }
-                    })
+                    }
+                })
             }
         };
 

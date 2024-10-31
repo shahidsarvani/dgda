@@ -35,4 +35,24 @@ class Media extends Model
     {
         return $this->belongsTo(Scene::class);
     }
+    
+    public function getRoom()
+    {
+        return $this->hasOne(Room::class, 'id', 'room_id');
+    }
+    
+    public function getScene()
+    {
+        return $this->hasOne(Scene::class, 'id', 'scene_id');
+    }
+
+    public function getPhase() 
+    {
+        return $this->hasOne(Phase::class, 'id', 'phase_id');
+    }
+    
+    public function getZone()
+    {
+        return $this->hasOne(Zone::class, 'id', 'zone_id');
+    }
 }

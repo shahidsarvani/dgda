@@ -79,9 +79,10 @@ class MediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id='0')
     {
-        //
+       $item = Media::where('id', $id)->first();  //where('is_projector', 0)
+       return view('media.show', compact('item'));
     }
 
     /**
@@ -213,8 +214,9 @@ class MediaController extends Controller
         $filename = 'media';
 
         // Add timestamp hash to name of the file
-        $filename .= "_" . md5(time()) . "." . $extension;
-
+       // $filename .= "_" . md5(time()) . "." . $extension;
+       $filename .= "_" . date('YmdHis') . "." . $extension;
+       
         return $filename;
     }
 }

@@ -131,25 +131,27 @@
         //     e.preventDefault();
         // }
         var list = $('#file-upload-list');
-        console.log(list)
+       // console.log(list)
         // Multiple files
         Dropzone.options.dropzoneMultiple = {
             paramName: "media", // The name that will be used to transfer the file
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
-            maxFilesize: 10000000000000, // MB
-            addRemoveLinks: true,
+            maxFilesize: 10240, // 10 GB and old // 10000000000000 MB
+            addRemoveLinks: true,  
             chunking: true,
-            chunkSize: 10000000,
-            // If true, the individual chunks of a file are being uploaded simultaneously.
+            forceChunking: true,
+            chunkSize: 5 * 1024 * 1024, // 5 MB chunks 10000000
             parallelChunkUploads: true,
+            retryChunks: true,           // Retry failed chunks
+            retryChunksLimit: 5,
             acceptedFiles: 'video/*, image/*',
             init: function() {
                 this.on('addedfile', function() {
                         list.append('<li>Uploading</li>')
                     }),
                     this.on('sending', function(file, xhr, formData) {
-                        formData.append("_token", csrf_token);
-
+                        /* formData.append("_token", csrf_token); */
+                        formData.append("_token", "{{ csrf_token() }}");
                         // This will track all request so we can get the correct request that returns final response:
                         // We will change the load callback but we need to ensure that we will call original
                         // load callback from dropzone
@@ -169,6 +171,47 @@
                     })
             }
         };
+
+
+
+       /*  Dropzone.options.dropzoneMultiple = {
+            paramName: "media",
+            dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
+            maxFilesize: 2000, // Max 2GB limit per file
+            addRemoveLinks: true,
+            chunking: true,
+            forceChunking: true,
+            chunkSize: 5 * 1024 * 1024, // 5 MB chunks
+            parallelChunkUploads: true,
+            retryChunks: true,           // Retry failed chunks
+            retryChunksLimit: 5,         // Retry each chunk up to 5 times
+            acceptedFiles: 'video/*, image/*',
+            init: function() {
+                this.on('addedfile', function(file) {
+                    list.append('<li>Uploading ' + file.name + '</li>');
+                });
+                this.on('sending', function(file, xhr, formData) {
+                    formData.append("_token", "{{ csrf_token() }}");
+                });
+                this.on('chunkuploadprogress', function(file, progress, bytesSent) {
+                    console.log(`Progress for ${file.name}: ${progress}%`);
+                });
+                this.on('chunkuploaded', function(file, xhr, chunk) {
+                    console.log(`Chunk uploaded for ${file.name}: ${chunk.index}`);
+                });
+                this.on('success', function(file, response) {
+                    if (response.success) {
+                        list.append(`<li>Uploaded: ${response.path + response.name}</li>`);
+                        list.append(
+                            `<input type="hidden" name="file_names[]" value="${response.name}">` +
+                            `<input type="hidden" name="durations[]" value="${response.duration}">` +
+                            `<input type="hidden" name="is_images[]" value="${response.is_image}">`
+                        );
+                    }
+                });
+            }
+        }; */
+
 
         $('#room_id').change(function() {
             getRoomScenesAndPhases(this.value)
