@@ -12,7 +12,6 @@
             top: 10px;
             right: 10px;
         }
-
     </style>
 @endsection
 @section('content')
@@ -38,8 +37,25 @@
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title">Media</h5>
                 </div>
+
                 <div class="table-responsive">
                     <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th colspan="6"> 
+                                    <form method="GET" action="{{ route('media.index') }}" class="mb-3">
+                                        <div class="input-group">
+                                            <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request('search') }}">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                                <button class="btn btn-link" type="button" onclick="window.location='{{ route('media.index') }}'">Clear</button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </th>
+                                <th colspan="4">  </th>
+                            </tr>
+                        </thead>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -74,7 +90,11 @@
                                         <td>
                                             <div class="list-icons">                                                 
                                                 <a class="media-modal-cls list-icons-item text-primary-600" data-media-item="{{ $item->id }}" data-toggle="modal" data-target="#media_remote_modal" href="javascript:void(0);">
-                                                    <i class="icon-search4"></i>
+                                                    @if ($item->is_image)
+                                                        <i class="icon-search4"></i> 
+                                                    @else
+                                                        <i class="icon-play3"></i> 
+                                                    @endif 
                                                 </a> &nbsp; 
                                                 <a href="{{ route('media.destroy', $item->id) }}"
                                                     onclick="event.preventDefault(); confirmDelete({{ $item->id }});"
@@ -89,6 +109,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">  
+                                         {{ $media->links('pagination::bootstrap-4') }} 
+                                    </td>
+                                </tr>
                             @else
                                 <tr>
                                     <td colspan="10">No Data Available</td>

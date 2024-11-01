@@ -19,11 +19,35 @@ class ProjectorMediaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        $media = Media::where('is_projector', 1)->get();
-        return view('projectormedia.index', compact('media'));
+    public function index(Request $request){
+        // Get the search keyword if any
+        $search = $request->input('search');
+
+        // Build the query
+        $query = Media::where('is_projector', 1);
+
+        // Apply search filters if there's a search keyword
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('lang', 'like', "%{$search}%")
+                ->orWhereHas('getRoom', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('getPhase', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('getZone', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        // Paginate the results
+        $media = $query->paginate(10)->withQueryString(); // 10 items per page, adjust as needed
+
+        // Return to the view
+        return view('projectormedia.index', compact('media', 'search'));
     }
 
     /**
